@@ -1,0 +1,5 @@
+OK, go pour Merge, c'est parfait. Ensuite, on regardera ce qui traîne en pull request.
+
+---
+
+J'ai un problème avec le Redmi.md que tu as écrit précédemment pour les defrayed actions. On a besoin du flag halo-deferral, même pour la version 1.16 en alpha. Je ne sais pas où est-ce que tu allais chercher, qu'on n'en avait pas besoin. Il est nécessaire et j'ai testé que ça ne marche pas sans. Donc, revalide ce point et corrige le Redmi si nécessaire.

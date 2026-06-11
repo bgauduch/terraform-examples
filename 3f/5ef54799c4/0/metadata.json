@@ -1,0 +1,50 @@
+{
+  "cli_version": "0.7.5",
+  "checkpoint_id": "3f5ef54799c4",
+  "session_id": "17337860-c6bf-4650-9cac-08975b7f1c58",
+  "strategy": "manual-commit",
+  "created_at": "2026-06-11T14:11:17.59419Z",
+  "branch": "fix/deferred-actions-allow-deferral",
+  "checkpoints_count": 0,
+  "files_touched": [
+    "examples/terraform-deferred-actions/README.md",
+    "examples/terraform-deferred-actions/after/main.tf",
+    "tasks/todo.md"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-opus-4-8[1m]",
+  "turn_id": "eb99055e6a6f",
+  "checkpoint_transcript_start": 1012,
+  "transcript_lines_at_start": 1012,
+  "token_usage": {
+    "input_tokens": 288,
+    "cache_creation_tokens": 17917,
+    "cache_read_tokens": 3542593,
+    "output_tokens": 14728,
+    "api_call_count": 15
+  },
+  "session_metrics": {
+    "turn_count": 11
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-06-11T14:11:17.574566Z",
+    "agent_lines": 10,
+    "agent_removed": 5,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 10,
+    "total_lines_changed": 15,
+    "agent_percentage": 100,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0
+    }
+  ]
+}

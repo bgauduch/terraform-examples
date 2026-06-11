@@ -1,0 +1,27 @@
+{
+  "cli_version": "0.7.5",
+  "checkpoint_id": "3f5ef54799c4",
+  "strategy": "manual-commit",
+  "branch": "fix/deferred-actions-allow-deferral",
+  "checkpoints_count": 0,
+  "files_touched": [
+    "examples/terraform-deferred-actions/README.md",
+    "examples/terraform-deferred-actions/after/main.tf",
+    "tasks/todo.md"
+  ],
+  "sessions": [
+    {
+      "metadata": "/3f/5ef54799c4/0/metadata.json",
+      "transcript": "/3f/5ef54799c4/0/full.jsonl",
+      "content_hash": "/3f/5ef54799c4/0/content_hash.txt",
+      "prompt": "/3f/5ef54799c4/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 288,
+    "cache_creation_tokens": 17917,
+    "cache_read_tokens": 3542593,
+    "output_tokens": 14728,
+    "api_call_count": 15
+  }
+}
