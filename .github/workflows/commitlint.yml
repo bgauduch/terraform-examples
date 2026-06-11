@@ -14,6 +14,12 @@ permissions:
 jobs:
   lint:
     name: Conventional commits
+    # Bot branches (dependabot, release-please) carry machine-generated commit bodies that get
+    # discarded on squash-merge; their conventional-commit contract on `main` is enforced by the
+    # Semantic PR title check instead. Skip per-commit linting to avoid noise on bot PRs.
+    if: >-
+      github.actor != 'dependabot[bot]' &&
+      !startsWith(github.ref_name, 'release-please--')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
