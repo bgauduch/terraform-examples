@@ -1,0 +1,25 @@
+{
+  "cli_version": "0.7.5",
+  "checkpoint_id": "2c6df2b0032e",
+  "strategy": "manual-commit",
+  "branch": "ci/commitlint-skip-bot-branches",
+  "checkpoints_count": 0,
+  "files_touched": [
+    ".github/workflows/commitlint.yml"
+  ],
+  "sessions": [
+    {
+      "metadata": "/2c/6df2b0032e/0/metadata.json",
+      "transcript": "/2c/6df2b0032e/0/full.jsonl",
+      "content_hash": "/2c/6df2b0032e/0/content_hash.txt",
+      "prompt": "/2c/6df2b0032e/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 4061,
+    "cache_creation_tokens": 113640,
+    "cache_read_tokens": 1097373,
+    "output_tokens": 31662,
+    "api_call_count": 27
+  }
+}
