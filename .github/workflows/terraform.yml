@@ -14,22 +14,34 @@ permissions:
   contents: read
 
 jobs:
-  setup:
-    name: Load levels matrix
+  discover:
+    name: Discover Terraform root modules
     # Always run on push; on pull_request, run only for fork PRs
     # (same-repo PRs are already covered by the push event).
     if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
     runs-on: ubuntu-latest
     outputs:
-      levels: ${{ steps.load.outputs.levels }}
+      cells: ${{ steps.find.outputs.cells }}
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      - id: load
-        run: echo "levels=$(jq -c . .github/levels.json)" >> "$GITHUB_OUTPUT"
+      - id: find
+        # Any directory under examples/ containing providers.tf is a root module to validate.
+        # name = path minus examples/ ; example = examples/<name> (holds the per-example tooling).
+        run: |
+          cells=$(find examples -name providers.tf -printf '%h\n' | sort \
+            | jq -R -s '
+                split("\n")
+                | map(select(length > 0))
+                | map({
+                    dir: .,
+                    name: (sub("^examples/"; "")),
+                    example: (split("/")[0:2] | join("/"))
+                  })')
+          echo "cells=$(echo "$cells" | jq -c .)" >> "$GITHUB_OUTPUT"
 
   fmt:
     name: terraform fmt
-    needs: setup
+    needs: discover
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -40,16 +52,18 @@ jobs:
 
   quality:
     name: validate + lint + scan (${{ matrix.cell.name }})
-    needs: setup
+    needs: discover
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        cell: ${{ fromJSON(needs.setup.outputs.levels) }}
+        cell: ${{ fromJSON(needs.discover.outputs.cells) }}
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - uses: ./.github/actions/tf-setup
+        with:
+          working-directory: ${{ matrix.cell.dir }}
 
       - name: terraform init (no backend)
         working-directory: ${{ matrix.cell.dir }}
@@ -61,13 +75,13 @@ jobs:
 
       - name: tflint init
         working-directory: ${{ matrix.cell.dir }}
-        run: tflint --init
+        run: tflint --init --config "${{ github.workspace }}/${{ matrix.cell.example }}/.tflint.hcl"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: tflint
         working-directory: ${{ matrix.cell.dir }}
-        run: tflint --recursive --format compact
+        run: tflint --recursive --format compact --config "${{ github.workspace }}/${{ matrix.cell.example }}/.tflint.hcl"
 
       - name: trivy config scan
         uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0

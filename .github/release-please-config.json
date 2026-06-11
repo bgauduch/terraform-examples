@@ -17,7 +17,7 @@
   ],
   "packages": {
     ".": {
-      "package-name": "demo-terraform-multi-env-aws"
+      "package-name": "terraform-examples"
     }
   }
 }
