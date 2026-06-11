@@ -1,0 +1,49 @@
+{
+  "cli_version": "0.7.5",
+  "checkpoint_id": "67423f85d07c",
+  "session_id": "17337860-c6bf-4650-9cac-08975b7f1c58",
+  "strategy": "manual-commit",
+  "created_at": "2026-06-11T11:58:46.365065Z",
+  "branch": "refactor/terraform-examples-library",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "tasks/todo.md",
+    "examples/aws-multi-env/AGENTS.md",
+    "AGENTS.md",
+    "README.md",
+    ".github/actions/tf-setup/action.yml",
+    ".github/workflows/terraform.yml",
+    ".github/release-please-config.json",
+    "examples/terraform-rc-variables/.tflint.hcl",
+    "examples/terraform-rc-variables/providers.tf",
+    "examples/terraform-rc-variables/variables.tf",
+    "examples/terraform-rc-variables/main.tf",
+    "examples/terraform-rc-variables/outputs.tf",
+    "examples/terraform-rc-variables/README.md"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-opus-4-8[1m]",
+  "turn_id": "2ce3c57e5391",
+  "token_usage": {
+    "input_tokens": 6137,
+    "cache_creation_tokens": 80440,
+    "cache_read_tokens": 2815347,
+    "output_tokens": 46407,
+    "api_call_count": 45
+  },
+  "session_metrics": {
+    "turn_count": 1
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-06-11T11:58:46.355767Z",
+    "agent_lines": 294,
+    "agent_removed": 207,
+    "human_added": 871,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 1165,
+    "total_lines_changed": 2066,
+    "agent_percentage": 24.24975798644724,
+    "metric_version": 2
+  }
+}

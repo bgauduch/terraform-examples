@@ -1,0 +1,29 @@
+J'aimerais transformer ce repository plutôt que d'avoir quelque chose qui est unitaire ici spécifique au multi-anvre AWS. J'aimerais en fait créer un repository qui est véritablement une bibliothèque d'exemples Terraform pour pouvoir taper dedans et avoir un seul répertoire de travail avec un ensemble de sous-projets typiquement, multi-anvre AWS, qui soit dans un sous-répertoire avec son REITME dédié, l'outillage dédié. Propose-moi avant toute chose une structure cohérente qui vient des bonnes pratiques pour ce type de projet, on va dire exemple. Déplacer les éléments qui sont à déplacer et propose-moi un plan complet pour créer cette structure qui sera prête à recevoir d'autres exemples. Typiquement, le prochain exemple que je vais ajouter et qui fera l'objet d'un live technique, c'est comment utiliser les versions un peu release candidates de Terraform pour préparer l'arrivée d'une feature qui permettra de simplifier l'écriture de certaines variables.
+
+---
+
+OK, un point d'adaptation pour le répertoire d'exemple sur Terraformer-C variable, c'est un expériment dont voici le détail que je veux tester. Typiquement, ça va me permettre de venir injecter une clé KMS dynamiquement dans un module par rapport à un ARN qui n'est pas statique et qui n'est pas forcément connu lors du plane.
+
+---
+
+OK, un point d'adaptation pour le répertoire d'exemple sur Terraformer-C variable, c'est un expériment dont voici le détail que je veux tester. Typiquement, ça va me permettre de venir injecter une clé KMS dynamiquement dans un module par rapport à un ARN qui n'est pas statique et qui n'est pas forcément connu lors du plane.
+
+---
+
+OK, un point d'adaptation pour le répertoire d'exemple sur Terraformer-C variable, c'est un expériment dont voici le détail que je veux tester. Typiquement, ça va me permettre de venir injecter une clé KMS dynamiquement dans un module par rapport à un ARN qui n'est pas statique et qui n'est pas forcément connu lors du plane.
+
+---
+
+OK, un point d'adaptation pour le répertoire d'exemple sur Terraformer-C variable, c'est un expériment dont voici le détail que je veux tester. Typiquement, ça va me permettre de venir injecter une clé KMS dynamiquement dans un module par rapport à un ARN qui n'est pas statique et qui n'est pas forcément connu lors du plane.  "The experimental "deferred actions" feature, enabled by passing the -allow-deferral option to terraform plan, permits count and for_each arguments in module, resource, and data blocks to have unknown values and allows providers to react more flexibly to unknown values."
+
+---
+
+Tu pourras en toute autonomie faire le GitHub repo Rename directement, pas de sujet, tu me poseras juste un petit point de jalon avant de pousser la modif.
+
+---
+
+go on
+
+---
+
+go on
