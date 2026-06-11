@@ -1,7 +1,0 @@
-[
-  { "name": "level-0",      "dir": "level-0-single-env" },
-  { "name": "level-1",      "dir": "level-1-workspaces" },
-  { "name": "level-2/dev",  "dir": "level-2-root-per-env/dev" },
-  { "name": "level-2/prod", "dir": "level-2-root-per-env/prod" },
-  { "name": "level-3",      "dir": "level-3-specialization" }
-]
