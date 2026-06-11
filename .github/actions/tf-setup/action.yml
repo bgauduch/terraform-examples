@@ -1,7 +1,11 @@
 name: Terraform toolchain
-description: Install Terraform (version from .terraform-version) and TFLint, pinned via SHA.
+description: Install Terraform (version from the nearest .terraform-version) and TFLint, pinned via SHA.
 
 inputs:
+  working-directory:
+    description: Directory to resolve the Terraform version from; walks up to the nearest .terraform-version (falls back to repo root).
+    required: false
+    default: '.'
   install-tflint:
     description: Whether to install TFLint (set to 'false' to skip).
     required: false
@@ -12,7 +16,17 @@ runs:
   steps:
     - id: tfver
       shell: bash
-      run: echo "version=$(tr -d '[:space:]' < "$GITHUB_WORKSPACE/.terraform-version")" >> "$GITHUB_OUTPUT"
+      working-directory: ${{ inputs.working-directory }}
+      run: |
+        # Walk up from the working dir to the repo root, picking the nearest .terraform-version.
+        dir="$(pwd)"
+        while [ "$dir" != "$GITHUB_WORKSPACE" ] && [ "$dir" != "/" ]; do
+          [ -f "$dir/.terraform-version" ] && break
+          dir="$(dirname "$dir")"
+        done
+        file="$dir/.terraform-version"
+        [ -f "$file" ] || file="$GITHUB_WORKSPACE/.terraform-version"
+        echo "version=$(tr -d '[:space:]' < "$file")" >> "$GITHUB_OUTPUT"
 
     - uses: hashicorp/setup-terraform@5e8dbf3c6d9deaf4193ca7a8fb23f2ac83bb6c85 # v4.0.0
       with:
