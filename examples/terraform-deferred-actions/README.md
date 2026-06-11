@@ -1,31 +1,82 @@
 # terraform-deferred-actions
 
 > **Type**: `experiment` &nbsp;·&nbsp; **Tags**: `rc` `deferred-actions` `kms` `unknown-at-plan`
->
-> Tracks a Terraform pre-release capability - pinned to `1.16.0-alpha20260603` via `.terraform-version`.
 
-## Objective
+A **before / after** comparison of Terraform's **deferred actions**, shown on one concrete problem: encrypting an S3 bucket with a KMS key whose **ARN is created in the same run** and is therefore **unknown at plan time**.
 
-Show how Terraform 1.16's **deferred actions** let a value that is **unknown at plan time** flow into a module without breaking the plan. Concretely: pass a KMS key ARN created in the same apply into a generic S3 module whose behaviour depends on that ARN.
+The generic child module decides how to encrypt the bucket based on whether a KMS key is provided. To decide, it needs a conditional (`count` on a validation data source). And that is exactly where the unknown value bites.
 
-## How it works
+## The blocking point before 1.16
 
-- **Root module** creates `aws_kms_key.root` and calls the generic `s3-bucket-encrypted` module **twice**:
-  - `existing_key_bucket` - passes `aws_kms_key.root.arn`. That ARN is **unknown at plan**, so the module's `count`-driven data source is **deferred to apply** instead of failing the plan.
-  - `managed_key_bucket` - passes nothing, exercising the default path.
-- **Child module** `modules/s3-bucket-encrypted/` is generic and never creates a key:
-  - `kms_key_arn` set - validates it via `data.aws_kms_key` and uses it for SSE-KMS.
-  - `kms_key_arn` null - uses S3's default SSE-KMS managed key (`aws/s3`).
+`count` and `for_each` could **not** depend on a value that is unknown at plan time. So you could not write the natural thing:
 
-This is **native** in 1.16: no `experiments` block and no `-allow-deferral` flag (the `unknown_instances` / `ephemeral_values` experiments have concluded and are on by default).
+```hcl
+# pre-1.16: errors when var.kms_key_arn is unknown at plan
+data "aws_kms_key" "provided" {
+  count  = var.kms_key_arn != null ? 1 : 0
+  key_id = var.kms_key_arn
+}
+```
+
+```
+Error: Invalid count argument
+
+  The "count" value depends on resource attributes that cannot be determined
+  until apply, so Terraform cannot predict how many instances will be created.
+```
+
+**Workaround (`before/`)**: thread a second input that *is* known at plan - a `provided` boolean - alongside the ARN. The module keys its `count` on that boolean, not on the ARN:
+
+```hcl
+variable "kms" {
+  type = object({
+    arn      = optional(string) # may be unknown at plan
+    provided = bool             # MUST be known at plan
+  })
+}
+
+data "aws_kms_key" "provided" {
+  count  = var.kms.provided ? 1 : 0   # known -> count is determinable
+  key_id = var.kms.arn
+}
+```
+
+The caller has to assert `provided = true` even though the ARN is unknown. Redundant, and the flag can silently disagree with the ARN.
+
+## The resolution after 1.16
+
+**Deferred actions** make unknown values usable in `count` / `for_each`: instead of failing the plan, Terraform **defers** the affected resources to apply. The natural code just works (`after/`):
+
+```hcl
+variable "kms_key_arn" {
+  type    = string # may be unknown at plan - that's fine now
+  default = null
+}
+
+data "aws_kms_key" "provided" {
+  count  = var.kms_key_arn != null ? 1 : 0   # unknown -> deferred, not an error
+  key_id = var.kms_key_arn
+}
+```
+
+Single source of truth (just the ARN), no redundant flag. This is **native** in 1.16: no `experiments` block and **no `-allow-deferral` flag** (the `unknown_instances` / `ephemeral_values` experiments have concluded and ship on by default). The deferral shows up as deferred changes in the plan output.
+
+## Layout
+
+| Dir | Terraform | Module input | Encryption decision |
+|-----|-----------|--------------|---------------------|
+| [`before/`](before/) | `1.15.6` | `kms = object({ arn, provided })` | `count` keyed on the plan-known `provided` flag |
+| [`after/`](after/)  | `1.16.0-alpha20260603` | `kms_key_arn = string` | `count` derived from `arn != null`, unknown deferred natively |
+
+Each root creates `aws_kms_key.root` and feeds its (plan-unknown) ARN to a single bucket instance.
 
 ```bash
-terraform init
-terraform plan    # the existing-key bucket's data source is deferred to apply
+# before - run with Terraform 1.15.x
+cd before && terraform init && terraform plan   # works only thanks to provided = true
+
+# after - run with Terraform 1.16+
+cd after && terraform init && terraform plan     # the data source is deferred to apply
 terraform apply
 ```
 
-## Notes
-
-- Bucket names get a `random_id` suffix for global uniqueness.
-- Deferral is a plan/apply-time behaviour; `terraform validate` (what CI runs) passes without credentials.
+Deferral is a plan/apply-time behaviour; `terraform validate` (what CI runs) passes without credentials for both.
