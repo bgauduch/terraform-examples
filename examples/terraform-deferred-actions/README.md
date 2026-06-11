@@ -59,14 +59,16 @@ data "aws_kms_key" "provided" {
 }
 ```
 
-Single source of truth (just the ARN), no redundant flag. This is **native** in 1.16: no `experiments` block and **no `-allow-deferral` flag** (the `unknown_instances` / `ephemeral_values` experiments have concluded and ship on by default). The deferral shows up as deferred changes in the plan output.
+Single source of truth (just the ARN), no redundant `provided` flag. No `experiments` block is needed - the `unknown_instances` / `ephemeral_values` experiments have concluded and ship on by default.
+
+You do, however, **opt into deferral at the CLI** by passing **`-allow-deferral`** to `terraform plan` / `apply`. With it, Terraform defers the affected resources to apply (shown as deferred changes in the plan output); **without it, the plan still errors** on the unknown value. The flag is the activation switch in this alpha - the `experiments` block is not.
 
 ## Layout
 
 | Dir | Terraform | Module input | Encryption decision |
 |-----|-----------|--------------|---------------------|
 | [`before/`](before/) | `1.15.6` | `kms = object({ arn, provided })` | `count` keyed on the plan-known `provided` flag |
-| [`after/`](after/)  | `1.16.0-alpha20260603` | `kms_key_arn = string` | `count` derived from `arn != null`, unknown deferred natively |
+| [`after/`](after/)  | `1.16.0-alpha20260603` | `kms_key_arn = string` | `count` derived from `arn != null`; unknown deferred via `-allow-deferral` |
 
 Each root creates `aws_kms_key.root` and feeds its (plan-unknown) ARN to a single bucket instance.
 
@@ -75,8 +77,9 @@ Each root creates `aws_kms_key.root` and feeds its (plan-unknown) ARN to a singl
 cd before && terraform init && terraform plan   # works only thanks to provided = true
 
 # after - run with Terraform 1.16+
-cd after && terraform init && terraform plan     # the data source is deferred to apply
-terraform apply
+cd after && terraform init
+terraform plan  -allow-deferral   # data source deferred to apply (plan errors without the flag)
+terraform apply -allow-deferral
 ```
 
 Deferral is a plan/apply-time behaviour; `terraform validate` (what CI runs) passes without credentials for both.

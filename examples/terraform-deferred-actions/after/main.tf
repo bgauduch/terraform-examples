@@ -1,5 +1,6 @@
 # AFTER (Terraform 1.16+): the KMS key ARN is unknown at plan, yet the module's
-# count-driven data source no longer breaks the plan - Terraform defers it to apply.
+# count-driven data source no longer breaks the plan - run with `-allow-deferral`
+# and Terraform defers it to apply (without the flag, the plan still errors).
 # Single source of truth: just the ARN, no extra "is it provided?" flag.
 
 resource "random_id" "suffix" {
