@@ -1,0 +1,46 @@
+{
+  "cli_version": "0.7.5",
+  "checkpoint_id": "71a340e12f19",
+  "strategy": "manual-commit",
+  "branch": "feat/implement-deferred-actions",
+  "checkpoints_count": 5,
+  "files_touched": [
+    "README.md",
+    "examples/terraform-deferred-actions/.terraform-version",
+    "examples/terraform-deferred-actions/.terraform.lock.hcl",
+    "examples/terraform-deferred-actions/.tflint.hcl",
+    "examples/terraform-deferred-actions/README.md",
+    "examples/terraform-deferred-actions/main.tf",
+    "examples/terraform-deferred-actions/modules/s3-bucket-encrypted/main.tf",
+    "examples/terraform-deferred-actions/modules/s3-bucket-encrypted/outputs.tf",
+    "examples/terraform-deferred-actions/modules/s3-bucket-encrypted/variables.tf",
+    "examples/terraform-deferred-actions/modules/s3-bucket-encrypted/versions.tf",
+    "examples/terraform-deferred-actions/outputs.tf",
+    "examples/terraform-deferred-actions/providers.tf",
+    "examples/terraform-deferred-actions/variables.tf",
+    "examples/terraform-rc-variables/.terraform-version",
+    "examples/terraform-rc-variables/.terraform.lock.hcl",
+    "examples/terraform-rc-variables/.tflint.hcl",
+    "examples/terraform-rc-variables/README.md",
+    "examples/terraform-rc-variables/main.tf",
+    "examples/terraform-rc-variables/outputs.tf",
+    "examples/terraform-rc-variables/providers.tf",
+    "examples/terraform-rc-variables/variables.tf",
+    "tasks/todo.md"
+  ],
+  "sessions": [
+    {
+      "metadata": "/71/a340e12f19/0/metadata.json",
+      "transcript": "/71/a340e12f19/0/full.jsonl",
+      "content_hash": "/71/a340e12f19/0/content_hash.txt",
+      "prompt": "/71/a340e12f19/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 1742,
+    "cache_creation_tokens": 198631,
+    "cache_read_tokens": 7512650,
+    "output_tokens": 68287,
+    "api_call_count": 61
+  }
+}

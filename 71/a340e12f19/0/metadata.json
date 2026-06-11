@@ -1,0 +1,157 @@
+{
+  "cli_version": "0.7.5",
+  "checkpoint_id": "71a340e12f19",
+  "session_id": "17337860-c6bf-4650-9cac-08975b7f1c58",
+  "strategy": "manual-commit",
+  "created_at": "2026-06-11T13:31:59.724601Z",
+  "branch": "feat/implement-deferred-actions",
+  "checkpoints_count": 5,
+  "files_touched": [
+    "README.md",
+    "examples/terraform-deferred-actions/.terraform-version",
+    "examples/terraform-deferred-actions/.terraform.lock.hcl",
+    "examples/terraform-deferred-actions/.tflint.hcl",
+    "examples/terraform-deferred-actions/README.md",
+    "examples/terraform-deferred-actions/main.tf",
+    "examples/terraform-deferred-actions/modules/s3-bucket-encrypted/main.tf",
+    "examples/terraform-deferred-actions/modules/s3-bucket-encrypted/outputs.tf",
+    "examples/terraform-deferred-actions/modules/s3-bucket-encrypted/variables.tf",
+    "examples/terraform-deferred-actions/modules/s3-bucket-encrypted/versions.tf",
+    "examples/terraform-deferred-actions/outputs.tf",
+    "examples/terraform-deferred-actions/providers.tf",
+    "examples/terraform-deferred-actions/variables.tf",
+    "examples/terraform-rc-variables/.terraform-version",
+    "examples/terraform-rc-variables/.terraform.lock.hcl",
+    "examples/terraform-rc-variables/.tflint.hcl",
+    "examples/terraform-rc-variables/README.md",
+    "examples/terraform-rc-variables/main.tf",
+    "examples/terraform-rc-variables/outputs.tf",
+    "examples/terraform-rc-variables/providers.tf",
+    "examples/terraform-rc-variables/variables.tf",
+    "tasks/todo.md"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-opus-4-8[1m]",
+  "turn_id": "ed09bfaab866",
+  "checkpoint_transcript_start": 316,
+  "transcript_lines_at_start": 316,
+  "token_usage": {
+    "input_tokens": 1742,
+    "cache_creation_tokens": 198631,
+    "cache_read_tokens": 7512650,
+    "output_tokens": 68287,
+    "api_call_count": 61
+  },
+  "session_metrics": {
+    "turn_count": 6
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-06-11T13:31:59.707223Z",
+    "agent_lines": 0,
+    "agent_removed": 0,
+    "human_added": 134,
+    "human_modified": 174,
+    "human_removed": 0,
+    "total_committed": 150,
+    "total_lines_changed": 308,
+    "agent_percentage": 0,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0
+    },
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 12,
+      "agent_lines_removed": 2
+    },
+    {
+      "checkpoint_number": 3,
+      "user_lines_added": 123,
+      "user_lines_removed": 123,
+      "agent_lines_added": 14,
+      "agent_lines_removed": 2,
+      "user_added_per_file": {
+        "README.md": 1,
+        "examples/terraform-deferred-actions/.terraform-version": 1,
+        "examples/terraform-deferred-actions/.terraform.lock.hcl": 26,
+        "examples/terraform-deferred-actions/.tflint.hcl": 14,
+        "examples/terraform-deferred-actions/README.md": 30,
+        "examples/terraform-deferred-actions/main.tf": 13,
+        "examples/terraform-deferred-actions/outputs.tf": 4,
+        "examples/terraform-deferred-actions/providers.tf": 16,
+        "examples/terraform-deferred-actions/variables.tf": 16,
+        "mise.toml": 2
+      },
+      "user_removed_per_file": {
+        "README.md": 1,
+        "examples/terraform-rc-variables/.terraform-version": 1,
+        "examples/terraform-rc-variables/.terraform.lock.hcl": 26,
+        "examples/terraform-rc-variables/.tflint.hcl": 14,
+        "examples/terraform-rc-variables/README.md": 30,
+        "examples/terraform-rc-variables/main.tf": 13,
+        "examples/terraform-rc-variables/outputs.tf": 4,
+        "examples/terraform-rc-variables/providers.tf": 18,
+        "examples/terraform-rc-variables/variables.tf": 16
+      }
+    },
+    {
+      "checkpoint_number": 4,
+      "user_lines_added": 189,
+      "user_lines_removed": 51,
+      "agent_lines_added": 187,
+      "agent_lines_removed": 123,
+      "user_added_per_file": {
+        "examples/terraform-deferred-actions/.terraform-version": 1,
+        "examples/terraform-deferred-actions/.terraform.lock.hcl": 21,
+        "examples/terraform-deferred-actions/README.md": 15,
+        "examples/terraform-deferred-actions/main.tf": 27,
+        "examples/terraform-deferred-actions/modules/s3-bucket-encrypted/main.tf": 38,
+        "examples/terraform-deferred-actions/modules/s3-bucket-encrypted/outputs.tf": 14,
+        "examples/terraform-deferred-actions/modules/s3-bucket-encrypted/variables.tf": 21,
+        "examples/terraform-deferred-actions/modules/s3-bucket-encrypted/versions.tf": 10,
+        "examples/terraform-deferred-actions/outputs.tf": 19,
+        "examples/terraform-deferred-actions/providers.tf": 9,
+        "examples/terraform-deferred-actions/variables.tf": 3,
+        "mise.toml": 2,
+        "tasks/todo.md": 9
+      },
+      "user_removed_per_file": {
+        "examples/terraform-deferred-actions/.terraform-version": 1,
+        "examples/terraform-deferred-actions/README.md": 14,
+        "examples/terraform-deferred-actions/main.tf": 11,
+        "examples/terraform-deferred-actions/outputs.tf": 3,
+        "examples/terraform-deferred-actions/providers.tf": 3,
+        "examples/terraform-deferred-actions/variables.tf": 8,
+        "tasks/todo.md": 11
+      }
+    },
+    {
+      "checkpoint_number": 5,
+      "user_lines_added": 2,
+      "user_lines_removed": 0,
+      "agent_lines_added": 324,
+      "agent_lines_removed": 123,
+      "user_added_per_file": {
+        "mise.toml": 2
+      }
+    },
+    {
+      "checkpoint_number": 6,
+      "user_lines_added": 2,
+      "user_lines_removed": 0,
+      "agent_lines_added": 324,
+      "agent_lines_removed": 123,
+      "user_added_per_file": {
+        "mise.toml": 2
+      }
+    }
+  ]
+}

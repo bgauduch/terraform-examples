@@ -1,0 +1,45 @@
+Propose-moi un nom plus cohérent, pour l'exemple Terraform RC Variables, qui est plus près du nom de la feature en Release Candidate que l'on veut tester, qui sont les Deferred Actions.
+
+---
+
+Ok, go pour le rename sur le premier nom proposé. Une fois que tu auras fait ça, propose-moi dans un plan les éléments suivants. Il me faut en premier temps que cet exemple soit un root module qui crée une clé KMS et qui utilise un sous-module qui va lui déployer un bucket S3. En remontrer les variables de ce module, on va retrouver l'ARN de la clé KMS et donc l'objectif, c'est que le module soit capable de créer ou non, avec un count ou peu importe la méthodologie en interne, la ressource KMS pour l'assessier au bucket en fonction de la valeur de cette variable. S'il n'y a pas d'ARN qui est donné, il faut évidemment créer une clé pour chiffrer le bucket. Si il y a un ARN qui est donné, on va venir valider cet ARN avec une data source et l'utiliser pour le bucket, pour avoir un exemple le plus complet possible. Voilà, dans toute modification, propose-moi un plan détaillé que l'on viendra tracer dans les to-do.
+
+---
+
+Refait le test en utilisant la version 1.16 alpha qui est dans le fichier Terraform-version.
+
+---
+
+Continue sur le rename, j'ai corrigé la version de Terraform à côté.
+
+---
+
+Comment activer l'expériment sur les different values dans mon code ? J'ai l'impression que ce qui me manque, c'est le nom dans l'argument Experiments.
+
+---
+
+OK, avance donc sur le plan. Pour rappel, ce que l'on veut faire, c'est très simple. On veut dans le root module des defraudactions, une ressource qui vient créer une clé KMS. On veut un child module qui permet de déployer un bucket S3, qui prend en entrée un string qui va être l'ARN d'une KMS potentiellement existante. et qui va, si cette string est nulle, créer une clé KMS dans le child module pour aller chiffrer le bucket S3. Si cette string est non nulle, elle va simplement utiliser une data source pour la valider, et utiliser cet ARN de manière safe pour le chiffrement du bucket S3. Et nous, ce que l'on veut faire dans le root module, c'est deux instances de ce module. pour tester les deux cas de figure. La première instance va prendre l'ARN résultante de la clé KMS du root module, et la seconde instance ne va rien prendre, et on va bien vérifier que dans les deux cas, ça fonctionne. Voilà, donc propose-moi un plan. Fais attention au nommage des ressources qui doit être précis par rapport à l'usage du module. Le module doit être simple et générique, et l'implémentation du module dans le root module doit être spécifique par rapport au cas d'usage.
+
+---
+
+On va simplifier le plan et en particulier le sous-module. Plutôt que de créer une clé KMS dans le sous-module quand elle n'est pas fournie en entrée, on va simplement utiliser la clé managée du service S3 pour le bucket. Voilà donc deux cas de figure. Un ARN de clé fourni en entrée, on le valide, on l'utilise. Pas d'ARN de clé fourni en entrée, on utilise la SSE KMS par défaut du service S3.
+
+---
+
+go on
+
+---
+
+apply error :  Error: Invalid index
+│ 
+│   on modules/s3-bucket-encrypted/outputs.tf line 13, in output "encryption_kms_key_arn":
+│   13:   value       = local.use_provided_key ? data.aws_kms_key.provided[0].arn : null
+│     ├────────────────
+│     │ data.aws_kms_key.provided is empty tuple
+│ 
+│ The given key does not identify an element in this collection value: the collection
+│ has no elements.
+
+---
+
+Donne-moi une explication détaillée de pourquoi le ternaire que l'on avait sur le KMS Master Key ID de la configuration de l'encryption du bucket ne fonctionnait pas auparavant, ce que je ne suis pas certain d'avoir compris.
