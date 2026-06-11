@@ -1,0 +1,5 @@
+Est-ce que l'on n'aurait pas une stale branche sur la remote, la branche refactor slash terraform examples library ? Bessop, qu'on a déjà poussé l'ensemble de ses modifs sur la paire 10 précédente si j'ai pas de bêtises ?
+
+---
+
+Ensuite, tu pourras ouvrir l'APR pour notre branche courante sur les Defraided Actions.
