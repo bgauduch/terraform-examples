@@ -1,0 +1,41 @@
+Fais une revue intégrale de toutes les paires ouvertes, analyse-les et propose un ordre de merge pour celles que l'on peut merger, et sinon un plan de correction pour les autres.
+
+---
+
+Go merge ce que l'on peut, donc on va intégrer tout de suite les montées en version 8 et 7.
+
+---
+
+Ok, go pour correction sur le numéro 9. Tu penses que c'est obligatoire d'ouvrir une nouvelle PR, puis de faire un rebase, ou est-ce qu'on peut faire directement sur la branche ? Je ne suis pas certain que ce soit une bonne idée sur la branche, mais je te laisse vérifier quand même, on ne sait jamais, ça pourrait simplifier le process.
+
+---
+
+Attends une seconde. C'était quoi le problème fondamental ? Tu es sûr qu'on corrige au bon endroit là ? Et que ce n'était pas plus un problème de conventional commit, de norme ? Petite question quand même pour vérifier que le fixe est bien scopé à la problématique de base sur ce souci là.
+
+---
+
+Et on n'a pas moyen de configurer correctement des Pandabot et Release Please plutôt que d'ajouter cette drôle d'exception sur la longueur de BodyMax Line.
+
+---
+
+J'ai du mal à me rendre compte, ce qui est le plus propre, je trouve ça étonnant qu'on doive désactiver le check pour le bot. On ne sait jamais, des fois que ça change, une montée en version, ça ne passe plus. Comment on peut garantir de garder un git history et un log de commit nickel-chrome sans trop relâcher le niveau de vérification ?
+
+---
+
+Ok, donc juste pour bien comprendre, aujourd'hui on faisait la validation que des commits messages sur les branches à chaque nouveau commit, mais on n'avait pas de validation du titre de la branche qui lui finit dans l'historique Git. C'est bien ça le trou, si je comprends bien.
+
+---
+
+Ok, très clair. Donc là, on est sur la configuration de la protection de branches. On va l'ajouter effectivement. Et on va retirer le bruit des bottes. Ok, let's go.
+
+---
+
+go
+
+---
+
+Détails la solution 1.
+
+---
+
+Trace ces tâches dans le projet pour le live sur les terraformes des FredActions. Il y a une petite mise en cohérence à prévoir du dépôt avant de pouvoir clôturer le projet. On récupère les entrants du projet et vient ajouter ça à la to-do de ce projet spécifiquement.
