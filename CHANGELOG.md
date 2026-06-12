@@ -1,5 +1,31 @@
 # Changelog
 
+## [2.0.0](https://github.com/bgauduch/terraform-examples/compare/v1.0.1...v2.0.0) (2026-06-11)
+
+
+### ⚠ BREAKING CHANGES
+
+* restructure into a Terraform examples library ([#10](https://github.com/bgauduch/terraform-examples/issues/10))
+
+### Features
+
+* **deferred-actions:** implement KMS + S3 deferral example ([#12](https://github.com/bgauduch/terraform-examples/issues/12)) ([2c381ae](https://github.com/bgauduch/terraform-examples/commit/2c381ae0c6b5ea024feaecf2103a82ad31cfee33))
+
+
+### Refactoring
+
+* restructure into a Terraform examples library ([#10](https://github.com/bgauduch/terraform-examples/issues/10)) ([d706419](https://github.com/bgauduch/terraform-examples/commit/d706419ac01887df734fac91fdac9173f9bcf5c5))
+
+
+### Documentation
+
+* **deferred-actions:** correct that -allow-deferral is required ([#13](https://github.com/bgauduch/terraform-examples/issues/13)) ([ea93ffd](https://github.com/bgauduch/terraform-examples/commit/ea93ffd5178887f7b98b9b4df1470996d66c3ff7))
+
+
+### CI
+
+* **commitlint:** skip per-commit lint on bot branches ([#14](https://github.com/bgauduch/terraform-examples/issues/14)) ([95e6ca9](https://github.com/bgauduch/terraform-examples/commit/95e6ca9651ae9be5cf857be8876dcae7bdfafb0d))
+
 ## [1.0.1](https://github.com/bgauduch/demo-terraform-multi-env-aws/compare/v1.0.0...v1.0.1) (2026-04-20)
 
 
