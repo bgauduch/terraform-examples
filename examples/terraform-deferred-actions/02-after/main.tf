@@ -9,7 +9,10 @@ resource "random_id" "suffix" {
 
 # KMS key created in this root module; its ARN is unknown until apply.
 resource "aws_kms_key" "root" {
-  description             = "Root-managed KMS key for the deferred-actions S3 demo"
+  description = "Root-managed KMS key for the deferred-actions S3 demo"
+  # AWS-0065: enable annual rotation of the key material (security baseline).
+  enable_key_rotation = true
+  # AWS minimum; intentionally short here so the demo tears down quickly.
   deletion_window_in_days = 7
 }
 
