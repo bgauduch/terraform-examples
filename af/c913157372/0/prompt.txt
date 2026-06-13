@@ -1,0 +1,13 @@
+Non, on va juste s'arrêter là une fois que tu as propagé le cleanup précédent, le doudou qui traînait là. Donc là, tu me confirmes qu'il y a une MR qui est ouverte ?
+
+---
+
+Et du coup, le process qu'on vient d'établir ensemble, il est bien tracé sur le dépôt ou pas ? C'est quand même un petit peu de traçabilité, de process qu'il faudrait mettre.
+
+---
+
+Du coup, c'est une nouvelle issue à traiter tout de suite, c'est ça ?
+
+---
+
+OK, vas-y, propose-moi ce qui nous manque, là, dans la 19ème, n'oublie pas de mettre en jour, évidemment, la PR.

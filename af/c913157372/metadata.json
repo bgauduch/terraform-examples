@@ -1,0 +1,25 @@
+{
+  "cli_version": "0.7.5",
+  "checkpoint_id": "afc913157372",
+  "strategy": "manual-commit",
+  "branch": "chore/work-tracking",
+  "checkpoints_count": 0,
+  "files_touched": [
+    "AGENTS.md"
+  ],
+  "sessions": [
+    {
+      "metadata": "/af/c913157372/0/metadata.json",
+      "transcript": "/af/c913157372/0/full.jsonl",
+      "content_hash": "/af/c913157372/0/content_hash.txt",
+      "prompt": "/af/c913157372/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 932,
+    "cache_creation_tokens": 13420,
+    "cache_read_tokens": 2411407,
+    "output_tokens": 11874,
+    "api_call_count": 8
+  }
+}

@@ -1,0 +1,116 @@
+{
+  "cli_version": "0.7.5",
+  "checkpoint_id": "afc913157372",
+  "session_id": "1947fc09-726e-403e-8ef4-13088efca809",
+  "strategy": "manual-commit",
+  "created_at": "2026-06-13T17:09:13.360071Z",
+  "branch": "chore/work-tracking",
+  "checkpoints_count": 0,
+  "files_touched": [
+    "AGENTS.md"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-opus-4-8[1m]",
+  "turn_id": "e6266f2aa934",
+  "checkpoint_transcript_start": 761,
+  "transcript_lines_at_start": 761,
+  "token_usage": {
+    "input_tokens": 932,
+    "cache_creation_tokens": 13420,
+    "cache_read_tokens": 2411407,
+    "output_tokens": 11874,
+    "api_call_count": 8
+  },
+  "skill_events_version": 1,
+  "skill_events": [
+    {
+      "id": "claude-skill-toolu_012esWkqKsRvwhzYh3f5cWRa",
+      "event_type": "tool_invocation",
+      "skill": {
+        "name": "terraform-skill@antonbabenko:terraform-skill"
+      },
+      "source": {
+        "agent": "claude-code",
+        "signal": "skill_tool_use",
+        "confidence": "explicit"
+      },
+      "turn_id": "e6266f2aa934",
+      "transcript_anchor": {
+        "unit": "line",
+        "start": 62,
+        "end": 63,
+        "entry_ids": [
+          "ee30cf97-f0d9-4bb8-9551-f35efde1629e"
+        ],
+        "tool_use_id": "toolu_012esWkqKsRvwhzYh3f5cWRa"
+      },
+      "native": {
+        "tool_name": "Skill",
+        "tool_use_id": "toolu_012esWkqKsRvwhzYh3f5cWRa"
+      },
+      "collapse": {
+        "target": "tool_pair",
+        "label": "Skill: terraform-skill@antonbabenko:terraform-skill",
+        "default_collapsed": true
+      }
+    },
+    {
+      "id": "claude-skill-toolu_01L2EyK7nWQ9YgamDrQ7wD2e",
+      "event_type": "tool_invocation",
+      "skill": {
+        "name": "terraform-skill"
+      },
+      "source": {
+        "agent": "claude-code",
+        "signal": "skill_tool_use",
+        "confidence": "explicit"
+      },
+      "turn_id": "e6266f2aa934",
+      "transcript_anchor": {
+        "unit": "line",
+        "start": 65,
+        "end": 66,
+        "entry_ids": [
+          "7dc79ff2-43a7-4af9-8359-7eccb0f4ce76"
+        ],
+        "tool_use_id": "toolu_01L2EyK7nWQ9YgamDrQ7wD2e"
+      },
+      "native": {
+        "tool_name": "Skill",
+        "tool_use_id": "toolu_01L2EyK7nWQ9YgamDrQ7wD2e"
+      },
+      "collapse": {
+        "target": "tool_pair",
+        "label": "Skill: terraform-skill",
+        "default_collapsed": true
+      }
+    }
+  ],
+  "session_metrics": {
+    "turn_count": 15
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-06-13T17:09:13.337275Z",
+    "agent_lines": 1,
+    "agent_removed": 0,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 1,
+    "total_lines_changed": 1,
+    "agent_percentage": 100,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 15,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        "tasks/lessons.md": 15
+      }
+    }
+  ]
+}
