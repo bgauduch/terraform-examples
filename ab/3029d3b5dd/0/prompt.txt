@@ -1,0 +1,71 @@
+is this repository correctly setup for claude code ?
+
+---
+
+using terraform skill, propose a plan to harden the repository and update the tooling and doc accordingly
+
+---
+
+focus on hardening TF code, keep supply chain / docs
+
+---
+
+both, trivy is installed.
+
+---
+
+go, avec découpage cohérent MR
+
+---
+
+IEM Demo Live a été émergé, donc il faut bien aller repartir sur le main et prendre l'état propre de la remote.
+
+---
+
+Ce que j'aimerais faire, c'est de fixer un goal par rapport à nos objectifs de ToDo. D'ailleurs, petite note, il faut bien penser à nettoyer la ToDo précédente, ce qui a été fait. Donc je te laisse regarder s'il y a des trucs qui traînent qui ont déjà été faits et faire le ménage. Mais pour cette session, j'aimerais bien faire un end-off complet, c'est-à-dire que tu sois complètement autonome. On a fixé un ToDo, il nous faut le point de départ qui est là, un point d'arrivée, c'est-à-dire que les différentes tâches sont implémentées, tous les tests passent, tout est au vert, la CI est bonne. Propose-moi une méthodologie pour que je te laisse autonome et que je ne vais pas intervenir sur le reste des opérations et que tu viennes me re-pinger uniquement si soit il y a un problème, soit tu as terminé.
+
+---
+
+Ce que j'aimerais faire, c'est de fixer un goal par rapport à nos objectifs de ToDo. D'ailleurs, petite note, il faut bien penser à nettoyer la ToDo précédente, ce qui a été fait. Donc je te laisse regarder s'il y a des trucs qui traînent qui ont déjà été faits et faire le ménage. Mais pour cette session, j'aimerais bien faire un end-off complet, c'est-à-dire que tu sois complètement autonome. On a fixé un ToDo, il nous faut le point de départ qui est là, un point d'arrivée, c'est-à-dire que les différentes tâches sont implémentées, tous les tests passent, tout est au vert, la CI est bonne. Propose-moi une méthodologie pour que je te laisse autonome et que je ne vais pas intervenir sur le reste des opérations et que tu viennes me re-pinger uniquement si soit il y a un problème, soit tu as terminé. Idéalement il faudrait que tu te bases sur toutes les possibilités offertes par CloudCode, donc n'hésite pas à regarder la doc en ligne et à me faire part des différentes options que l'on a que je ne connais pas forcément.
+
+---
+
+Et que font les autres projets open source ? Quelles sont les pratiques extérieures ? J'aime bien le modèle hybride, la source de vérité long terme, le travail local sur la branche, qui permet de reprendre à n'importe quel moment en committant d'avancer au fur et à mesure, c'est un modèle que j'aime bien. Je pense que sur main, on ne devrait jamais avoir de to-do, par contre, on ne sait pas comment outiller ça pour éviter d'avoir ce leftover, parce que là typiquement, l'état actuel de main, on a un to-do qui ne reflète absolument pas une vraie charge de travail, il se retrouve sur exposé publiquement et c'est un peu moche. Je pense qu'il faut aller un petit peu plus loin sur le process. Ou on part de l'idée, l'idée on va la cadrer, ensuite ce cadrage il va donner lieu à un découpage et ce découpage on va le déléguer sans doute à cloud code ou assimiler des agents. Sans rentrer trop dans le détail, puisque ça reste un dépôt de démo, mais ça permet d'avoir un petit framework où on peut faire tous les éléments de A à Z très facilement. Et donc demain, quand j'ai par exemple une nouvelle idée éditoriale, un nouvel exemple Terraform, et bien en 2 temps 3 mouvements je peux venir câbler le code d'exemple sur ce dépôt et en 10 minutes j'ai quelque chose qui fonctionne.En phase, effectivement, sur l'évolution de la directive globale Claude.md, d'un point de vue méta niveau, toujours avoir un task to do, bon, ça peut être un bon défaut, mais pas forcément bien appliqué, effectivement, à des dépôts guide sur des plateformes upstream qui sont outillées, justement, pour tracer, effectivement, les tâches à faire et les regrouper entre elles. Tu proposeras aussi une mise à jour de cette directive. L'overhead, d'utiliser la CLI ou la MCP pour les lire un issue, il faut attaquer la API d'une manière ou d'une autre, donc pas de problème.
+
+---
+
+Ok, c'est pas mal. Petite note cela dit, pour ce dépôt spécifiquement, on utilise Claude, mais il est pensé pour être agnostique du fournisseur de LLM. Tu remarqueras que Claude est simplement un lien symbolique vers agent.md. On prend bien ça en compte dans la config du dépôt, et en local j'ai un ClaudeMD, donc ça reste spécifique à Claude Code. Le garde-fou CI, oui, il faudra que tu me montres un peu comment tu veux faire, mais je pense que c'est de l'overengineering à partir du moment où là, dans le git ignore, il y a très peu de chance, quasiment aucune chance que je fasse un git ad-force pour ajouter un fichier, bon, voilà, je pense qu'on peut le maîtriser au local, vu la taille du dépôt, ça me semble être un peu de l'overengineering. Comment on va brancher la Skills New Example avec le système éditorial ?
+
+---
+
+Ouais, je me demande en fait, je pense que le vrai chemin, ce serait plutôt de partir de l'éditorial et d'avoir ces exemples qui sont en fait des supports de l'éditorial. Alors, il y aura peut-être la possibilité et sans doute des cas d'usage où je vais ajouter du code sans que ce soit forcément lié à une pièce, enfin une ID éditoriale. Mais là, comme ça, je ne vois pas vraiment de cas d'usage où ça irait dans ce sens-là. Donc voilà, il faut que ça soit cohérent. Le besoin, c'est l'éditorial, c'est communiquer, faire quelque chose avec une idée et le support technique, c'est le code. Mais donc c'est bien dans ce sens-là qu'on doit avancer.
+
+---
+
+Oui, l'ordre est beaucoup plus cohérent comme ça. La notion de découplage et d'interface est super importante, elle est primordiale dans tous mes travaux. C'est vraiment une de mes convictions fortes. Il faut qu'on trouve un moyen de l'ancrer dans nos travaux au quotidien, que ce soit côté CloudMD, ou côté UserProfile, ou n'importe où. Aide-moi à ancrer véritablement cette conviction. Il y a déjà une liste existante, peut-être qu'il faut simplement l'ajouter ou mettre à jour une ligne.
+
+Sinon, pour l'ordre de bataille, oui, plutôt en phase. Je pense que pour le point 3, il y a déjà un skill qui existe côté éditorial. Donc à mon avis, il faudra juste que tu ailles regarder le contenu, vérifier que ça répond au cas d'usage. Mais il n'y a potentiellement pas grand-chose à faire à ce niveau-là. Et ensuite, go sur la partie hardening pour faire ça proprement. C'est parfait.
+
+---
+
+Non, je pense que la gestion du mode en double couche est importante de manière globale, en faisant bien la distinction entre ce qui est une plateforme GIT, on a spécifié du GitHub, du machin, il faut que ce soit plus générique, c'est plateforme Git, GitHub, GitLab, peu importe, et garder effectivement le fonctionnement entre guillemets task to do pour quelque chose qui n'est pas forcément un dépôt Git.Repropose-moi un change cohérent par rapport à l'ensemble des CLAUDE.md pour que l'on le fasse dans le CLAUDE de ma home générique. Je me demande s'il ne faudrait pas que cette règle spécifique plateforme Git ne soit pas positionnée dans le répertoire Git. Comme ça, on respecte la segmentation et on respecte la composition des directives entre ma home et les sous-répertoires, que ce soit Obsidian ou Git. Propose-moi un rework avec ces éléments.
+
+---
+
+Ok, c'est beaucoup plus propre comme ça. Ça me semble encore un tout petit poil verbeux, est-ce que tu peux me proposer une version un peu plus condensée, mais sans perdre aucun niveau d'information ? C'est un peu normalement ce qu'on a adopté par configuration dans les CLAUDE.md et ce qu'on fait partout, la règle de concision s'applique aussi à l'outillage. Si ce n'est pas correctement tracé, cette règle de concision, dans un second temps, propose-moi une revue et un moyen de bien graver ça dans le marbre. L'idée, c'est que ça soit appliqué sur ce qu'on génère, ce que tu écris dans le chat, et sur tout en fait. Il faut être concis partout, tout le temps.
+
+---
+
+Est-ce que la version condensée que tu me proposes est parfaitement compréhensible pour toi ? Prends l'exemple de la ligne de WebO Backlog, est-ce que tu comprends bien qu'il faut utiliser le tracker natif s'il existe, et que s'il n'existe pas, il faut tracer ça dans un fichier local ?Deuxième remarque, les subscopes de task tracking, est-ce qu'on a l'intérêt de l'avoir dans le CloudMDI générique ? En fait, c'est surchargé localement. Est-ce qu'il faut garder cette info ? Est-ce que c'est utile ? Parce que là, en fait, on l'a des deux côtés. On l'a et dans le CloudMDI générique et dans les CloudMDI côté Git et côté Vault.
+
+Ok pour l'update côté concision, c'est pas mal, j'ai l'impression que tu as fait un effort de concision justement dessus donc ça m'a l'air ok. Question, est-ce que pour dire qu'on l'applique partout, tout le temps, on a besoin d'avoir cette liste d'artefacts qui potentiellement un jour ne sera plus up to date ? Est-ce que t'es assez malin en lisant qu'il faut appliquer ça partout, tout le temps, de l'appliquer partout, tout le temps, sans qu'on ait besoin de lister en fait les endroits où tu l'appliques, parce que ça me semble un peu contre-productif.
+
+---
+
+Ok, c'est pas mal pour l'ensemble des modifs. Bien, on va pouvoir avancer. Enfin, si je trouve très compliqué de te faire écrire des consignes pour les Cloud.md, et encore plus compliqué de te les faire respecter, peut-être que je m'y prends mal, comment il faut faire, c'est quoi la bonne pratique pour te donner correctement ces règles-là, et que tu les respectes, parce que tu les transgresses souvent quand même, en particulier la notion de concision. et la notion de non-répétition, la notion de single source of trust, qui est normalement documentée dans le Cloud.md.
+
+---
+
+Ouais, Goa, j'ai fait la partie token économie en gros pour tout. L'objectif, c'est toujours d'économiser au maximum les tokens et de maximiser le usage.
+
+Allez, on va bouger sur l'arrêt, parce qu'on n'avance pas.

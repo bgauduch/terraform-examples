@@ -1,0 +1,25 @@
+{
+  "cli_version": "0.7.5",
+  "checkpoint_id": "ab3029d3b5dd",
+  "strategy": "manual-commit",
+  "branch": "chore/work-tracking",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "tasks/todo.md"
+  ],
+  "sessions": [
+    {
+      "metadata": "/ab/3029d3b5dd/0/metadata.json",
+      "transcript": "/ab/3029d3b5dd/0/full.jsonl",
+      "content_hash": "/ab/3029d3b5dd/0/content_hash.txt",
+      "prompt": "/ab/3029d3b5dd/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 32408,
+    "cache_creation_tokens": 533746,
+    "cache_read_tokens": 11594014,
+    "output_tokens": 143789,
+    "api_call_count": 83
+  }
+}
