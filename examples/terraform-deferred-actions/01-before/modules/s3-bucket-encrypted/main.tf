@@ -4,7 +4,10 @@
 # that cannot be determined until apply"). That limitation is the whole reason the
 # separate boolean exists.
 data "aws_kms_key" "provided" {
-  count  = var.kms.provided ? 1 : 0
+  # DEMO segment 2 - starting point (1.15 OK): count keyed on the plan-known provided boolean.
+  count = var.kms.provided ? 1 : 0
+  # DEMO segment 2 - "it breaks": ARN unknown at plan -> Invalid count argument
+  # count = var.kms.arn != null ? 1 : 0
   key_id = var.kms.arn
 }
 

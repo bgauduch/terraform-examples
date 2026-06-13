@@ -33,6 +33,8 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "this" {
       # one() => null (S3's default aws/s3 managed key) when no key was provided,
       # otherwise the validated ARN. Avoids indexing an empty count=0 tuple.
       kms_master_key_id = one(data.aws_kms_key.provided[*].arn)
+      # DEMO segment 4 - one() pitfall: the naive ternary indexes provided[0] on a 0/unknown-length tuple -> Invalid index.
+      # kms_master_key_id = local.use_provided_key ? data.aws_kms_key.provided[0].arn : null
     }
     bucket_key_enabled = true
   }
