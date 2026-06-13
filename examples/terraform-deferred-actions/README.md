@@ -72,6 +72,16 @@ You do, however, **opt into deferral at the CLI** by passing **`-allow-deferral`
 
 Each root creates `aws_kms_key.root` and feeds its (plan-unknown) ARN to a single bucket instance.
 
+## Security baseline
+
+Both roots aim to pass a static security scan (`trivy config`) cleanly, so the example stays a good starting point and not a source of bad habits:
+
+- **KMS** - `aws_kms_key.root` enables annual key rotation (`enable_key_rotation = true`, clears `AWS-0065`). `deletion_window_in_days = 7` is the AWS minimum, kept short on purpose for fast demo teardown.
+- **S3** - the bucket enforces SSE-KMS encryption, blocks all public access, and enables object versioning (`aws_s3_bucket_versioning`, clears `AWS-0090`).
+- **Inputs** - `region` and `bucket_prefix` are `nullable = false` and validated, so a typo fails fast at plan time rather than at apply.
+
+Knowingly out of scope (would bloat a teaching example): S3 access logging (`AWS-0089`, needs a log bucket) and VPC/flow-log style controls. These are documented rather than silenced.
+
 ## Prerequisites
 
 - **Terraform version**: each dir pins it in `.terraform-version` (`01-before/` = 1.15.6, `02-after/` = 1.16.0-alpha...). With mise (idiomatic version files enabled) or tfenv, `cd` selects it automatically; otherwise switch manually and confirm with `terraform version`.
