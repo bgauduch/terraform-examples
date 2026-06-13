@@ -84,9 +84,12 @@ jobs:
         run: tflint --recursive --format compact --config "${{ github.workspace }}/${{ matrix.cell.example }}/.tflint.hcl"
 
       - name: install trivy
-        uses: aquasecurity/setup-trivy@81e514348e19b6112ce2a7e3ecbafe19c1e1f567 # v0.3.1
+        uses: aquasecurity/setup-trivy@3fb12ec12f41e471780db15c232d5dd185dcb514 # v0.2.6
         with:
-          version: v0.71.1
+          # Pinned to the combo already proven green on main (trivy-action bundles
+          # setup-trivy v0.2.6 + trivy v0.71.0); v0.71.1 is not served by the
+          # installer's get.trivy.dev path yet.
+          version: v0.71.0
           cache: true
 
       - name: trivy config scan (report + gate)
