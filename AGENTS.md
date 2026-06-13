@@ -33,6 +33,7 @@ Do **not** create top-level category directories (`patterns/`, `experiments/`...
 ## Repository standards
 
 - **Git flow**: GitHub flow (short-lived feature branches off `main`, PR review, squash-merge).
+- **Work tracking**: durable backlog = GitHub Issues + Milestone (a goal + its acceptance criteria); each PR references its issue (`Closes #N`). `main` carries no task file - session plans stay local/ephemeral. `tasks/lessons.md` holds durable repo lessons.
 - **Commit messages**: [Conventional Commits](https://www.conventionalcommits.org/) - `<type>(<scope>): <subject>`. Use the example name as scope when relevant (e.g. `feat(aws-multi-env): ...`).
   - Common types: `feat`, `fix`, `docs`, `chore`, `refactor`, `test`, `ci`, `build`.
   - Breaking changes: append `!` after type/scope or add a `BREAKING CHANGE:` footer.
