@@ -1,0 +1,23 @@
+Comment je peux configurer correctement mon profil Twitch pour être catégorisé en tant que développeur par rapport à tout ce que l'on fait sur mes lives ? N'hésite pas à regarder la partie éditoriale. Comment je peux bien configurer mon Twitch pour être sûr que ça remonte correctement et que je sois explorable et trouvable sur la plateforme ?Parce que bon, sur le dernier live, j'ai fait ça sur Twitch, mais c'était à l'arrache, je n'ai absolument rien configuré, c'était juste un compte, une planification, et puis let's go, on est parti comme ça.
+
+---
+
+Comment je garantis que cette config ait bien persisté d'un stream à l'autre, genre qu'elle est liée à mon compte ? Comment je fais pour aller remplir un peu ma bio et mon profil, typiquement pour mettre mon lien GitHub et LinkedIn à minima ? C'est le minimum syndical.
+
+---
+
+Ok, clairement, il y a un peu de boulot à faire. Propose-moi une petite to-do et ajoute ça au fichier où on trace typiquement la création de la chaîne YouTube BGA. Il y a un projet qui existe, retrouve-le et propose-moi une petite liste. Une fois qu'on a validé cette liste-là, on fera la mise à jour du projet.
+
+Là, globalement, ce que j'attends en termes de format, c'est de pouvoir très facilement planifier un live avec tous les éléments qui sont liés. C'est de tracer dans peut-être la partie éditoriale qui est liée au live les informations statiques du compte et pour mon compte et pour ma chaîne. Et voilà, que ça soit très simple à configurer, que j'ai juste à te demander et qu'en deux temps trois mouvements ça soit fait. Et même peut-être idéalement, il y a peut-être moyen de piloter ça par API et lorsque l'on crée un nouvel item, une nouvelle pièce live dans l'éditorial, de rajouter à cet endroit-là les différents éléments qui vont bien et d'utiliser un MCP ou un API pour créer le live associé. Voilà, ça, ça peut être intéressant à rajouter dans la ToDo et à explorer et ensuite à implémenter un petit peu plus tard parce que là en fait je me rends compte que c'est un gros sujet et pas juste rajouter trois liens sur le compte Twitch.
+
+---
+
+Effectivement, c'est pas mal. Bien penser à élargir ça en multiplateformes. Pour rappel, mon procès, c'est OBS, Restream et ensuite Ochoa, LinkedIn, Twitch et YouTube en fonction du type de live. Donc il faut que le process fondation soit déclinable sur toutes les plateformes ?
+
+Les Singles Souls of Trustwaves, il faudrait que ça soit dans l'éditorial. Il y a une session dans laquelle on réfléchit déjà à ça Qui s'appelle Consolidate Livestream Project. Donc on ne va pas trop s'attarder sur ce sujet-là pour l'instant. Tu peux regarder les échanges de cette session pour te faire une idée et me dire si effectivement c'est déjà bien couvert cela dit. Les textes prêts à coller, tu peux les tracer, tu peux mettre une première proposition, mais bon, l'idée ici, c'est de se focaliser sur la tout doux, je ne sais pas exactement ce que je veux mettre dans la bio, effectivement, donc il faut avoir une tâche où on y a réfléchi, que ça soit aligné avec tout le travail éditorial, que ça soit aligné avec le type de live, est-ce que c'est du perso, est-ce que c'est du pro brandé BGA, voilà, il y a une réflexion de fond à voir aujourd'hui. je ne sais pas encore en fait ce que ça aura comme contenu ni forme Ça me semble donc un poil trop tôt pour la Single Source of Trust.
+
+---
+
+On va tracer, tu vas intégrer effectivement ces tâches à ajouter de Todo dans le fichier existant BGA Live de l'option 1. Je ne suis pas certain que ce soit utile de rajouter une note de routage puisque c'est porté par l'autre session. Dis-moi ce que tu en penses. 
+
+Dans ta TodoReviser, j'ai l'impression qu'il y a un truc qui a sauté, c'est l'enrichissement du template pour les lives qui indiquent bien la structure, à moins que ce soit dans le point C. J'ai un doute. Est-ce qu'on a toutes les infos du premier plan qui ont été transposées sur le deuxième ?
