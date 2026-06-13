@@ -83,11 +83,25 @@ jobs:
         working-directory: ${{ matrix.cell.dir }}
         run: tflint --recursive --format compact --config "${{ github.workspace }}/${{ matrix.cell.example }}/.tflint.hcl"
 
-      - name: trivy config scan
-        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
+      - name: install trivy
+        uses: aquasecurity/setup-trivy@3fb12ec12f41e471780db15c232d5dd185dcb514 # v0.2.6
         with:
-          scan-type: config
-          scan-ref: ${{ matrix.cell.dir }}
-          exit-code: '1'
-          ignore-unfixed: true
-          severity: HIGH,CRITICAL
+          # Pinned to the combo already proven green on main (trivy-action bundles
+          # setup-trivy v0.2.6 + trivy v0.71.0); v0.71.1 is not served by the
+          # installer's get.trivy.dev path yet.
+          version: v0.71.0
+          cache: true
+
+      - name: trivy config scan (report + gate)
+        working-directory: ${{ matrix.cell.dir }}
+        run: |
+          # Scan once to JSON, then convert the same results twice:
+          #   - report: MEDIUM,HIGH,CRITICAL, never fails the job (visibility).
+          #   - gate:   HIGH,CRITICAL, fails the job (exit-code 1) if any are found.
+          trivy config . --format json --output trivy.json --exit-code 0
+
+          echo "::group::Trivy findings (MEDIUM,HIGH,CRITICAL - report only)"
+          trivy convert --format table --severity MEDIUM,HIGH,CRITICAL --exit-code 0 trivy.json
+          echo "::endgroup::"
+
+          trivy convert --format table --severity HIGH,CRITICAL --exit-code 1 trivy.json
