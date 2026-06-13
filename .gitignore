@@ -41,6 +41,8 @@ terraform.rc
 
 # AI coding agents - local state, settings, and caches
 .claude/
+# Ephemeral session plan; durable backlog lives in GitHub Issues
+tasks/todo.md
 .cursor/
 .aider*
 .continue/
