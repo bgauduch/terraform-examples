@@ -24,6 +24,15 @@ resource "aws_s3_bucket_public_access_block" "this" {
   restrict_public_buckets = true
 }
 
+# AWS-0090: keep object versions so an overwrite or delete is recoverable.
+resource "aws_s3_bucket_versioning" "this" {
+  bucket = aws_s3_bucket.this.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
 resource "aws_s3_bucket_server_side_encryption_configuration" "this" {
   bucket = aws_s3_bucket.this.id
 
