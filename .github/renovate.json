@@ -1,0 +1,40 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:best-practices",
+    "schedule:weekly"
+  ],
+  "labels": ["dependencies"],
+  "semanticCommits": "enabled",
+  "semanticCommitType": "chore",
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Tool versions pinned in workflow/action inputs, flagged with a `# renovate:` annotation",
+      "managerFilePatterns": [
+        "/^\\.github/actions/tf-setup/action\\.yml$/",
+        "/^\\.github/workflows/terraform\\.yml$/"
+      ],
+      "matchStrings": [
+        "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)(?: versioning=(?<versioning>\\S+))?\\s+[\\w-]+?:\\s*[\"']?(?<currentValue>[^\"'\\s]+)"
+      ]
+    },
+    {
+      "customType": "regex",
+      "description": "Per-example Terraform CLI pin in .terraform-version files",
+      "managerFilePatterns": ["/(^|/)\\.terraform-version$/"],
+      "matchStrings": ["^(?<currentValue>\\S+)\\s*$"],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "hashicorp/terraform",
+      "versioningTemplate": "hashicorp"
+    }
+  ],
+  "packageRules": [
+    {
+      "description": "experiment examples pin a Terraform RC/alpha on purpose - do not bump those",
+      "matchDepNames": ["hashicorp/terraform"],
+      "matchCurrentValue": "/-(alpha|beta|rc)/",
+      "enabled": false
+    }
+  ]
+}

@@ -12,3 +12,9 @@ Durable lessons learned while working in this repository. Append new entries; ke
 - **S3 versioning (`AWS-0090`)** - an encrypted, private bucket still trips the scanner without an `aws_s3_bucket_versioning` resource set to `Enabled`. Versioning is a separate resource, not an inline block on `aws_s3_bucket`.
 - **Variable validation** - mark required inputs `nullable = false` and add a `validation {}` block (region regex, `cidrhost()` for CIDRs, `contains()` allow-lists for enums). Failures then surface at plan time with a clear message instead of as opaque provider errors at apply.
 - **Documented exceptions** - low-value scanner findings that would bloat a teaching example (S3 access logging `AWS-0089`, VPC flow logs `AWS-0178`) are documented in the example README rather than silenced with inline ignores.
+
+## Dependency management
+
+- **Dependabot blind spots** - the `github-actions` ecosystem only updates `uses:` refs (and syncs the `# vX.Y.Z` comment beside a pinned SHA). It cannot bump tool versions held in action *inputs* (`tflint_version`, setup-trivy `version:`) or in `.terraform-version` files.
+- **Renovate fills them** - Renovate `customManagers` (regex) bump those fields. For inputs, drop a `# renovate: datasource=github-releases depName=<owner/repo>` annotation on the line above the version. For `.terraform-version` (which can't hold a comment), match the file by name and set `datasource`/`depName`/`versioning` in the manager itself. Freeze intentional RC/alpha pins (the `experiment` examples) with a `packageRule` on `matchCurrentValue: "/-(alpha|beta|rc)/"`.
+- **Validate before merge** - `npx --package renovate renovate-config-validator .github/renovate.json` catches schema errors locally; the Mend app uses the in-repo config (no onboarding PR) once present.

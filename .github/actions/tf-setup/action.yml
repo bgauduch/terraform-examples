@@ -36,6 +36,6 @@ runs:
     - if: inputs.install-tflint == 'true'
       uses: terraform-linters/setup-tflint@b480b8fcdaa6f2c577f8e4fa799e89e756bb7c93 # v6.2.2
       with:
-        # Pinned for reproducible CI (review/bump manually; dependabot's
-        # github-actions ecosystem tracks `uses:` refs, not this input).
+        # Pinned for reproducible CI; bumped by Renovate via the annotation below.
+        # renovate: datasource=github-releases depName=terraform-linters/tflint
         tflint_version: v0.63.1
