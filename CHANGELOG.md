@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.1.0](https://github.com/bgauduch/terraform-examples/compare/v2.0.0...v2.1.0) (2026-06-14)
+
+
+### Features
+
+* **harden:** enable KMS rotation, S3 versioning and input validation ([#20](https://github.com/bgauduch/terraform-examples/issues/20)) ([02601ab](https://github.com/bgauduch/terraform-examples/commit/02601ab6c9f4f29ca13c177e4bfecf33600492f4)), closes [#16](https://github.com/bgauduch/terraform-examples/issues/16)
+
+
+### CI
+
+* **trivy:** single-scan with convert-driven report and gate ([#21](https://github.com/bgauduch/terraform-examples/issues/21)) ([e3a7ad0](https://github.com/bgauduch/terraform-examples/commit/e3a7ad0e41c87d4534c706764dc2f50c0b14a588)), closes [#17](https://github.com/bgauduch/terraform-examples/issues/17)
+
 ## [2.0.0](https://github.com/bgauduch/terraform-examples/compare/v1.0.1...v2.0.0) (2026-06-11)
 
 
