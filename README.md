@@ -19,6 +19,7 @@ Each example lives under [`examples/`](examples/) and is fully independent - its
 | [`aws-budget-cutoff`](examples/aws-budget-cutoff/) | `lab` | `aws` `finops` `budgets` `scp` `organizations` | Auto-cut a runaway AWS bill: a Budget Action attaches a surgical SCP (hybrid blast) to a sandbox account, then manual + full-auto remediation. |
 | [`terraform-actions`](examples/terraform-actions/) | `lab` | `aws` `actions` `lifecycle` `cloudfront` `v1.14` | Trigger a CloudFront cache invalidation via Terraform 1.14 `action` + `action_trigger` blocks bound to a resource lifecycle. |
 | [`terraform-actions-lambda`](examples/terraform-actions-lambda/) | `lab` | `aws` `actions` `lambda` `dynamodb` `v1.14` | Use `action "aws_lambda_invoke"` as a generic escape hatch: trigger a DynamoDB on-demand backup (or any logic) on a resource lifecycle event. |
+| [`terraform-check-health`](examples/terraform-check-health/) | `lab` | `aws` `check` `drift` `post-apply` `v1.5` | Post-apply assertions on real infrastructure with a `check` block, and non-blocking out-of-band drift detection. |
 
 ### Taxonomy
 
