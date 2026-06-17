@@ -33,6 +33,10 @@ resource "aws_s3_bucket_versioning" "site" {
   }
 }
 
+# SSE-S3 (AES256) is appropriate for public web assets served through a CDN.
+# SSE-KMS with a customer-managed key would also require a KMS key policy granting
+# the CloudFront OAC kms:Decrypt - out of scope for an actions-focused demo.
+#trivy:ignore:AVD-AWS-0132
 resource "aws_s3_bucket_server_side_encryption_configuration" "site" {
   bucket = aws_s3_bucket.site.id
   rule {

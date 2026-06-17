@@ -58,6 +58,8 @@ in `main.tf` (rather than hidden):
 - **Access logging** to a dedicated log bucket (`AVD-AWS-0010`).
 - **Minimum TLS version** (`AVD-AWS-0013`) - not settable with the default CloudFront certificate;
   enforcing it would require ACM + a custom domain, out of scope here.
+- **Customer-managed KMS key** for the bucket (`AVD-AWS-0132`) - SSE-S3 (AES256) is appropriate for
+  public web assets behind a CDN; SSE-KMS would also need a `kms:Decrypt` grant for the OAC.
 
 ## Prerequisites
 
