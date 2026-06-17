@@ -14,6 +14,7 @@ Each example lives under [`examples/`](examples/) and is fully independent - its
 |---------|------|------|-------------|
 | [`aws-multi-env`](examples/aws-multi-env/) | `pattern` | `aws` `multi-env` `backend` `workspaces` | Four progressive patterns for managing multiple environments with Terraform CE on AWS. |
 | [`terraform-deferred-actions`](examples/terraform-deferred-actions/) | `experiment` | `rc` `deferred-actions` `kms` `unknown-at-plan` | Testing Terraform's experimental *deferred actions* (`plan -allow-deferral`) to inject a KMS key whose ARN is unknown at plan time. |
+| [`terraform-check-health`](examples/terraform-check-health/) | `lab` | `aws` `check` `drift` `post-apply` `v1.5` | Post-apply assertions on real infrastructure with a `check` block, and non-blocking out-of-band drift detection. |
 
 ### Taxonomy
 
