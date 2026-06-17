@@ -17,6 +17,7 @@ Each example lives under [`examples/`](examples/) and is fully independent - its
 | [`terraform-query-import`](examples/terraform-query-import/) | `lab` | `aws` `query` `import` `tfquery` `v1.14` | Discover unmanaged infrastructure with `terraform query` + `list` blocks, generate its config, and import it in bulk. |
 | [`terraform-module-testing`](examples/terraform-module-testing/) | `lab` | `aws` `terraform-test` `testing` `s3` `validation` | Test a reusable S3 module with the native `terraform test` framework: variable validations (`expect_failures`), plan assertions with `mock_provider`, real apply on AWS, and parallel runs with `state_key`. |
 | [`aws-budget-cutoff`](examples/aws-budget-cutoff/) | `lab` | `aws` `finops` `budgets` `scp` `organizations` | Auto-cut a runaway AWS bill: a Budget Action attaches a surgical SCP (hybrid blast) to a sandbox account, then manual + full-auto remediation. |
+| [`terraform-actions`](examples/terraform-actions/) | `lab` | `aws` `actions` `lifecycle` `cloudfront` `v1.14` | Trigger a CloudFront cache invalidation via Terraform 1.14 `action` + `action_trigger` blocks bound to a resource lifecycle. |
 
 ### Taxonomy
 
