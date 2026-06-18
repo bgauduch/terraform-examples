@@ -1,6 +1,7 @@
 # terraform-check-health
 
-> **Type**: `lab` &nbsp;·&nbsp; **Tags**: `aws` `check` `drift` `post-apply` `v1.5`
+> **Type**: `lab`
+> **Tags**: `aws` `check` `drift` `post-apply` `v1.5`
 
 Terraform **1.5** introduced **`check` blocks**: assertions about your **real, deployed**
 infrastructure that run on `plan` and `apply` and report failures as **warnings, not errors** -
