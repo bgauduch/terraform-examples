@@ -46,7 +46,7 @@ Validation before committing: `terraform fmt -recursive` (root) and `terraform v
 
 ## Prerequisites
 
-- Terraform `>= 1.14.0` (pinned in `.terraform-version`).
+- Terraform `>= 1.14.0` (pinned to `1.14.9` in `.terraform-version`).
 - AWS provider `6.41.0`, AWS CLI with credentials; default region `eu-west-1`.
 
 ## Conventions in this example

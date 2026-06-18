@@ -46,7 +46,7 @@ terraform-query-import/
 
 ## Prerequisites
 
-- **Terraform `>= 1.14.0`** (pinned via `.terraform-version`; `terraform query` does not exist before 1.14).
+- **Terraform `>= 1.14.0`** (pinned to `1.14.9` via `.terraform-version`; `terraform query` does not exist before 1.14).
 - **AWS provider `6.41.0`** and the AWS CLI with valid credentials. Default region: `eu-west-1`.
 
 ## Run (live demo)
@@ -73,7 +73,19 @@ terraform-query-import/
    # open generated.tf - it now holds resource blocks AND import blocks (with identities)
    ```
 
-4. Review and import in bulk:
+4. Review and fix the generated config. `-generate-config-out` emits **every** schema
+   attribute and ignores the provider's `ConflictsWith` rules, so `plan` fails on mutually
+   exclusive arguments. For `aws_instance` you must drop one side of each pair:
+
+   ```bash
+   terraform plan                 # FAILS: "Conflicting configuration arguments"
+   ```
+
+   In `generated.tf`, remove the `primary_network_interface {}` block (conflicts with
+   `associate_public_ip_address`) and the `ipv6_addresses = []` line (conflicts with
+   `ipv6_address_count`). Generation is a starting point, not plan-ready output.
+
+5. Import in bulk:
 
    ```bash
    terraform plan                 # shows the imports, no resource changes
@@ -81,7 +93,7 @@ terraform-query-import/
    terraform plan                 # clean - nothing to change
    ```
 
-5. Teardown - now that they are managed, let Terraform remove them:
+6. Teardown - now that they are managed, let Terraform remove them:
 
    ```bash
    terraform destroy
