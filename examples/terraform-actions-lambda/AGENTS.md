@@ -8,7 +8,7 @@ Taxonomy: **type `lab`** - progressive, playable in a live session. Tags: `aws`,
 
 ## Purpose and scope
 
-A **pedagogical demo** (Twitch / LinkedIn live, 30-45 min). It shows Terraform 1.14 actions used as
+A **pedagogical demo** (live tech session, 30-45 min). It shows Terraform 1.14 actions used as
 a **generic escape hatch**: `action "aws_lambda_invoke"` runs arbitrary logic (here a DynamoDB
 on-demand backup) on a resource lifecycle event. Companion to `terraform-actions`, which uses a
 native provider action.
