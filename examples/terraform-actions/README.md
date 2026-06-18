@@ -1,6 +1,7 @@
 # terraform-actions
 
-> **Type**: `lab` &nbsp;·&nbsp; **Tags**: `aws` `actions` `lifecycle` `cloudfront` `v1.14`
+> **Type**: `lab`
+> **Tags**: `aws` `actions` `lifecycle` `cloudfront` `v1.14`
 
 Terraform **1.14** introduced **actions**: declarative, *imperative* side-effects you bind to a
 resource's lifecycle. This lab shows a classic day-2 need - **invalidate a CloudFront cache
