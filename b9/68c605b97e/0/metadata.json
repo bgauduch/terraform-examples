@@ -1,0 +1,133 @@
+{
+  "cli_version": "0.7.5",
+  "checkpoint_id": "b968c605b97e",
+  "session_id": "57dd9cec-f81a-437b-ad55-8058cf386e6d",
+  "strategy": "manual-commit",
+  "created_at": "2026-06-18T21:24:28.181351Z",
+  "branch": "fix/terraform-query-import",
+  "checkpoints_count": 4,
+  "files_touched": [
+    "examples/terraform-query-import/.terraform-version",
+    "examples/terraform-query-import/AGENTS.md",
+    "examples/terraform-query-import/README.md"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-opus-4-8[1m]",
+  "turn_id": "97d4c57d1d9e",
+  "token_usage": {
+    "input_tokens": 4509,
+    "cache_creation_tokens": 24316,
+    "cache_read_tokens": 466939,
+    "output_tokens": 5220,
+    "api_call_count": 16
+  },
+  "skill_events_version": 1,
+  "skill_events": [
+    {
+      "id": "prompt-skill-claude-code-review-2026-06-18T21:21:05.65939Z",
+      "event_type": "prompt_invocation",
+      "skill": {
+        "name": "review"
+      },
+      "source": {
+        "agent": "claude-code",
+        "signal": "prompt_slash_command",
+        "confidence": "explicit"
+      },
+      "turn_id": "c969f8531f5a",
+      "timestamp": "2026-06-18T21:21:05.65939Z",
+      "native": {
+        "command": "/review"
+      },
+      "collapse": {
+        "target": "user_message",
+        "label": "/review",
+        "default_collapsed": true
+      }
+    },
+    {
+      "id": "prompt-skill-claude-code-security-review-2026-06-18T21:23:13.835471Z",
+      "event_type": "prompt_invocation",
+      "skill": {
+        "name": "security-review"
+      },
+      "source": {
+        "agent": "claude-code",
+        "signal": "prompt_slash_command",
+        "confidence": "explicit"
+      },
+      "turn_id": "b82465466a10",
+      "timestamp": "2026-06-18T21:23:13.835471Z",
+      "native": {
+        "command": "/security-review"
+      },
+      "collapse": {
+        "target": "user_message",
+        "label": "/security-review",
+        "default_collapsed": true
+      }
+    }
+  ],
+  "session_metrics": {
+    "turn_count": 4
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-06-18T21:24:28.177119Z",
+    "agent_lines": 0,
+    "agent_removed": 2,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 3,
+    "total_committed": 2,
+    "total_lines_changed": 5,
+    "agent_percentage": 40,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 42,
+      "user_lines_removed": 3,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        "examples/terraform-query-import/.terraform-version": 1,
+        "examples/terraform-query-import/README.md": 14,
+        "examples/terraform-query-import/import/.terraform.lock.hcl": 25,
+        "examples/terraform-query-import/import/mise.toml": 2
+      },
+      "user_removed_per_file": {
+        "examples/terraform-query-import/.terraform-version": 1,
+        "examples/terraform-query-import/README.md": 2
+      }
+    },
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 42,
+      "agent_lines_removed": 3
+    },
+    {
+      "checkpoint_number": 3,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 42,
+      "agent_lines_removed": 3
+    },
+    {
+      "checkpoint_number": 4,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 42,
+      "agent_lines_removed": 5
+    },
+    {
+      "checkpoint_number": 5,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 42,
+      "agent_lines_removed": 5
+    }
+  ]
+}
