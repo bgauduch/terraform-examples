@@ -8,7 +8,7 @@ Taxonomy: **type `lab`** - progressive, playable in a live session. Tags: `aws`,
 
 ## Purpose and scope
 
-A **pedagogical demo** (Twitch / LinkedIn live, 25-30 min). It illustrates Terraform 1.5 `check`
+A **pedagogical demo** (live tech session, 25-30 min). It illustrates Terraform 1.5 `check`
 blocks: post-apply assertions on the **real** deployed website, and out-of-band **drift detection**
 that surfaces as a non-blocking warning on the next `plan`.
 
