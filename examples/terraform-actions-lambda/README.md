@@ -1,6 +1,7 @@
 # terraform-actions-lambda
 
-> **Type**: `lab` &nbsp;·&nbsp; **Tags**: `aws` `actions` `lambda` `dynamodb` `v1.14`
+> **Type**: `lab`
+> **Tags**: `aws` `actions` `lambda` `dynamodb` `v1.14`
 
 Terraform **1.14** actions can run **provider-native** side-effects (see `terraform-actions` for a
 CloudFront invalidation). But the provider only ships a handful of native actions. This lab shows
