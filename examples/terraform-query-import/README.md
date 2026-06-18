@@ -1,6 +1,7 @@
 # terraform-query-import
 
-> **Type**: `lab` &nbsp;·&nbsp; **Tags**: `aws` `query` `import` `tfquery` `v1.14`
+> **Type**: `lab`
+> **Tags**: `aws` `query` `import` `tfquery` `v1.14`
 
 Terraform **1.14** makes **search generally available**: `list` blocks in `.tfquery.hcl` files plus
 the **`terraform query`** command let you **discover unmanaged infrastructure**, **generate its

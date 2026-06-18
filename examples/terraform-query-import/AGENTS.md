@@ -8,7 +8,7 @@ Taxonomy: **type `lab`** - progressive, playable in a live session. Tags: `aws`,
 
 ## Purpose and scope
 
-A **pedagogical demo** (Twitch / LinkedIn live, 35-40 min) of Terraform 1.14 **search**: discover
+A **pedagogical demo** (live tech session, 35-40 min) of Terraform 1.14 **search**: discover
 unmanaged infrastructure with `list` blocks (`.tfquery.hcl`), generate config with
 `terraform query -generate-config-out`, and import it in bulk.
 
