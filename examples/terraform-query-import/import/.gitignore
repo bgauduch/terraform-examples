@@ -1,0 +1,2 @@
+# Configuration generated live by `terraform query -generate-config-out=generated.tf`
+generated.tf
