@@ -8,7 +8,7 @@ Taxonomy: **type `lab`** - progressive, playable in a live session. Tags: `aws`,
 
 ## Purpose and scope
 
-A **pedagogical demo** (supporting content for a Twitch / LinkedIn live, 30-45 min). It illustrates
+A **pedagogical demo** (supporting content for a live tech session, 30-45 min). It illustrates
 Terraform 1.14 **actions**: binding the native `aws_cloudfront_create_invalidation` action to an
 S3 object's lifecycle so the CDN cache is invalidated on every content change.
 
