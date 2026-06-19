@@ -1,0 +1,26 @@
+avoid empty return in instance bootstrap ceration for query import example
+
+---
+
+make idempotent
+
+---
+
+proagate no json output to destroy script
+
+---
+
+command output issu, only showing 1 instance but destroying 2 :
+
+---
+
+command output issu, only showing 1 instance but destroying 2 : ./destroy-unmanaged.sh
+Terminating: i-04f16c9f6c1fb7112        i-095a8b6fa99055b4f
+
+---
+
+Fait une passe d'hardening sur les instances qui sont déployées parce que là en l'état, elles ont une IP publique, etc. Donc propose une solution pour avoir quelque chose qui n'est pas exposé, qui est très simple, qui est sécurisé à minimum.
+
+---
+
+Vérifiez qu'il n'y a pas de ressources en Leftover à part les dernières instances déployées sur le compte AWS pour être sûr que je ne suis pas en train de payer du storage ou des blocs EBS qui traînent ou des adresses IP, des EIP, les choses comme ça.

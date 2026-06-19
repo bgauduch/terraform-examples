@@ -1,0 +1,98 @@
+{
+  "cli_version": "0.7.5",
+  "checkpoint_id": "48df76e4e7a4",
+  "session_id": "070dfab3-66ea-43b5-89e6-a6c210ef4534",
+  "strategy": "manual-commit",
+  "created_at": "2026-06-19T10:18:11.416664Z",
+  "branch": "fix/terraform-query-import",
+  "checkpoints_count": 6,
+  "files_touched": [
+    ".gitignore",
+    "examples/terraform-query-import/AGENTS.md",
+    "examples/terraform-query-import/README.md",
+    "examples/terraform-query-import/bootstrap/create-unmanaged.sh",
+    "examples/terraform-query-import/bootstrap/destroy-unmanaged.sh",
+    "examples/terraform-query-import/import/search.tfquery.hcl"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-opus-4-8[1m]",
+  "turn_id": "b52eb1cac7f6",
+  "token_usage": {
+    "input_tokens": 4806,
+    "cache_creation_tokens": 27383,
+    "cache_read_tokens": 959541,
+    "output_tokens": 12424,
+    "api_call_count": 31
+  },
+  "session_metrics": {
+    "turn_count": 6
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-06-19T10:18:11.413261Z",
+    "agent_lines": 17,
+    "agent_removed": 4,
+    "human_added": 0,
+    "human_modified": 1,
+    "human_removed": 34,
+    "total_committed": 17,
+    "total_lines_changed": 56,
+    "agent_percentage": 37.5,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 74,
+      "user_lines_removed": 23,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        "examples/terraform-query-import/AGENTS.md": 4,
+        "examples/terraform-query-import/README.md": 15,
+        "examples/terraform-query-import/bootstrap/create-unmanaged.sh": 22,
+        "examples/terraform-query-import/import/search.tfquery.hcl": 33
+      },
+      "user_removed_per_file": {
+        "examples/terraform-query-import/AGENTS.md": 2,
+        "examples/terraform-query-import/README.md": 8,
+        "examples/terraform-query-import/bootstrap/create-unmanaged.sh": 10,
+        "examples/terraform-query-import/import/search.tfquery.hcl": 3
+      }
+    },
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 80,
+      "agent_lines_removed": 23
+    },
+    {
+      "checkpoint_number": 3,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 96,
+      "agent_lines_removed": 23
+    },
+    {
+      "checkpoint_number": 4,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 100,
+      "agent_lines_removed": 25
+    },
+    {
+      "checkpoint_number": 5,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 104,
+      "agent_lines_removed": 27
+    },
+    {
+      "checkpoint_number": 6,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 113,
+      "agent_lines_removed": 27
+    }
+  ]
+}
