@@ -15,16 +15,23 @@ list block (.tfquery.hcl)  ->  terraform query  ->  -generate-config-out  ->  pl
    what to look for            what's out there       resource + import          review    bulk import
 ```
 
-A `list` block says which provider to use and how to filter:
+Each `list` block says which provider to use and how to filter. Stacking several blocks
+**segments** the import - one fleet per block, grouped under `list.<type>.<label>`:
 
 ```hcl
-list "aws_instance" "clickops" {
+list "aws_instance" "general" {
   provider = aws
   config {
-    filter {
-      name   = "tag:demo"
-      values = ["clickops"]
-    }
+    filter { name = "tag:demo"      values = ["clickops"] }
+    filter { name = "instance-type" values = ["t3.micro"] }
+  }
+}
+
+list "aws_instance" "compute" {
+  provider = aws
+  config {
+    filter { name = "tag:demo"      values = ["clickops"] }
+    filter { name = "instance-type" values = ["t3.small"] }
   }
 }
 ```
@@ -39,14 +46,15 @@ terraform-query-import/
 └── import/                    # the Terraform root module
     ├── providers.tf
     ├── variables.tf
-    └── search.tfquery.hcl     # the list block(s); generated.tf lands here at demo time
+    ├── search.tfquery.hcl     # the list block(s); generated.tf lands here at demo time
+    └── clean.sh               # reset local demo artifacts for a fresh replay
 ```
 
 `bootstrap/` has no `providers.tf` on purpose, so CI does not try to plan it.
 
 ## Prerequisites
 
-- **Terraform `>= 1.14.0`** (pinned via `.terraform-version`; `terraform query` does not exist before 1.14).
+- **Terraform `>= 1.14.0`** (pinned to `1.14.9` via `.terraform-version`; `terraform query` does not exist before 1.14).
 - **AWS provider `6.41.0`** and the AWS CLI with valid credentials. Default region: `eu-west-1`.
 
 ## Run (live demo)
@@ -55,7 +63,7 @@ terraform-query-import/
 
    ```bash
    cd bootstrap
-   ./create-unmanaged.sh          # launches 2 t3.micro instances tagged demo=clickops
+   ./create-unmanaged.sh          # 2 instances tagged demo=clickops: t3.micro (tier=general) + t3.small (tier=compute)
    ```
 
 2. Discover it from the root module:
@@ -63,7 +71,7 @@ terraform-query-import/
    ```bash
    cd ../import
    terraform init
-   terraform query                # lists the instances matching the list block
+   terraform query                # lists instances, grouped per list block (general / compute)
    ```
 
 3. Generate configuration + `import` blocks for what was found:
@@ -73,7 +81,19 @@ terraform-query-import/
    # open generated.tf - it now holds resource blocks AND import blocks (with identities)
    ```
 
-4. Review and import in bulk:
+4. Review and fix the generated config. `-generate-config-out` emits **every** schema
+   attribute and ignores the provider's `ConflictsWith` rules, so `plan` fails on mutually
+   exclusive arguments. For `aws_instance` you must drop one side of each pair:
+
+   ```bash
+   terraform plan                 # FAILS: "Conflicting configuration arguments"
+   ```
+
+   In `generated.tf`, remove the `primary_network_interface {}` block (conflicts with
+   `associate_public_ip_address`) and the `ipv6_addresses = []` line (conflicts with
+   `ipv6_address_count`). Generation is a starting point, not plan-ready output.
+
+5. Import in bulk:
 
    ```bash
    terraform plan                 # shows the imports, no resource changes
@@ -81,13 +101,20 @@ terraform-query-import/
    terraform plan                 # clean - nothing to change
    ```
 
-5. Teardown - now that they are managed, let Terraform remove them:
+6. Teardown - now that they are managed, let Terraform remove them:
 
    ```bash
    terraform destroy
    ```
 
    (If you stop before importing, run `../bootstrap/destroy-unmanaged.sh` instead.)
+
+7. Reset for a fresh replay - drop the local demo artifacts (generated config, state,
+   provider cache); keeps the committed files. Tear down AWS resources **before** this:
+
+   ```bash
+   ./clean.sh
+   ```
 
 ## Notes
 

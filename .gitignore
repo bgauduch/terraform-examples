@@ -48,6 +48,9 @@ tasks/todo.md
 .continue/
 .codeium/
 
+# Bootstrap-launched instance IDs (terraform-query-import lab), local-only
+created-instances.txt
+
 # OS-generated files
 .DS_Store
 Thumbs.db

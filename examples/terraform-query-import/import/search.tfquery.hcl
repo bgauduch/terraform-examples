@@ -6,15 +6,45 @@
 #   terraform plan                                     # review the import plan
 #   terraform apply                                    # import in bulk into state
 #
-# This list discovers EC2 instances created out-of-band (see bootstrap/) and tagged
-# demo=clickops, so we can bring them under Terraform management.
-list "aws_instance" "clickops" {
+# These lists discover EC2 instances created out-of-band (see bootstrap/) and tagged
+# demo=clickops. One list block per instance-type demonstrates *segmented* bulk import:
+# each category is grouped under its own list.<type>.<label>, so you import a fleet at a
+# time. In prod, swap the instance-type values (e.g. g5.* / p4d.* for a GPU fleet) or the
+# resource type itself (aws_s3_object, aws_route53_record, ...) - same mechanic.
+
+list "aws_instance" "general" {
   provider = aws
 
   config {
     filter {
       name   = "tag:demo"
       values = ["clickops"]
+    }
+
+    filter {
+      name   = "instance-type"
+      values = ["t3.micro"]
+    }
+
+    filter {
+      name   = "instance-state-name"
+      values = ["running", "stopped"]
+    }
+  }
+}
+
+list "aws_instance" "compute" {
+  provider = aws
+
+  config {
+    filter {
+      name   = "tag:demo"
+      values = ["clickops"]
+    }
+
+    filter {
+      name   = "instance-type"
+      values = ["t3.small"]
     }
 
     filter {
