@@ -18,8 +18,10 @@ under management. Keep resources cheap (t3.micro) and remind users to destroy.
 ## Architecture
 
 - `bootstrap/` - shell scripts using the AWS CLI to create/destroy EC2 instances tagged
-  `demo=clickops`, entirely **outside** Terraform. No `providers.tf` here, so CI ignores it.
-- `import/` - the Terraform root module. `search.tfquery.hcl` holds the `list` block(s); the
+  `demo=clickops`, entirely **outside** Terraform. Two categories (`tier=general` t3.micro,
+  `tier=compute` t3.small) feed the segmented-import demo. No `providers.tf` here, so CI ignores it.
+- `import/` - the Terraform root module. `search.tfquery.hcl` holds two `list` blocks
+  (`general` / `compute`, one per instance-type) to demo segmented bulk import; the
   `generated.tf` produced by `terraform query -generate-config-out` is **git-ignored** (a live
   artifact). The module ships with no `resource` blocks - they are generated during the demo.
 

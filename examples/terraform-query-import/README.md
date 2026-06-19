@@ -15,16 +15,23 @@ list block (.tfquery.hcl)  ->  terraform query  ->  -generate-config-out  ->  pl
    what to look for            what's out there       resource + import          review    bulk import
 ```
 
-A `list` block says which provider to use and how to filter:
+Each `list` block says which provider to use and how to filter. Stacking several blocks
+**segments** the import - one fleet per block, grouped under `list.<type>.<label>`:
 
 ```hcl
-list "aws_instance" "clickops" {
+list "aws_instance" "general" {
   provider = aws
   config {
-    filter {
-      name   = "tag:demo"
-      values = ["clickops"]
-    }
+    filter { name = "tag:demo"      values = ["clickops"] }
+    filter { name = "instance-type" values = ["t3.micro"] }
+  }
+}
+
+list "aws_instance" "compute" {
+  provider = aws
+  config {
+    filter { name = "tag:demo"      values = ["clickops"] }
+    filter { name = "instance-type" values = ["t3.small"] }
   }
 }
 ```
@@ -55,7 +62,7 @@ terraform-query-import/
 
    ```bash
    cd bootstrap
-   ./create-unmanaged.sh          # launches 2 t3.micro instances tagged demo=clickops
+   ./create-unmanaged.sh          # 2 instances tagged demo=clickops: t3.micro (tier=general) + t3.small (tier=compute)
    ```
 
 2. Discover it from the root module:
@@ -63,7 +70,7 @@ terraform-query-import/
    ```bash
    cd ../import
    terraform init
-   terraform query                # lists the instances matching the list block
+   terraform query                # lists instances, grouped per list block (general / compute)
    ```
 
 3. Generate configuration + `import` blocks for what was found:
