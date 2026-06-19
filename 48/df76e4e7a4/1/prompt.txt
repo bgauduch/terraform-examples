@@ -1,0 +1,5 @@
+add a quick cleanup script in import phase query example : to start fresh for the demo
+
+---
+
+yes

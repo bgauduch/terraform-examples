@@ -1,0 +1,80 @@
+{
+  "cli_version": "0.7.5",
+  "checkpoint_id": "48df76e4e7a4",
+  "session_id": "fab2ca4a-419c-4299-9261-517dfcbd8311",
+  "strategy": "manual-commit",
+  "created_at": "2026-06-19T10:18:14.539797Z",
+  "branch": "fix/terraform-query-import",
+  "checkpoints_count": 2,
+  "files_touched": [
+    ".gitignore",
+    "examples/terraform-query-import/AGENTS.md",
+    "examples/terraform-query-import/README.md",
+    "examples/terraform-query-import/bootstrap/create-unmanaged.sh",
+    "examples/terraform-query-import/bootstrap/destroy-unmanaged.sh",
+    "examples/terraform-query-import/import/search.tfquery.hcl"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-opus-4-8[1m]",
+  "turn_id": "032189cef854",
+  "token_usage": {
+    "input_tokens": 4593,
+    "cache_creation_tokens": 28634,
+    "cache_read_tokens": 572730,
+    "output_tokens": 8303,
+    "api_call_count": 18
+  },
+  "session_metrics": {
+    "turn_count": 2
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-06-19T10:18:14.53588Z",
+    "agent_lines": 0,
+    "agent_removed": 0,
+    "human_added": 0,
+    "human_modified": 1,
+    "human_removed": 38,
+    "total_committed": 12,
+    "total_lines_changed": 39,
+    "agent_percentage": 0,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 113,
+      "user_lines_removed": 27,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".gitignore": 3,
+        "examples/terraform-query-import/AGENTS.md": 4,
+        "examples/terraform-query-import/README.md": 15,
+        "examples/terraform-query-import/bootstrap/create-unmanaged.sh": 50,
+        "examples/terraform-query-import/bootstrap/destroy-unmanaged.sh": 8,
+        "examples/terraform-query-import/import/search.tfquery.hcl": 33
+      },
+      "user_removed_per_file": {
+        "examples/terraform-query-import/AGENTS.md": 2,
+        "examples/terraform-query-import/README.md": 8,
+        "examples/terraform-query-import/bootstrap/create-unmanaged.sh": 10,
+        "examples/terraform-query-import/bootstrap/destroy-unmanaged.sh": 4,
+        "examples/terraform-query-import/import/search.tfquery.hcl": 3
+      }
+    },
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 130,
+      "agent_lines_removed": 27
+    },
+    {
+      "checkpoint_number": 3,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 142,
+      "agent_lines_removed": 28
+    }
+  ]
+}

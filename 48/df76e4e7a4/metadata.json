@@ -3,7 +3,7 @@
   "checkpoint_id": "48df76e4e7a4",
   "strategy": "manual-commit",
   "branch": "fix/terraform-query-import",
-  "checkpoints_count": 6,
+  "checkpoints_count": 8,
   "files_touched": [
     ".gitignore",
     "examples/terraform-query-import/AGENTS.md",
@@ -18,13 +18,19 @@
       "transcript": "/48/df76e4e7a4/0/full.jsonl",
       "content_hash": "/48/df76e4e7a4/0/content_hash.txt",
       "prompt": "/48/df76e4e7a4/0/prompt.txt"
+    },
+    {
+      "metadata": "/48/df76e4e7a4/1/metadata.json",
+      "transcript": "/48/df76e4e7a4/1/full.jsonl",
+      "content_hash": "/48/df76e4e7a4/1/content_hash.txt",
+      "prompt": "/48/df76e4e7a4/1/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 4806,
-    "cache_creation_tokens": 27383,
-    "cache_read_tokens": 959541,
-    "output_tokens": 12424,
-    "api_call_count": 31
+    "input_tokens": 9399,
+    "cache_creation_tokens": 56017,
+    "cache_read_tokens": 1532271,
+    "output_tokens": 20727,
+    "api_call_count": 49
   }
 }
