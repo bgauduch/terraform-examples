@@ -1,0 +1,9 @@
+Est-ce que le message du titre de l'APR est cohérent avec tous les changements qui sont dedans ?
+
+---
+
+go
+
+---
+
+Ah mince, j'ai mergé, mais je pense que dans le merge, on a embarqué le descriptif de l'APR qui lui non plus n'était pas à jour. Est-ce qu'on peut corriger ça sur la branche main ?
