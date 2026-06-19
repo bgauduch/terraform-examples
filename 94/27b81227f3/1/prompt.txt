@@ -1,0 +1,9 @@
+add a quick cleanup script in import phase query example : to start fresh for the demo
+
+---
+
+yes
+
+---
+
+Ok, fais-moi un commit, pour que ce soit prêt, enfin regroupe les éléments dans des commits cohérents en suivant les conventions conventionnelles, comiques et compagnie. Et puis, poche ça sur la branche pour que ce soit prêt pour la démo tout à l'heure.
