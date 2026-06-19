@@ -41,6 +41,9 @@ terraform plan && terraform apply
 # teardown
 terraform destroy            # if imported
 # ../bootstrap/destroy-unmanaged.sh   # if NOT imported
+
+# reset for a fresh replay (local artifacts only - tear down AWS first)
+./clean.sh                   # rm .terraform/, generated.tf, terraform.tfstate*
 ```
 
 Validation before committing: `terraform fmt -recursive` (root) and `terraform validate` in

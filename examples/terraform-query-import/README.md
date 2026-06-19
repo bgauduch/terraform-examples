@@ -46,7 +46,8 @@ terraform-query-import/
 └── import/                    # the Terraform root module
     ├── providers.tf
     ├── variables.tf
-    └── search.tfquery.hcl     # the list block(s); generated.tf lands here at demo time
+    ├── search.tfquery.hcl     # the list block(s); generated.tf lands here at demo time
+    └── clean.sh               # reset local demo artifacts for a fresh replay
 ```
 
 `bootstrap/` has no `providers.tf` on purpose, so CI does not try to plan it.
@@ -107,6 +108,13 @@ terraform-query-import/
    ```
 
    (If you stop before importing, run `../bootstrap/destroy-unmanaged.sh` instead.)
+
+7. Reset for a fresh replay - drop the local demo artifacts (generated config, state,
+   provider cache); keeps the committed files. Tear down AWS resources **before** this:
+
+   ```bash
+   ./clean.sh
+   ```
 
 ## Notes
 
