@@ -1,0 +1,1 @@
+Ok, go push en l'état sur ce qui a été comité, en vérifiant que ça ne remporte que nos modifications.
