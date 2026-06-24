@@ -1,6 +1,6 @@
 # Plan tests: prove that variables wire into the planned config.
 # mock_provider -> no credential, fast, runs in CI without a secret.
-# The file-level variables block sets defaults for EVERY run (live tip).
+# The file-level variables block sets defaults for EVERY run.
 
 mock_provider "aws" {}
 

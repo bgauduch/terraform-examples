@@ -1,4 +1,3 @@
-# Demo run-of-show - live "Terraform test" (2026-06-25).
 # terraform 1.15.6 (see .terraform-version). The real apply targets the AWS account of $AWS_PROFILE.
 # Targets are ordered as the progressive demo stages (read the README "Progressive demo").
 

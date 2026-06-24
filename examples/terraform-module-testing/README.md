@@ -2,7 +2,7 @@
 
 > **type** `lab` · **tags** `aws` `terraform-test` `testing` `s3` `validation` `mock` `parallel`
 
-Test a Terraform module with the native `terraform test` framework, as a **progressive live demo**: validate the inputs, break it on purpose, plan it without the cloud, then deploy it for real and assert the resources. Companion to the "Terraform test" live (2026-06-25). No Go, pure HCL.
+Test a Terraform module with the native `terraform test` framework, as a **progressive demo**: validate the inputs, break it on purpose, plan it without the cloud, then deploy it for real and assert the resources. No Go, pure HCL.
 
 ## The test pyramid (rather, a diamond)
 
