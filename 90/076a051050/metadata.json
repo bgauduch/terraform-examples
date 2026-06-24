@@ -4,13 +4,25 @@
   "strategy": "manual-commit",
   "branch": "feat/terraform-module-testing",
   "checkpoints_count": 1,
-  "files_touched": null,
+  "files_touched": [
+    "examples/terraform-module-testing/AGENTS.md",
+    "examples/terraform-module-testing/Makefile",
+    "examples/terraform-module-testing/README.md",
+    "examples/terraform-module-testing/tests/plan.tftest.hcl",
+    "examples/terraform-module-testing/tests/validations.tftest.hcl"
+  ],
   "sessions": [
     {
       "metadata": "/90/076a051050/0/metadata.json",
       "transcript": "/90/076a051050/0/full.jsonl",
       "content_hash": "/90/076a051050/0/content_hash.txt",
       "prompt": "/90/076a051050/0/prompt.txt"
+    },
+    {
+      "metadata": "/90/076a051050/1/metadata.json",
+      "transcript": "/90/076a051050/1/full.jsonl",
+      "content_hash": "/90/076a051050/1/content_hash.txt",
+      "prompt": ""
     }
   ],
   "token_usage": {
