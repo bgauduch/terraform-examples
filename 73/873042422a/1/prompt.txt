@@ -1,0 +1,1 @@
+Ok, go commit pour tous les fichiers qui sont liés à notre chaîne, peu importe s'il y a d'autres modifs dedans, simplement essayez d'avoir des messages de commit cohérents.
