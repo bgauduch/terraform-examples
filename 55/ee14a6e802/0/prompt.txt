@@ -1,0 +1,5 @@
+Go pour l'ajout des pre-commit. Vérifie qu'on a bien tracé ce qui reste en Golden Feature au bon endroit en mode end-off.
+
+---
+
+Pourquoi tu me parles d'issue, là ?
