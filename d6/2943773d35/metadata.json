@@ -5,9 +5,27 @@
   "branch": "feat/terraform-module-testing",
   "checkpoints_count": 0,
   "files_touched": [
+    "README.md",
+    "examples/terraform-module-testing/.terraform-version",
+    "examples/terraform-module-testing/.terraform.lock.hcl",
+    "examples/terraform-module-testing/.tflint.hcl",
+    "examples/terraform-module-testing/AGENTS.md",
+    "examples/terraform-module-testing/Makefile",
+    "examples/terraform-module-testing/README.md",
+    "examples/terraform-module-testing/main.tf",
     "examples/terraform-module-testing/modules/s3-bucket/main.tf",
+    "examples/terraform-module-testing/modules/s3-bucket/outputs.tf",
+    "examples/terraform-module-testing/modules/s3-bucket/variables.tf",
+    "examples/terraform-module-testing/modules/s3-bucket/versions.tf",
+    "examples/terraform-module-testing/outputs.tf",
+    "examples/terraform-module-testing/providers.tf",
+    "examples/terraform-module-testing/sweep.sh",
+    "examples/terraform-module-testing/tests/deploy.tftest.hcl",
     "examples/terraform-module-testing/tests/parallel.tftest.hcl",
-    "examples/terraform-module-testing/tests/setup/main.tf"
+    "examples/terraform-module-testing/tests/plan.tftest.hcl",
+    "examples/terraform-module-testing/tests/setup/main.tf",
+    "examples/terraform-module-testing/tests/validations.tftest.hcl",
+    "examples/terraform-module-testing/variables.tf"
   ],
   "sessions": [
     {
@@ -15,13 +33,19 @@
       "transcript": "/d6/2943773d35/0/full.jsonl",
       "content_hash": "/d6/2943773d35/0/content_hash.txt",
       "prompt": ""
+    },
+    {
+      "metadata": "/d6/2943773d35/1/metadata.json",
+      "transcript": "/d6/2943773d35/1/full.jsonl",
+      "content_hash": "/d6/2943773d35/1/content_hash.txt",
+      "prompt": "/d6/2943773d35/1/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 3032,
-    "cache_creation_tokens": 33422,
-    "cache_read_tokens": 190384,
-    "output_tokens": 5953,
-    "api_call_count": 6
+    "input_tokens": 40295,
+    "cache_creation_tokens": 2449269,
+    "cache_read_tokens": 42273979,
+    "output_tokens": 459358,
+    "api_call_count": 111
   }
 }
