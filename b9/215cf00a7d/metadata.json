@@ -1,0 +1,25 @@
+{
+  "cli_version": "0.7.5",
+  "checkpoint_id": "b9215cf00a7d",
+  "strategy": "manual-commit",
+  "branch": "feat/terraform-module-testing",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "AGENTS.md"
+  ],
+  "sessions": [
+    {
+      "metadata": "/b9/215cf00a7d/0/metadata.json",
+      "transcript": "/b9/215cf00a7d/0/full.jsonl",
+      "content_hash": "/b9/215cf00a7d/0/content_hash.txt",
+      "prompt": "/b9/215cf00a7d/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 5253,
+    "cache_creation_tokens": 163162,
+    "cache_read_tokens": 1923166,
+    "output_tokens": 37403,
+    "api_call_count": 26
+  }
+}
