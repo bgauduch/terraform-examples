@@ -1,0 +1,33 @@
+push la branche et go suite
+
+---
+
+go
+
+---
+
+pas grave si c'est commit, move on
+
+---
+
+ou est la description pour l'vénnement ?
+
+---
+
+ou est la description pour l'vénnement ?
+
+---
+
+et le titre, avant de continuer ?
+
+---
+
+il y a un sujet : le titre doit être commun à tous les live, avec le prefix "live tech_" qui va bien.
+refait des proposition + propose un plan avec les option spour bien tracer ce comportement dans le process editorial
+
+---
+
+ok pour suivi : event programmé, lien code et stream envoyé en commentaire
+tu peux continuer sur le reste.
+
+option C pour le titre / option 3
