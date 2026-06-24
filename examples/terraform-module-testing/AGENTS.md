@@ -36,6 +36,7 @@ make test                       # full suite, real apply (requires AWS_PROFILE)
 
 ## Conventions
 
-- Single-type variables rather than complex objects: isolates each validator's error message.
+- Prefer multiple single-type variables over one complex `object`. A custom `validation` reports against the whole variable, never the offending attribute (still a gap in 1.15), so single-type variables keep each error message specific and each `run` atomic. Native type/required-attribute errors do name the attribute - only custom rules don't.
+- Interpolate the rejected value into `error_message` (Terraform 1.6+) for context - see the `environment` validation. Since 1.9 the diagnostic also echoes the values the condition referenced.
 - One atomic `run` per validator (easy to read, cheap plan-only).
 - S3 `versioning` = `Enabled` / `Suspended` (never `Disabled`).

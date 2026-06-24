@@ -18,8 +18,9 @@ variable "environment" {
   type        = string
 
   validation {
+    # error_message can interpolate the rejected value (Terraform 1.6+) for extra context.
     condition     = contains(["dev", "staging", "prod"], var.environment)
-    error_message = "environment must be one of: dev, staging, prod."
+    error_message = "environment must be one of dev, staging, prod; got '${var.environment}'."
   }
 }
 
