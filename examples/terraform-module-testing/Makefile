@@ -1,32 +1,38 @@
 # Demo run-of-show - live "Terraform test" (2026-06-25).
-# terraform 1.15.6 (cf .terraform-version). L'apply réel cible le profil AWS sandbox.
-TF := terraform
+# terraform 1.15.6 (see .terraform-version). The real apply targets the sandbox AWS profile.
+# Targets are ordered as the progressive demo stages (read the README "Progressive demo").
 
-.PHONY: init fmt validate test test-fast test-deploy test-parallel sweep clean
+.PHONY: init fmt validate test-validate test-plan test-fast test-deploy test-parallel test sweep clean
 
-init:          ## init (providers : aws + random)
-	$(TF) init
+init:           ## init (providers: aws + random)
+	terraform init
 
-fmt:           ## format check
-	$(TF) fmt -recursive -check -diff
+fmt:            ## format check
+	terraform fmt -recursive -check -diff
 
-validate:      ## validate la config
-	$(TF) validate
+validate:       ## validate the config
+	terraform validate
 
-test-fast:     ## couche creds-free : validations + plan mocké (tourne en CI sans secret)
-	$(TF) test -filter=tests/validations.tftest.hcl -filter=tests/plan.tftest.hcl -verbose
+test-validate:  ## Stage 1 - variable validations only (expect_failures, creds-free)
+	terraform test -filter=tests/validations.tftest.hcl -verbose
 
-test-deploy:   ## integration : apply réel sur AWS (AWS_PROFILE=sandbox requis)
-	AWS_PROFILE=sandbox $(TF) test -filter=tests/deploy.tftest.hcl
+test-plan:      ## Stage 2 - mocked plan assertions only (mock_provider, creds-free)
+	terraform test -filter=tests/plan.tftest.hcl -verbose
 
-test-parallel: ## parallel + state_key : 2 déploiements concurrents (AWS_PROFILE=sandbox)
-	AWS_PROFILE=sandbox $(TF) test -filter=tests/parallel.tftest.hcl
+test-fast:      ## Stages 1+2 - creds-free layer (runs in CI without secrets)
+	terraform test -filter=tests/validations.tftest.hcl -filter=tests/plan.tftest.hcl -verbose
 
-test:          ## suite complète (AWS_PROFILE=sandbox pour les couches apply)
-	AWS_PROFILE=sandbox $(TF) test
+test-deploy:    ## Stage 3 - integration: real apply on AWS (requires AWS_PROFILE=sandbox)
+	AWS_PROFILE=sandbox terraform test -filter=tests/deploy.tftest.hcl
 
-sweep:         ## nettoyage des ressources orphelines par tag (cf sweep.sh)
+test-parallel:  ## Stage 4 - parallel + state_key: 2 concurrent deployments (AWS_PROFILE=sandbox)
+	AWS_PROFILE=sandbox terraform test -filter=tests/parallel.tftest.hcl
+
+test:           ## full suite (AWS_PROFILE=sandbox for the apply stages)
+	AWS_PROFILE=sandbox terraform test
+
+sweep:          ## clean up orphaned resources by tag (see sweep.sh)
 	./sweep.sh
 
-clean:         ## supprime l'état local terraform
+clean:          ## remove local terraform state
 	find . -type d -name '.terraform' -prune -exec rm -rf {} + ; find . -name '*.tfstate*' -delete

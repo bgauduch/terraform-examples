@@ -1,6 +1,6 @@
 locals {
-  # count d'une ressource conditionnelle, piloté par le flag ; l'ARN reste dans la
-  # condition (continuité live deferred actions, garanti non-null par la validation croisée).
+  # count of a conditional resource, driven by the flag; the ARN stays in the
+  # condition (continuity with the deferred-actions live, non-null guaranteed by the cross-validation).
   kms_enabled = var.enable_encryption && var.kms_key_arn != null
 }
 
