@@ -7,7 +7,7 @@
 #   ./sweep.sh           # list tagged buckets (dry-run)
 #   ./sweep.sh --force   # empty then delete each tagged bucket
 #
-# Requires AWS_PROFILE (e.g. sandbox). Tooled alternative: aws-nuke / awsweeper
+# Requires AWS_PROFILE to be exported. Tooled alternative: aws-nuke / awsweeper
 # filtered on the same tag.
 set -euo pipefail
 

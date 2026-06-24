@@ -13,11 +13,16 @@ Native `terraform test` covers the bottom and middle of the pyramid; the top (e2
 | Static (lint/scan) | - | syntax, security, policy | none | `fmt` `validate` (+ CI tflint/trivy) |
 | Unit-ish: validation | **1** | inputs fail fast (`expect_failures`) | none (mock) | `test-validate` |
 | Unit-ish: plan | **2** | variables wire into the planned config (`mock_provider`) | none (mock) | `test-plan` |
-| Integration | **3** | real apply, resources assert, auto-destroy | yes (sandbox) | `test-deploy` |
-| Integration: scale | **4** | `parallel` + `state_key`, concurrent deploys | yes (sandbox) | `test-parallel` |
+| Integration | **3** | real apply, resources assert, auto-destroy | yes | `test-deploy` |
+| Integration: scale | **4** | `parallel` + `state_key`, concurrent deploys | yes | `test-parallel` |
 | E2e / polling | - | out of native scope → Terratest | - | - |
 
-The first two stages run **without credentials** (CI without secrets). The last two deploy on a real account (`AWS_PROFILE=sandbox`) and `terraform test` destroys at the end of each file.
+The first two stages run **without credentials** (CI without secrets). The last two deploy on a real account and `terraform test` destroys at the end of each file. Authenticate first and export your profile (replace `<profile>` with your SSO profile):
+
+```bash
+aws sso login --profile <profile>
+export AWS_PROFILE=<profile>
+```
 
 ## Stage 0 - read the module (no test yet)
 
@@ -53,7 +58,7 @@ make test-fast                  # stages 1+2 combined (the CI layer)
 `tests/deploy.tftest.hcl` - `command = apply` on a real account. A `setup` helper module mints a random suffix for a globally unique bucket name; assertions run against the real outputs; `terraform test` destroys everything at the end of the file.
 
 ```bash
-AWS_PROFILE=sandbox make test-deploy
+make test-deploy                # uses your exported AWS_PROFILE
 ```
 
 ## Stage 4 - parallel runs (`state_key`)
@@ -61,8 +66,8 @@ AWS_PROFILE=sandbox make test-deploy
 `tests/parallel.tftest.hcl` - the same example deployed twice concurrently. `parallel = true` (Terraform 1.12+) plus a distinct `state_key` (1.11+) isolate the state of each run, so they run at the same time without collision.
 
 ```bash
-AWS_PROFILE=sandbox make test-parallel
-AWS_PROFILE=sandbox make test    # the full 14-run suite (apply + auto-destroy)
+make test-parallel
+make test                       # the full 14-run suite (apply + auto-destroy)
 ```
 
 ## Cleanup on crash

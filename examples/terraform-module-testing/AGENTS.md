@@ -15,7 +15,7 @@ Demonstrate the native `terraform test` framework on a reusable S3 module: valid
 - `tests/`:
   - `validations.tftest.hcl`: `expect_failures`, plan-only, creds-free (mock).
   - `plan.tftest.hcl`: `mock_provider`, assertions on the planned config, creds-free.
-  - `deploy.tftest.hcl`: real apply (AWS_PROFILE=sandbox), resource assertions, auto-destroy.
+  - `deploy.tftest.hcl`: real apply (requires AWS_PROFILE), resource assertions, auto-destroy.
   - `parallel.tftest.hcl`: `parallel` + `state_key`, 2 concurrent deployments.
   - `setup/`: helper module (random suffix for unique names).
 
@@ -30,7 +30,7 @@ make init
 make test-validate              # Stage 1 - validations only (creds-free)
 make test-plan                  # Stage 2 - mocked plan only (creds-free)
 make test-fast                  # Stages 1+2 (CI without secret)
-AWS_PROFILE=sandbox make test    # full suite, real apply
+make test                       # full suite, real apply (requires AWS_PROFILE)
 ./sweep.sh                      # clean orphans by tag (dry-run)
 ```
 

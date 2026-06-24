@@ -1,6 +1,6 @@
 # Parallelism: deploy the example twice in parallel without collision.
 # Distinct state_key -> isolated state (1.11+); parallel = true runs them concurrently (1.12+).
-# Requires AWS credentials (AWS_PROFILE=sandbox).
+# Requires AWS credentials (export AWS_PROFILE).
 
 run "setup" {
   module {

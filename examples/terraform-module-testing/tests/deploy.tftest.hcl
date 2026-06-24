@@ -1,6 +1,6 @@
-# Integration test: deploy the example on real AWS (sandbox profile) and assert
+# Integration test: deploy the example on real AWS and assert
 # the resource values. terraform test destroys everything at the end of the file.
-# Requires AWS credentials (AWS_PROFILE=sandbox). The random suffix makes the
+# Requires AWS credentials (export AWS_PROFILE). The random suffix makes the
 # bucket name globally unique.
 
 run "setup" {
