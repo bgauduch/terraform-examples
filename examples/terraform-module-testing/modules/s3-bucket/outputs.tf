@@ -14,7 +14,7 @@ output "versioning_status" {
 }
 
 output "encryption_enabled" {
-  description = "Whether SSE-KMS encryption is configured."
+  description = "True when a customer-managed key (CMK) is in use (else the AWS-managed key)."
   value       = local.kms_enabled
 }
 

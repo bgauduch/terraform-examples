@@ -36,7 +36,7 @@ run "public_access_fully_blocked" {
   }
 }
 
-run "no_encryption_block_without_key" {
+run "falls_back_to_managed_key_without_cmk" {
   command = plan
   module {
     source = "./modules/s3-bucket"
@@ -46,12 +46,16 @@ run "no_encryption_block_without_key" {
     kms_key_arn       = null
   }
   assert {
-    condition     = length(aws_s3_bucket_server_side_encryption_configuration.this) == 0
-    error_message = "encryption config must be absent when no KMS key is provided"
+    condition     = one(aws_s3_bucket_server_side_encryption_configuration.this.rule).apply_server_side_encryption_by_default[0].sse_algorithm == "aws:kms"
+    error_message = "the bucket must be encrypted with SSE-KMS even without a CMK"
+  }
+  assert {
+    condition     = output.encryption_enabled == false
+    error_message = "no CMK must be in use when none is provided (AWS-managed key fallback)"
   }
 }
 
-run "encryption_block_present_with_key" {
+run "uses_provided_cmk" {
   command = plan
   module {
     source = "./modules/s3-bucket"
@@ -61,11 +65,7 @@ run "encryption_block_present_with_key" {
     kms_key_arn       = "arn:aws:kms:eu-west-1:111122223333:key/demo-key"
   }
   assert {
-    condition     = length(aws_s3_bucket_server_side_encryption_configuration.this) == 1
-    error_message = "encryption config must be present when a KMS key is provided"
-  }
-  assert {
-    condition     = one(aws_s3_bucket_server_side_encryption_configuration.this[0].rule).apply_server_side_encryption_by_default[0].kms_master_key_id == "arn:aws:kms:eu-west-1:111122223333:key/demo-key"
-    error_message = "the provided KMS key ARN must propagate to the encryption rule"
+    condition     = one(aws_s3_bucket_server_side_encryption_configuration.this.rule).apply_server_side_encryption_by_default[0].kms_master_key_id == "arn:aws:kms:eu-west-1:111122223333:key/demo-key"
+    error_message = "the provided CMK ARN must propagate to the encryption rule"
   }
 }

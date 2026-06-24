@@ -31,6 +31,6 @@ run "deploy_and_assert" {
 
   assert {
     condition     = output.encryption_enabled == false
-    error_message = "encryption must be off when no KMS key is provided"
+    error_message = "CMK encryption must be off (AWS-managed key fallback) when no key is provided"
   }
 }
