@@ -29,7 +29,7 @@ export AWS_PROFILE=<profile>
 `modules/s3-bucket/` creates an S3 bucket with versioning, public-access blocking and conditional SSE-KMS encryption. It encodes decisions as guardrails:
 
 - **simple validations**: bucket name (S3 rules), `environment` (dev/staging/prod);
-- **cross-variable validations** (Terraform 1.9+): `enable_encryption` requires `kms_key_arn`; `prod` forbids `force_destroy`;
+- **cross-variable validations** (Terraform 1.9+): `enable_encryption` requires `kms_key_arn`; `force_destroy` is allowed only in an allow-listed environment (`local.force_destroy_allowed_envs`, deny-by-default);
 - **conditional encryption**: `count = local.kms_enabled ? 1 : 0`, where `kms_enabled = var.enable_encryption && var.kms_key_arn != null` (the flag arms it, the ARN is required by the cross-validation).
 
 The root (`main.tf` + `providers.tf`) is an example usage and the configuration under test. Open these first: the point is that a module is decisions you can prove.
@@ -39,7 +39,7 @@ The root (`main.tf` + `providers.tf`) is an example usage and the configuration 
 `tests/validations.tftest.hcl` - one atomic `run` per validator, `command = plan`, `expect_failures` against each `var.*`. The validation halts before any provider call, so the layer is credential-free.
 
 ```bash
-make test-validate              # 5 runs green, no AWS_PROFILE
+make test-validate              # 6 runs green, no AWS_PROFILE
 ```
 
 **Red → green demo**: comment out the cross-validation on `enable_encryption` in `modules/s3-bucket/variables.tf`, rerun: the `encryption_requires_kms_key` run goes red (its `expect_failures` is no longer satisfied). Restore the validation, rerun: green again. The test pins the guardrail.
@@ -67,7 +67,7 @@ make test-deploy                # uses your exported AWS_PROFILE
 
 ```bash
 make test-parallel
-make test                       # the full 14-run suite (apply + auto-destroy)
+make test                       # the full 15-run suite (apply + auto-destroy)
 ```
 
 ## Cleanup on crash

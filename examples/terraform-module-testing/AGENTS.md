@@ -10,7 +10,7 @@ Demonstrate the native `terraform test` framework on a reusable S3 module: valid
 
 ## Architecture
 
-- `modules/s3-bucket/`: the module under test (child). Simple validations (S3 name, environment) + cross-variable ones (encryption ⇒ KMS ARN; prod ⇒ no `force_destroy`). Conditional KMS encryption (`count` on the ARN).
+- `modules/s3-bucket/`: the module under test (child). Simple validations (S3 name, environment) + cross-variable ones (encryption ⇒ KMS ARN; `force_destroy` allow-listed per env, deny-by-default). Conditional KMS encryption (`count` on the ARN).
 - root (`main.tf` + `providers.tf`): example usage (root) + per-run `default_tags` for the sweeper.
 - `tests/`:
   - `validations.tftest.hcl`: `expect_failures`, plan-only, creds-free (mock).

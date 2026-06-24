@@ -2,6 +2,10 @@ locals {
   # True when a customer-managed key (CMK) is in use: encryption enabled AND a key
   # provided. Drives the CMK-vs-AWS-managed-key choice below and the encryption_enabled output.
   kms_enabled = var.enable_encryption && var.kms_key_arn != null
+
+  # Environments allowed to destroy a non-empty bucket (deny-by-default allow-list).
+  # Anything not listed - prod, staging, a future env, a typo - is denied.
+  force_destroy_allowed_envs = ["dev"]
 }
 
 resource "aws_s3_bucket" "this" {

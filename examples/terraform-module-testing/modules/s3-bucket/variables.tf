@@ -42,14 +42,15 @@ variable "kms_key_arn" {
 }
 
 variable "force_destroy" {
-  description = "Allow Terraform to destroy a non-empty bucket. Must stay false in prod."
+  description = "Allow Terraform to destroy a non-empty bucket. Permitted only in allow-listed environments (local.force_destroy_allowed_envs)."
   type        = bool
   default     = false
 
-  # Cross-variable validation (1.9+): prod forbids force_destroy.
+  # Cross-variable validation (1.9+): deny-by-default allow-list. 1.9 also lets a
+  # validation reference a local, not only another input variable.
   validation {
-    condition     = !(var.environment == "prod" && var.force_destroy)
-    error_message = "force_destroy must be false when environment is prod."
+    condition     = !var.force_destroy || contains(local.force_destroy_allowed_envs, var.environment)
+    error_message = "force_destroy=true is only allowed in non-production environments (dev)."
   }
 }
 

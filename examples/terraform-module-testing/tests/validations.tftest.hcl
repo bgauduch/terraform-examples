@@ -67,3 +67,18 @@ run "prod_forbids_force_destroy" {
   }
   expect_failures = [var.force_destroy]
 }
+
+# Deny-by-default: staging is not in the allow-list either, so force_destroy is
+# refused there too (the old blacklist on prod alone would have let this through).
+run "staging_forbids_force_destroy" {
+  command = plan
+  module {
+    source = "./modules/s3-bucket"
+  }
+  variables {
+    bucket_name   = "valid-bucket-name"
+    environment   = "staging"
+    force_destroy = true
+  }
+  expect_failures = [var.force_destroy]
+}
