@@ -32,11 +32,13 @@ Do **not** create top-level category directories (`patterns/`, `experiments/`...
 
 ## Repository standards
 
+- **Language**: English everywhere in committed content - code, comments, identifiers, docs, `README.md`, `AGENTS.md`, script output strings. No other language, including inside an example. (This repo is read on screen and public; mixed languages stand out.)
 - **Git flow**: GitHub flow (short-lived feature branches off `main`, PR review, squash-merge).
 - **Work tracking**: durable backlog = GitHub Issues + Milestone (a goal + its acceptance criteria); each PR references its issue (`Closes #N`). `main` carries no task file - session plans stay local/ephemeral. `tasks/lessons.md` holds durable repo lessons.
 - **Commit messages**: [Conventional Commits](https://www.conventionalcommits.org/) - `<type>(<scope>): <subject>`. Use the example name as scope when relevant (e.g. `feat(aws-multi-env): ...`).
   - Common types: `feat`, `fix`, `docs`, `chore`, `refactor`, `test`, `ci`, `build`.
   - Breaking changes: append `!` after type/scope or add a `BREAKING CHANGE:` footer.
   - Keep subject imperative, lowercase, no trailing period, ~72 chars max.
+  - Enforced in CI: `commitlint.yml` (commit messages, config-conventional) and `pr-title.yml` (semantic PR title, since squash-merge uses the PR title).
 - **Versioning**: [SemVer](https://semver.org/), repo-level single release line via release-please.
-- **Validation before commit**: `terraform fmt -recursive` (root) and `terraform validate` inside each touched root module.
+- **Validation before commit**: `terraform fmt -recursive` (root) and `terraform validate` inside each touched root module. Optional local mirror of the CI gates (fmt/tflint/validate) via a `.pre-commit-config.yaml` - not yet wired; add it if you want push-time enforcement.
