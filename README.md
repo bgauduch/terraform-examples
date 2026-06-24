@@ -15,6 +15,7 @@ Each example lives under [`examples/`](examples/) and is fully independent - its
 | [`aws-multi-env`](examples/aws-multi-env/) | `pattern` | `aws` `multi-env` `backend` `workspaces` | Four progressive patterns for managing multiple environments with Terraform CE on AWS. |
 | [`terraform-deferred-actions`](examples/terraform-deferred-actions/) | `experiment` | `rc` `deferred-actions` `kms` `unknown-at-plan` | Testing Terraform's experimental *deferred actions* (`plan -allow-deferral`) to inject a KMS key whose ARN is unknown at plan time. |
 | [`terraform-query-import`](examples/terraform-query-import/) | `lab` | `aws` `query` `import` `tfquery` `v1.14` | Discover unmanaged infrastructure with `terraform query` + `list` blocks, generate its config, and import it in bulk. |
+| [`terraform-module-testing`](examples/terraform-module-testing/) | `lab` | `aws` `terraform-test` `testing` `s3` `validation` | Test a reusable S3 module with the native `terraform test` framework: variable validations (`expect_failures`), plan assertions with `mock_provider`, real apply on AWS, and parallel runs with `state_key`. |
 
 ### Taxonomy
 
