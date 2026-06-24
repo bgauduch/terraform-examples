@@ -3,8 +3,10 @@
   "checkpoint_id": "73873042422a",
   "strategy": "manual-commit",
   "branch": "feat/terraform-module-testing",
-  "checkpoints_count": 1,
+  "checkpoints_count": 2,
   "files_touched": [
+    "examples/terraform-module-testing/AGENTS.md",
+    "examples/terraform-module-testing/README.md",
     "examples/terraform-module-testing/modules/s3-bucket/main.tf",
     "examples/terraform-module-testing/modules/s3-bucket/variables.tf",
     "examples/terraform-module-testing/tests/validations.tftest.hcl"
@@ -21,13 +23,19 @@
       "transcript": "/73/873042422a/1/full.jsonl",
       "content_hash": "/73/873042422a/1/content_hash.txt",
       "prompt": "/73/873042422a/1/prompt.txt"
+    },
+    {
+      "metadata": "/73/873042422a/2/metadata.json",
+      "transcript": "/73/873042422a/2/full.jsonl",
+      "content_hash": "/73/873042422a/2/content_hash.txt",
+      "prompt": "/73/873042422a/2/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 21388,
-    "cache_creation_tokens": 81178,
-    "cache_read_tokens": 2404487,
-    "output_tokens": 30367,
-    "api_call_count": 32
+    "input_tokens": 25112,
+    "cache_creation_tokens": 83377,
+    "cache_read_tokens": 3370917,
+    "output_tokens": 31730,
+    "api_call_count": 35
   }
 }
