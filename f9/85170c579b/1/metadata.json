@@ -1,0 +1,32 @@
+{
+  "cli_version": "0.7.5",
+  "checkpoint_id": "f985170c579b",
+  "session_id": "75174158-4589-4767-be27-983d6ce56e67",
+  "strategy": "manual-commit",
+  "created_at": "2026-06-24T18:52:07.51537Z",
+  "branch": "feat/terraform-module-testing",
+  "checkpoints_count": 1,
+  "files_touched": [],
+  "agent": "Claude Code",
+  "model": "",
+  "turn_id": "513d619ef810",
+  "token_usage": {
+    "input_tokens": 14798,
+    "cache_creation_tokens": 230641,
+    "cache_read_tokens": 5725062,
+    "output_tokens": 74712,
+    "api_call_count": 54
+  },
+  "session_metrics": {
+    "turn_count": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 51,
+      "agent_lines_removed": 26
+    }
+  ]
+}
