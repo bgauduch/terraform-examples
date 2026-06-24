@@ -1,0 +1,1 @@
+Dans le déroulé du README, il est censé y avoir une erreur pour avoir cet effet démo red-green, vérifie pourquoi ce n'est plus le cas, je pense que c'est lié au rework que l'on a fait sur la partie encryption, propose-moi une solution, un plan pour adapter avant modification.
