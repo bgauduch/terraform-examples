@@ -1,0 +1,13 @@
+Dans le déroulé du README, il est censé y avoir une erreur pour avoir cet effet démo red-green, vérifie pourquoi ce n'est plus le cas, je pense que c'est lié au rework que l'on a fait sur la partie encryption, propose-moi une solution, un plan pour adapter avant modification.
+
+---
+
+Ok, on laisse comme ça. Par contre, la dernière phase de nettoyage, c'est virer les références au live dans le code. On s'en fout. Ici, il faut qu'il n'y ait pas de couplage entre ce code d'exemple qui est unitaire, qui peut être utilisé seul, et le live en question qui peut utiliser ces codes comme support. Tu avais déjà fait cette erreur, je ne comprends pas pourquoi tu continues à faire ces putains de liens qui ne servent à rien.
+
+---
+
+Ok, ça pourrait être une bonne idée d'expliciter cette bonne pratique dans le commentaire associé à l'endroit où on a une note sur la ségrégation entre, enfin la bonne pratique pour le découpage des variables en une multitude de variables plutôt que d'avoir des objets qui viennent d'une conviction de prod, je suis revenu en arrière là-dessus, et de mettre effectivement l'accent sur la partie interpolation qui permet de donner un peu plus de contexte encore dans le message d'erreur. N'hésite pas d'ailleurs à l'illustrer dans l'une des validations que l'on fait pour montrer qu'on peut utiliser les interpolations Terraform dans les messages d'erreur. Voilà, propose-moi un change et puis on poussera ça si c'est cohérent.
+
+---
+
+verifie que l'on a tout fait, pas d'oublie dans la session, fait un handoff si nécessaire .
