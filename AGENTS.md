@@ -41,4 +41,4 @@ Do **not** create top-level category directories (`patterns/`, `experiments/`...
   - Keep subject imperative, lowercase, no trailing period, ~72 chars max.
   - Enforced in CI: `commitlint.yml` (commit messages, config-conventional) and `pr-title.yml` (semantic PR title, since squash-merge uses the PR title).
 - **Versioning**: [SemVer](https://semver.org/), repo-level single release line via release-please.
-- **Validation before commit**: `terraform fmt -recursive` (root) and `terraform validate` inside each touched root module. Optional local mirror of the CI gates (fmt/tflint/validate) via a `.pre-commit-config.yaml` - not yet wired; add it if you want push-time enforcement.
+- **Validation before commit**: `terraform fmt -recursive` (root) and `terraform validate` inside each touched root module. Optional local mirror of the CI gates lives in `.pre-commit-config.yaml` (fmt/validate/tflint + conventional commit-msg); enable with `pre-commit install --install-hooks && pre-commit install --hook-type commit-msg`.

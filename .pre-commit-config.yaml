@@ -1,0 +1,30 @@
+# Local mirror of the CI quality gates (see .github/workflows/terraform.yml + commitlint.yml).
+# Install: pipx install pre-commit && pre-commit install --install-hooks
+#          pre-commit install --hook-type commit-msg   # for conventional commits
+# Run on everything: pre-commit run --all-files
+repos:
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.99.0
+    hooks:
+      - id: terraform_fmt
+      - id: terraform_validate
+      - id: terraform_tflint
+        # Best-effort: discovers the per-example .tflint.hcl in each changed dir.
+        # CI remains the source of truth (passes --config explicitly per example).
+        args:
+          - --args=--format=compact
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-merge-conflict
+      - id: check-yaml
+      - id: mixed-line-ending
+
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: v4.2.0
+    hooks:
+      - id: conventional-pre-commit
+        stages: [commit-msg]
