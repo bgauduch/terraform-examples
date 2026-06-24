@@ -1,4 +1,4 @@
-# Exemple d'utilisation du module s3-bucket = configuration racine sous test.
+# Example usage of the s3-bucket module = root configuration under test.
 module "bucket" {
   source = "./modules/s3-bucket"
 

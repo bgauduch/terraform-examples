@@ -1,35 +1,41 @@
 # AGENTS.md - terraform-module-testing
 
-Guidance spécifique à cet exemple. Conventions repo : AGENTS.md racine.
+Example-specific guidance. Repo-wide conventions: root AGENTS.md.
 
-Taxonomy: **type lab** - support de live, étapes progressives. Tags: aws, terraform-test, testing, s3, validation, mock, parallel.
+Taxonomy: **type lab** - live support, progressive stages. Tags: aws, terraform-test, testing, s3, validation, mock, parallel.
 
 ## Purpose and scope
 
-Démontrer le framework `terraform test` natif sur un module S3 réutilisable : valider les entrées, faire échouer proprement (`expect_failures`), tester le plan sans cloud (`mock_provider`), déployer pour de vrai et asserter les ressources, paralléliser avec `state_key`. Pédagogique, pas une lib de prod.
+Demonstrate the native `terraform test` framework on a reusable S3 module: validate inputs, fail cleanly (`expect_failures`), test the plan without the cloud (`mock_provider`), deploy for real and assert resources, parallelize with `state_key`. Pedagogical, not a production library.
 
 ## Architecture
 
-- `modules/s3-bucket/` : le module sous test (child). Validations simples (nom S3, environnement) + croisées (chiffrement ⇒ ARN KMS ; prod ⇒ pas de `force_destroy`). Chiffrement KMS conditionnel (`count` sur l'ARN).
-- racine (`main.tf` + `providers.tf`) : exemple d'utilisation (root) + `default_tags` de run pour le sweeper.
-- `tests/` :
-  - `validations.tftest.hcl` : `expect_failures`, plan-only, creds-free (mock).
-  - `plan.tftest.hcl` : `mock_provider`, assertions sur la config planifiée, creds-free.
-  - `deploy.tftest.hcl` : apply réel (AWS_PROFILE=sandbox), assertions ressources, auto-destroy.
-  - `parallel.tftest.hcl` : `parallel` + `state_key`, 2 déploiements concurrents.
-  - `setup/` : module helper (suffixe aléatoire pour noms uniques).
+- `modules/s3-bucket/`: the module under test (child). Simple validations (S3 name, environment) + cross-variable ones (encryption ⇒ KMS ARN; prod ⇒ no `force_destroy`). Conditional KMS encryption (`count` on the ARN).
+- root (`main.tf` + `providers.tf`): example usage (root) + per-run `default_tags` for the sweeper.
+- `tests/`:
+  - `validations.tftest.hcl`: `expect_failures`, plan-only, creds-free (mock).
+  - `plan.tftest.hcl`: `mock_provider`, assertions on the planned config, creds-free.
+  - `deploy.tftest.hcl`: real apply (AWS_PROFILE=sandbox), resource assertions, auto-destroy.
+  - `parallel.tftest.hcl`: `parallel` + `state_key`, 2 concurrent deployments.
+  - `setup/`: helper module (random suffix for unique names).
+
+## Progressive demo
+
+The README is structured as a progressive live demo climbing the test pyramid: Stage 0 (read the module) → Stage 1 validations → Stage 2 mocked plan → Stage 3 real apply → Stage 4 parallel. Each stage maps to a pyramid layer and a `make` target. Keep that mapping in sync when editing the README, the `Makefile` targets, or the test files.
 
 ## Common commands
 
 ```bash
 make init
-make test-fast                 # creds-free (CI sans secret)
-AWS_PROFILE=sandbox make test   # suite complète, apply réel
-./sweep.sh                      # nettoyage orphelins par tag (dry-run)
+make test-validate              # Stage 1 - validations only (creds-free)
+make test-plan                  # Stage 2 - mocked plan only (creds-free)
+make test-fast                  # Stages 1+2 (CI without secret)
+AWS_PROFILE=sandbox make test    # full suite, real apply
+./sweep.sh                      # clean orphans by tag (dry-run)
 ```
 
 ## Conventions
 
-- Variables mono-type plutôt qu'objets complexes : isole le message d'erreur de chaque validateur.
-- Un `run` atomique par validateur (relecture simple, plan-only peu coûteux).
-- `versioning` S3 = `Enabled` / `Suspended` (jamais `Disabled`).
+- Single-type variables rather than complex objects: isolates each validator's error message.
+- One atomic `run` per validator (easy to read, cheap plan-only).
+- S3 `versioning` = `Enabled` / `Suspended` (never `Disabled`).

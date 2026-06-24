@@ -1,5 +1,5 @@
 terraform {
-  # >= 1.9 : validation croisée entre variables (condition référençant d'autres var.*).
+  # >= 1.9: cross-variable validation (a condition referencing other var.*).
   required_version = ">= 1.9.0"
 
   required_providers {

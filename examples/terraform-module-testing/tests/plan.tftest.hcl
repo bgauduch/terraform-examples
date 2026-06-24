@@ -1,6 +1,6 @@
-# Tests de plan : prouver que les variables se câblent dans la config planifiée.
-# mock_provider -> aucun credential, rapide, tourne en CI sans secret.
-# Le bloc variables au niveau fichier pose les valeurs par défaut de TOUS les run (tip live).
+# Plan tests: prove that variables wire into the planned config.
+# mock_provider -> no credential, fast, runs in CI without a secret.
+# The file-level variables block sets defaults for EVERY run (live tip).
 
 mock_provider "aws" {}
 

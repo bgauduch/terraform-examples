@@ -1,6 +1,6 @@
-# Parallélisme : déployer l'exemple deux fois en parallèle sans collision.
-# state_key distinct -> état isolé -> les runs s'exécutent concurremment (>= 1.12).
-# Requiert des credentials AWS (AWS_PROFILE=sandbox).
+# Parallelism: deploy the example twice in parallel without collision.
+# Distinct state_key -> isolated state (1.11+); parallel = true runs them concurrently (1.12+).
+# Requires AWS credentials (AWS_PROFILE=sandbox).
 
 run "setup" {
   module {
@@ -8,14 +8,18 @@ run "setup" {
   }
 }
 
+# Shared variables
+variables {
+  environment   = "dev"
+  force_destroy = true
+}
+
 run "deploy_a" {
   command   = apply
   parallel  = true
   state_key = "a"
   variables {
-    bucket_name   = "bga-tftest-a-${run.setup.suffix}"
-    environment   = "dev"
-    force_destroy = true
+    bucket_name = "bga-tftest-a-${run.setup.suffix}"
   }
   assert {
     condition     = output.bucket_id == "bga-tftest-a-${run.setup.suffix}"
@@ -28,9 +32,7 @@ run "deploy_b" {
   parallel  = true
   state_key = "b"
   variables {
-    bucket_name   = "bga-tftest-b-${run.setup.suffix}"
-    environment   = "dev"
-    force_destroy = true
+    bucket_name = "bga-tftest-b-${run.setup.suffix}"
   }
   assert {
     condition     = output.bucket_id == "bga-tftest-b-${run.setup.suffix}"

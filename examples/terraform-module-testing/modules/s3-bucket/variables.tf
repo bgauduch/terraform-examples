@@ -28,7 +28,7 @@ variable "enable_encryption" {
   type        = bool
   default     = false
 
-  # Validation croisée (>= 1.9) : activer le chiffrement exige une clé.
+  # Cross-variable validation (1.9+): enabling encryption requires a key.
   validation {
     condition     = !var.enable_encryption || var.kms_key_arn != null
     error_message = "kms_key_arn is required when enable_encryption is true."
@@ -46,7 +46,7 @@ variable "force_destroy" {
   type        = bool
   default     = false
 
-  # Validation croisée (>= 1.9) : prod interdit force_destroy.
+  # Cross-variable validation (1.9+): prod forbids force_destroy.
   validation {
     condition     = !(var.environment == "prod" && var.force_destroy)
     error_message = "force_destroy must be false when environment is prod."

@@ -1,5 +1,5 @@
-# Module helper de test : produit un suffixe aléatoire pour des noms de bucket
-# globalement uniques (S3). Aucun credential requis (provider random).
+# Test helper module: produces a random suffix for globally unique bucket
+# names (S3). No credential required (random provider).
 terraform {
   required_version = "~> 1.9"
 

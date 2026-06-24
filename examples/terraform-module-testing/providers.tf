@@ -12,8 +12,8 @@ terraform {
 provider "aws" {
   region = var.region
 
-  # Tag de run unique sur chaque ressource : permet à un sweeper de nettoyer
-  # les restes si `terraform test` est interrompu avant son auto-destroy (cf sweep.sh).
+  # Unique run tag on every resource: lets a sweeper clean up leftovers if
+  # `terraform test` is interrupted before its auto-destroy (see sweep.sh).
   default_tags {
     tags = {
       "tftest-suite" = "terraform-module-testing"

@@ -1,7 +1,7 @@
-# Tests des validations de variables (échouer tôt, sans toucher AWS).
-# command = plan : la validation échoue avant tout appel provider -> creds-free.
-# mock_provider en filet : garantit l'absence de credential même si le plan progresse.
-# Un run atomique par validateur -> message d'erreur isolé, relecture simple (tip live).
+# Variable-validation tests (fail early, without touching AWS).
+# command = plan: validation fails before any provider call -> creds-free.
+# mock_provider as a safety net: guarantees no credential even if the plan proceeds.
+# One atomic run per validator -> isolated error message, easy to read (live tip).
 
 mock_provider "aws" {}
 

@@ -1,7 +1,7 @@
-# Test d'intégration : déployer l'exemple sur AWS reel (profil sandbox) et asserter
-# les valeurs des ressources. terraform test detruit tout en fin de fichier.
-# Requiert des credentials AWS (AWS_PROFILE=sandbox). Le suffixe aléatoire rend le
-# nom de bucket globalement unique.
+# Integration test: deploy the example on real AWS (sandbox profile) and assert
+# the resource values. terraform test destroys everything at the end of the file.
+# Requires AWS credentials (AWS_PROFILE=sandbox). The random suffix makes the
+# bucket name globally unique.
 
 run "setup" {
   module {
