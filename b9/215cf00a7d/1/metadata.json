@@ -1,0 +1,27 @@
+{
+  "cli_version": "0.7.5",
+  "checkpoint_id": "b9215cf00a7d",
+  "session_id": "a3cdac24-a5e0-4d81-857e-5edd144921eb",
+  "strategy": "manual-commit",
+  "created_at": "2026-06-24T18:15:39.486543Z",
+  "branch": "feat/terraform-module-testing",
+  "checkpoints_count": 0,
+  "files_touched": [
+    "AGENTS.md"
+  ],
+  "agent": "Claude Code",
+  "model": "",
+  "turn_id": "14b5d3e8ffbb",
+  "initial_attribution": {
+    "calculated_at": "2026-06-24T18:15:39.485661Z",
+    "agent_lines": 3,
+    "agent_removed": 1,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 3,
+    "total_lines_changed": 4,
+    "agent_percentage": 100,
+    "metric_version": 2
+  }
+}
