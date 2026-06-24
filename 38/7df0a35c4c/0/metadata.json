@@ -1,0 +1,39 @@
+{
+  "cli_version": "0.7.5",
+  "checkpoint_id": "387df0a35c4c",
+  "session_id": "75174158-4589-4767-be27-983d6ce56e67",
+  "strategy": "manual-commit",
+  "created_at": "2026-06-24T18:15:35.977946Z",
+  "branch": "feat/terraform-module-testing",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "examples/terraform-module-testing/Makefile",
+    "examples/terraform-module-testing/README.md",
+    "examples/terraform-module-testing/modules/s3-bucket/main.tf"
+  ],
+  "agent": "Claude Code",
+  "model": "",
+  "turn_id": "02179750c78f",
+  "token_usage": {
+    "input_tokens": 5253,
+    "cache_creation_tokens": 163162,
+    "cache_read_tokens": 1923166,
+    "output_tokens": 37403,
+    "api_call_count": 26
+  },
+  "session_metrics": {
+    "turn_count": 1
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-06-24T18:15:35.970102Z",
+    "agent_lines": 88,
+    "agent_removed": 44,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 88,
+    "total_lines_changed": 132,
+    "agent_percentage": 100,
+    "metric_version": 2
+  }
+}
