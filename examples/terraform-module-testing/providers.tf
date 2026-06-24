@@ -1,10 +1,12 @@
 terraform {
-  required_version = ">= 1.9.0"
+  # Root module: pin with ~> (lower + upper bound) to avoid accidental upgrades to an
+  # untested major. Reusable child modules use >= instead (see modules/s3-bucket/versions.tf).
+  required_version = "~> 1.9"
 
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 5.0"
+      version = "~> 6.0"
     }
   }
 }
