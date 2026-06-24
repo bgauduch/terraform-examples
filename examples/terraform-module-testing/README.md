@@ -46,7 +46,7 @@ make test-validate              # 6 runs green, no AWS_PROFILE
 
 ## Stage 2 - plan with `mock_provider` (creds-free)
 
-`tests/plan.tftest.hcl` - `mock_provider "aws" {}` plus a file-level `variables {}` block that sets defaults for every `run`. Assertions on the planned config: versioning defaults to `Enabled`, all four public-access-block flags are true, the encryption block is present/absent and the KMS ARN propagates.
+`tests/plan.tftest.hcl` - `mock_provider "aws" {}` plus a file-level `variables {}` block that sets defaults for every `run`. Assertions on the planned config: versioning defaults to `Enabled`, all four public-access-block flags are true, and the bucket falls back to the AWS-managed key when no CMK is given (else the provided KMS key id propagates to the rule).
 
 ```bash
 make test-plan                  # 4 runs green in seconds, still no credentials
