@@ -1,0 +1,5 @@
+Comité, push, change, uniquement ceux liés aux modifications sur la partie sandbox.
+
+---
+
+C'était quoi ce que tu voulais changer là ? Tu es sûr que ce n'est pas lié à des modifs qui sont cohérents dans le reste du code ? Typiquement, un changement sur la variable Enable Encryption, vérifie avant de faire des revert sans savoir ce que tu fais là.
