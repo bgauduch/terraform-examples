@@ -5,13 +5,22 @@
   "branch": "feat/terraform-module-testing",
   "checkpoints_count": 0,
   "files_touched": [
-    "examples/terraform-module-testing/modules/s3-bucket/main.tf"
+    "examples/terraform-module-testing/modules/s3-bucket/main.tf",
+    "examples/terraform-module-testing/modules/s3-bucket/outputs.tf",
+    "examples/terraform-module-testing/tests/deploy.tftest.hcl",
+    "examples/terraform-module-testing/tests/plan.tftest.hcl"
   ],
   "sessions": [
     {
       "metadata": "/00/cee02392fe/0/metadata.json",
       "transcript": "/00/cee02392fe/0/full.jsonl",
       "content_hash": "/00/cee02392fe/0/content_hash.txt",
+      "prompt": ""
+    },
+    {
+      "metadata": "/00/cee02392fe/1/metadata.json",
+      "transcript": "/00/cee02392fe/1/full.jsonl",
+      "content_hash": "/00/cee02392fe/1/content_hash.txt",
       "prompt": ""
     }
   ],
