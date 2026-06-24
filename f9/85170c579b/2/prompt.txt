@@ -1,1 +1,5 @@
 Ok, go push en l'état sur ce qui a été comité, en vérifiant que ça ne remporte que nos modifications.
+
+---
+
+Fait tout de suite la modif du Provider TF pour qu'on soit à propre.
