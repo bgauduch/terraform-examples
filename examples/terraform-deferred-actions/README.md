@@ -84,7 +84,7 @@ Knowingly out of scope (would bloat a teaching example): S3 access logging (`AWS
 
 ## Prerequisites
 
-- **Terraform version**: each dir pins it in `.terraform-version` (`01-before/` = 1.15.6, `02-after/` = 1.16.0-alpha...). With mise (idiomatic version files enabled) or tfenv, `cd` selects it automatically; otherwise switch manually and confirm with `terraform version`.
+- **Terraform version**: each dir pins it in its `mise.toml` (`01-before/` = 1.15.6, `02-after/` = 1.16.0-alpha...). With mise, `cd` selects it automatically (`mise install` once); otherwise switch manually and confirm with `terraform version`.
 - **Credentials**: `validate` and `plan` need none. `apply` creates a real KMS key + S3 bucket, so authenticate first (replace `<profile>` with your SSO profile):
 
 ```bash
@@ -94,17 +94,17 @@ export AWS_PROFILE=<profile>
 
 ## Run
 
-With make (selects the version per dir, init included):
+With mise tasks (selects the version per dir, init included; `mise tasks` lists them):
 
 ```bash
-make init           # init both dirs
-make versions       # prove the resolved version per dir
-make before-plan    # 1.15.6 - OK only thanks to the provided boolean
-make before-apply   # 1.15.6 - apply (needs AWS creds)
-make before-destroy # teardown
-make after-plan     # 1.16   - deferred changes (-allow-deferral)
-make after-apply    # 1.16   - apply (needs AWS creds)
-make after-destroy  # teardown
+mise run init           # init both dirs
+mise run versions       # prove the resolved version per dir
+mise run before-plan    # 1.15.6 - OK only thanks to the provided boolean
+mise run before-apply   # 1.15.6 - apply (needs AWS creds)
+mise run before-destroy # teardown
+mise run after-plan     # 1.16   - deferred changes (-allow-deferral)
+mise run after-apply    # 1.16   - apply (needs AWS creds)
+mise run after-destroy  # teardown
 ```
 
 Or the raw commands:

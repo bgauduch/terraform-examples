@@ -49,7 +49,7 @@ Validation before committing: `terraform fmt -recursive` and `terraform validate
 
 ## Prerequisites
 
-- Terraform >= 1.5.0 (pinned via this example's `.terraform-version`)
+- Terraform >= 1.5.0 (pinned via this example's `mise.toml`)
 - AWS CLI with valid credentials
 - Default region: `eu-west-1`
 

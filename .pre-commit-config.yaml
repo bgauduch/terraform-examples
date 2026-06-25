@@ -1,4 +1,6 @@
 # Local mirror of the CI quality gates (see .github/workflows/terraform.yml + commitlint.yml).
+# The terraform/tflint binaries come from mise (mise.toml is the toolchain SSOT) - run
+# `mise install` first so the hooks pick up the pinned versions from PATH.
 # Install: pipx install pre-commit && pre-commit install --install-hooks
 #          pre-commit install --hook-type commit-msg   # for conventional commits
 # Run on everything: pre-commit run --all-files
