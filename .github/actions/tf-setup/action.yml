@@ -1,41 +1,20 @@
 name: Terraform toolchain
-description: Install Terraform (version from the nearest .terraform-version) and TFLint, pinned via SHA.
+description: Install the toolchain pinned in mise.toml (terraform, tflint, trivy) for the target directory.
 
 inputs:
   working-directory:
-    description: Directory to resolve the Terraform version from; walks up to the nearest .terraform-version (falls back to repo root).
+    description: Directory whose mise.toml (merged with the repo-root one) defines the toolchain to install.
     required: false
     default: '.'
-  install-tflint:
-    description: Whether to install TFLint (set to 'false' to skip).
-    required: false
-    default: 'true'
 
 runs:
   using: composite
   steps:
-    - id: tfver
-      shell: bash
-      working-directory: ${{ inputs.working-directory }}
-      run: |
-        # Walk up from the working dir to the repo root, picking the nearest .terraform-version.
-        dir="$(pwd)"
-        while [ "$dir" != "$GITHUB_WORKSPACE" ] && [ "$dir" != "/" ]; do
-          [ -f "$dir/.terraform-version" ] && break
-          dir="$(dirname "$dir")"
-        done
-        file="$dir/.terraform-version"
-        [ -f "$file" ] || file="$GITHUB_WORKSPACE/.terraform-version"
-        echo "version=$(tr -d '[:space:]' < "$file")" >> "$GITHUB_OUTPUT"
-
-    - uses: hashicorp/setup-terraform@5e8dbf3c6d9deaf4193ca7a8fb23f2ac83bb6c85 # v4.0.0
+    # Installs every tool from the merged mise.toml (repo root + the working dir) and
+    # puts them on PATH; mise then resolves the right version per directory at run time.
+    - uses: jdx/mise-action@e6a8b3978addb5a52f2b4cd9d91eafa7f0ab959d # v4.2.0
       with:
-        terraform_version: ${{ steps.tfver.outputs.version }}
-        terraform_wrapper: false
-
-    - if: inputs.install-tflint == 'true'
-      uses: terraform-linters/setup-tflint@b480b8fcdaa6f2c577f8e4fa799e89e756bb7c93 # v6.2.2
-      with:
+        working_directory: ${{ inputs.working-directory }}
         # Pinned for reproducible CI; bumped by Renovate via the annotation below.
-        # renovate: datasource=github-releases depName=terraform-linters/tflint
-        tflint_version: v0.63.1
+        # renovate: datasource=github-releases depName=jdx/mise
+        version: v2026.6.14
