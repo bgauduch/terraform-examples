@@ -1,0 +1,3 @@
+# Terraform pin for this example (tflint/trivy inherited from the repo-root mise.toml).
+[tools]
+terraform = "1.14.9"

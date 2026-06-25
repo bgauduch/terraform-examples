@@ -1,0 +1,5 @@
+# Terraform pin for the "after" segment - an intentional alpha (experiment type).
+# Renovate's alpha/beta/rc freeze keeps this from being auto-bumped.
+# tflint/trivy inherited from repo-root mise.toml.
+[tools]
+terraform = "1.16.0-alpha20260603"
