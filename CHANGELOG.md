@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.2.0](https://github.com/bgauduch/terraform-examples/compare/v2.1.0...v2.2.0) (2026-06-25)
+
+
+### Features
+
+* **terraform-module-testing:** add native terraform test lab (progressive demo) ([#33](https://github.com/bgauduch/terraform-examples/issues/33)) ([5e67412](https://github.com/bgauduch/terraform-examples/commit/5e674127f6b25396506d4ab662ae15b6b5d51153))
+* **terraform-query-import:** bulk discover + import lab (v1.14) ([#30](https://github.com/bgauduch/terraform-examples/issues/30)) ([b5f5ed8](https://github.com/bgauduch/terraform-examples/commit/b5f5ed84f682e35eb20b5a6a2729bc3baf15edfa))
+* **terraform-query-import:** segmented bulk import, reset script, config fixups ([#32](https://github.com/bgauduch/terraform-examples/issues/32)) ([760770c](https://github.com/bgauduch/terraform-examples/commit/760770c66e46463ba6b23a7d500b819c82db136a))
+
+
+### Build
+
+* **mise:** adopt mise as the toolchain SSOT ([#34](https://github.com/bgauduch/terraform-examples/issues/34)) ([8bc9af5](https://github.com/bgauduch/terraform-examples/commit/8bc9af5afc0bf27fc0864bb70fb5df2748d8e93c))
+
 ## [2.1.0](https://github.com/bgauduch/terraform-examples/compare/v2.0.0...v2.1.0) (2026-06-14)
 
 
