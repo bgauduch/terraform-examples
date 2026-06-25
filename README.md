@@ -6,7 +6,7 @@
 
 A library of self-contained Terraform examples: reusable patterns, illustrations for blog/LinkedIn posts, and starting points for live tech sessions ("Matinale Tech").
 
-Each example lives under [`examples/`](examples/) and is fully independent - its own `README.md`, tooling (`.terraform-version`, `.tflint.hcl`) and Terraform code. Pick one, `cd` into it, follow its README.
+Each example lives under [`examples/`](examples/) and is fully independent - its own `README.md`, tooling (`mise.toml`, `.tflint.hcl`) and Terraform code. Pick one, `cd` into it, follow its README. The toolchain (terraform, tflint, trivy) is managed by [mise](https://mise.jdx.dev/) as the single source of truth - see [`AGENTS.md`](AGENTS.md#toolchain-mise).
 
 ## Catalogue
 
@@ -25,7 +25,7 @@ Each example lives under [`examples/`](examples/) and is fully independent - its
 
 ## Adding an example
 
-See the golden path in [`AGENTS.md`](AGENTS.md). In short: create `examples/<name>/` with its own `README.md`, `.terraform-version`, `.tflint.hcl` and Terraform root module(s), then add a row to the catalogue above. CI auto-discovers any directory containing `providers.tf` - no CI change needed.
+See the golden path in [`AGENTS.md`](AGENTS.md). In short: create `examples/<name>/` with its own `README.md`, `mise.toml`, `.tflint.hcl` and Terraform root module(s), then add a row to the catalogue above. CI auto-discovers any directory containing `providers.tf` - no CI change needed.
 
 ## Repository standards
 

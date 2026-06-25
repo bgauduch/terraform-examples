@@ -54,7 +54,7 @@ terraform-query-import/
 
 ## Prerequisites
 
-- **Terraform `>= 1.14.0`** (pinned to `1.14.9` via `.terraform-version`; `terraform query` does not exist before 1.14).
+- **Terraform `>= 1.14.0`** (pinned to `1.14.9` via `mise.toml`; `terraform query` does not exist before 1.14).
 - **AWS provider `6.41.0`** and the AWS CLI with valid credentials. Default region: `eu-west-1`.
 
 ## Run (live demo)

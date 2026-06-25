@@ -46,8 +46,6 @@ jobs:
     steps:
       - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
       - uses: ./.github/actions/tf-setup
-        with:
-          install-tflint: 'false'
       - run: terraform fmt -check -recursive -diff
 
   quality:
@@ -83,16 +81,7 @@ jobs:
         working-directory: ${{ matrix.cell.dir }}
         run: tflint --recursive --format compact --config "${{ github.workspace }}/${{ matrix.cell.example }}/.tflint.hcl"
 
-      - name: install trivy
-        uses: aquasecurity/setup-trivy@81e514348e19b6112ce2a7e3ecbafe19c1e1f567 # v0.3.1
-        with:
-          # Pinned for reproducible CI and bumped by Renovate (annotation below).
-          # v0.71.1 once failed to install via setup-trivy's get.trivy.dev path, so
-          # CI gates any bump - keep an eye on the Renovate PR's checks.
-          # renovate: datasource=github-releases depName=aquasecurity/trivy
-          version: v0.71.0
-          cache: true
-
+      # trivy is installed by tf-setup (mise.toml) - no separate setup step.
       - name: trivy config scan (report + gate)
         working-directory: ${{ matrix.cell.dir }}
         run: |

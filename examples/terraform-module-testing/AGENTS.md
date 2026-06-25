@@ -21,16 +21,16 @@ Demonstrate the native `terraform test` framework on a reusable S3 module: valid
 
 ## Progressive demo
 
-The README is structured as a progressive demo climbing the test pyramid: Stage 0 (read the module) → Stage 1 validations → Stage 2 mocked plan → Stage 3 real apply → Stage 4 parallel. Each stage maps to a pyramid layer and a `make` target. Keep that mapping in sync when editing the README, the `Makefile` targets, or the test files.
+The README is structured as a progressive demo climbing the test pyramid: Stage 0 (read the module) → Stage 1 validations → Stage 2 mocked plan → Stage 3 real apply → Stage 4 parallel. Each stage maps to a pyramid layer and a `mise` task. Keep that mapping in sync when editing the README, the `mise.toml` tasks, or the test files.
 
 ## Common commands
 
 ```bash
-make init
-make test-validate              # Stage 1 - validations only (creds-free)
-make test-plan                  # Stage 2 - mocked plan only (creds-free)
-make test-fast                  # Stages 1+2 (CI without secret)
-make test                       # full suite, real apply (requires AWS_PROFILE)
+mise run init
+mise run test-validate          # Stage 1 - validations only (creds-free)
+mise run test-plan              # Stage 2 - mocked plan only (creds-free)
+mise run test-fast              # Stages 1+2 (CI without secret)
+mise run test                   # full suite, real apply (requires AWS_PROFILE)
 ./sweep.sh                      # clean orphans by tag (dry-run)
 ```
 

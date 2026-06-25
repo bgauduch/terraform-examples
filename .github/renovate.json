@@ -18,21 +18,11 @@
       "matchStrings": [
         "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)(?: versioning=(?<versioning>\\S+))?\\s+[\\w-]+?:\\s*[\"']?(?<currentValue>[^\"'\\s]+)"
       ]
-    },
-    {
-      "customType": "regex",
-      "description": "Per-example Terraform CLI pin in .terraform-version files",
-      "managerFilePatterns": ["/(^|/)\\.terraform-version$/"],
-      "matchStrings": ["^(?<currentValue>\\S+)\\s*$"],
-      "datasourceTemplate": "github-releases",
-      "depNameTemplate": "hashicorp/terraform",
-      "versioningTemplate": "hashicorp"
     }
   ],
   "packageRules": [
     {
-      "description": "experiment examples pin a Terraform RC/alpha on purpose - do not bump those",
-      "matchDepNames": ["hashicorp/terraform"],
+      "description": "experiment examples pin a Terraform RC/alpha on purpose - do not bump those (backend-agnostic: match the value, not the dep name)",
       "matchCurrentValue": "/-(alpha|beta|rc)/",
       "enabled": false
     }

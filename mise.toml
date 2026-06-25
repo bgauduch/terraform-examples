@@ -1,0 +1,9 @@
+# Single source of truth for the repo toolchain (terraform, tflint, trivy).
+# mise merges every mise.toml from the cwd up to here: each example overrides
+# `terraform`; tflint and trivy are pinned once here and inherited everywhere.
+# CI installs these via jdx/mise-action; Renovate bumps them via its native mise
+# manager. Add future tools here (or in an example's mise.toml) - never re-pin in CI.
+[tools]
+terraform = "1.14.8"
+tflint    = "0.63.1"
+trivy     = "0.71.0"

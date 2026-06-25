@@ -1,0 +1,56 @@
+# Demo run-of-show tasks - live Terraform deferred actions.
+# The terraform version lives per sub-dir (01-before/ = 1.15.6, 02-after/ = 1.16-alpha)
+# in each sub-dir's mise.toml. Tasks here `cd` into a sub-dir and use `mise exec --
+# terraform` so the version re-resolves from that sub-dir (same source as live typing:
+# cd + bare terraform), robust in the non-interactive task shell.
+# Run with `mise run <task>`; list them with `mise tasks`. Tasks run in a subshell,
+# so the `cd` never leaks into your interactive shell.
+# (tflint/trivy inherited from the repo-root mise.toml.)
+
+[tasks.init]
+description = "init both dirs (once, before the demo)"
+run = [
+  "cd 01-before && mise exec -- terraform init",
+  "cd 02-after  && mise exec -- terraform init",
+]
+
+[tasks.versions]
+description = "prove the resolved version per dir (show it on screen)"
+run = [
+  "cd 01-before && mise exec -- terraform version | head -1",
+  "cd 02-after  && mise exec -- terraform version | head -1",
+]
+
+# --- Segment 2 : 1.15.6 ---
+[tasks.before-plan]
+description = "1.15.6 - plan (OK with the boolean ; breaks if switched to arn != null)"
+run = "cd 01-before && mise exec -- terraform plan"
+
+[tasks.before-apply]
+description = "1.15.6 - apply (creates a real KMS key + S3 bucket)"
+run = "cd 01-before && mise exec -- terraform apply"
+
+[tasks.before-destroy]
+description = "1.15.6 - teardown"
+run = "cd 01-before && mise exec -- terraform destroy"
+
+# --- Segment 4 : 1.16 alpha ---
+[tasks.after-plan-noflag]
+description = "1.16 - plan WITHOUT the flag -> errors on the unknown value"
+run = "cd 02-after && mise exec -- terraform plan"
+
+[tasks.after-plan]
+description = "1.16 - plan WITH the flag -> deferred changes"
+run = "cd 02-after && mise exec -- terraform plan -allow-deferral"
+
+[tasks.after-apply]
+description = "1.16 - apply (creates a real KMS key + S3 bucket)"
+run = "cd 02-after && mise exec -- terraform apply -allow-deferral"
+
+[tasks.after-destroy]
+description = "1.16 - teardown"
+run = "cd 02-after && mise exec -- terraform destroy -allow-deferral"
+
+[tasks.clean]
+description = "remove local terraform state"
+run = "find . -type d -name '.terraform' -prune -exec rm -rf {} + ; find . -name '*.tfstate*' -delete"

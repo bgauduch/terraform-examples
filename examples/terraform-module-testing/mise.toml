@@ -1,0 +1,51 @@
+# Terraform pin for this example (tflint/trivy inherited from the repo-root mise.toml).
+# The real apply tasks target the AWS account of $AWS_PROFILE.
+# Tasks are ordered as the progressive demo stages (read the README "Progressive demo").
+# Run with `mise run <task>`; list them with `mise tasks`. Tasks run in a subshell,
+# so any `cd` inside a task never leaks into your interactive shell.
+[tools]
+terraform = "1.15.6"
+
+[tasks.init]
+description = "init (providers: aws + random)"
+run = "terraform init"
+
+[tasks.fmt]
+description = "format check"
+run = "terraform fmt -recursive -check -diff"
+
+[tasks.validate]
+description = "validate the config"
+run = "terraform validate"
+
+[tasks.test-validate]
+description = "Stage 1 - variable validations only (expect_failures, creds-free)"
+run = "terraform test -filter=tests/validations.tftest.hcl -verbose"
+
+[tasks.test-plan]
+description = "Stage 2 - mocked plan assertions only (mock_provider, creds-free)"
+run = "terraform test -filter=tests/plan.tftest.hcl -verbose"
+
+[tasks.test-fast]
+description = "Stages 1+2 - creds-free layer (runs in CI without secrets)"
+run = "terraform test -filter=tests/validations.tftest.hcl -filter=tests/plan.tftest.hcl -verbose"
+
+[tasks.test-deploy]
+description = "Stage 3 - integration: real apply on AWS (requires AWS_PROFILE set)"
+run = "terraform test -filter=tests/deploy.tftest.hcl"
+
+[tasks.test-parallel]
+description = "Stage 4 - parallel + state_key: 2 concurrent deployments (requires AWS_PROFILE set)"
+run = "terraform test -filter=tests/parallel.tftest.hcl"
+
+[tasks.test]
+description = "full suite (requires AWS_PROFILE set for the apply stages)"
+run = "terraform test"
+
+[tasks.sweep]
+description = "clean up orphaned resources by tag (see sweep.sh)"
+run = "./sweep.sh"
+
+[tasks.clean]
+description = "remove local terraform state"
+run = "find . -type d -name '.terraform' -prune -exec rm -rf {} + ; find . -name '*.tfstate*' -delete"
