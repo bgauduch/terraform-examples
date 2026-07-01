@@ -1,0 +1,42 @@
+{
+  "cli_version": "0.7.5",
+  "checkpoint_id": "e3cbadcab343",
+  "strategy": "manual-commit",
+  "branch": "feat/aws-budget-cutoff",
+  "checkpoints_count": 0,
+  "files_touched": [
+    ".gitignore",
+    "README.md",
+    "examples/aws-budget-cutoff/.tflint.hcl",
+    "examples/aws-budget-cutoff/AGENTS.md",
+    "examples/aws-budget-cutoff/BOOTSTRAP.md",
+    "examples/aws-budget-cutoff/README.md",
+    "examples/aws-budget-cutoff/budget.tf",
+    "examples/aws-budget-cutoff/env/example.tfvars",
+    "examples/aws-budget-cutoff/lambda/remediation.py",
+    "examples/aws-budget-cutoff/mise.toml",
+    "examples/aws-budget-cutoff/outputs.tf",
+    "examples/aws-budget-cutoff/providers.tf",
+    "examples/aws-budget-cutoff/remediation.tf",
+    "examples/aws-budget-cutoff/runaway.tf",
+    "examples/aws-budget-cutoff/scp.tf",
+    "examples/aws-budget-cutoff/scripts/steps.sh",
+    "examples/aws-budget-cutoff/tests/validations.tftest.hcl",
+    "examples/aws-budget-cutoff/variables.tf"
+  ],
+  "sessions": [
+    {
+      "metadata": "/e3/cbadcab343/0/metadata.json",
+      "transcript": "/e3/cbadcab343/0/full.jsonl",
+      "content_hash": "/e3/cbadcab343/0/content_hash.txt",
+      "prompt": "/e3/cbadcab343/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 11641,
+    "cache_creation_tokens": 235649,
+    "cache_read_tokens": 10151828,
+    "output_tokens": 88784,
+    "api_call_count": 70
+  }
+}

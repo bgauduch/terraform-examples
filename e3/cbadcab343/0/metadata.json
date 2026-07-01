@@ -1,0 +1,77 @@
+{
+  "cli_version": "0.7.5",
+  "checkpoint_id": "e3cbadcab343",
+  "session_id": "5089999f-1257-4bef-bca5-8725cb61d739",
+  "strategy": "manual-commit",
+  "created_at": "2026-07-01T09:33:52.165422Z",
+  "branch": "feat/aws-budget-cutoff",
+  "checkpoints_count": 0,
+  "files_touched": [
+    "examples/aws-budget-cutoff/providers.tf",
+    "examples/aws-budget-cutoff/variables.tf",
+    "examples/aws-budget-cutoff/scp.tf",
+    "examples/aws-budget-cutoff/budget.tf",
+    "examples/aws-budget-cutoff/runaway.tf",
+    "examples/aws-budget-cutoff/remediation.tf",
+    "examples/aws-budget-cutoff/lambda/remediation.py",
+    "examples/aws-budget-cutoff/outputs.tf",
+    "examples/aws-budget-cutoff/mise.toml",
+    "examples/aws-budget-cutoff/.tflint.hcl",
+    "examples/aws-budget-cutoff/env/example.tfvars",
+    "examples/aws-budget-cutoff/tests/validations.tftest.hcl",
+    "examples/aws-budget-cutoff/scripts/steps.sh",
+    "examples/aws-budget-cutoff/README.md",
+    "examples/aws-budget-cutoff/AGENTS.md",
+    "examples/aws-budget-cutoff/BOOTSTRAP.md",
+    "README.md",
+    ".gitignore"
+  ],
+  "agent": "Claude Code",
+  "model": "",
+  "turn_id": "da095d16d704",
+  "token_usage": {
+    "input_tokens": 11641,
+    "cache_creation_tokens": 235649,
+    "cache_read_tokens": 10151828,
+    "output_tokens": 88784,
+    "api_call_count": 70
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-07-01T09:33:52.153635Z",
+    "agent_lines": 110,
+    "agent_removed": 0,
+    "human_added": 47,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 157,
+    "total_lines_changed": 157,
+    "agent_percentage": 70.06369426751591,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 758,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        "examples/aws-budget-cutoff/.tflint.hcl": 14,
+        "examples/aws-budget-cutoff/AGENTS.md": 34,
+        "examples/aws-budget-cutoff/README.md": 75,
+        "examples/aws-budget-cutoff/budget.tf": 95,
+        "examples/aws-budget-cutoff/env/example.tfvars": 16,
+        "examples/aws-budget-cutoff/lambda/remediation.py": 40,
+        "examples/aws-budget-cutoff/mise.toml": 37,
+        "examples/aws-budget-cutoff/outputs.tf": 44,
+        "examples/aws-budget-cutoff/providers.tf": 46,
+        "examples/aws-budget-cutoff/remediation.tf": 95,
+        "examples/aws-budget-cutoff/runaway.tf": 47,
+        "examples/aws-budget-cutoff/scp.tf": 67,
+        "examples/aws-budget-cutoff/scripts/steps.sh": 50,
+        "examples/aws-budget-cutoff/tests/validations.tftest.hcl": 35,
+        "examples/aws-budget-cutoff/variables.tf": 63
+      }
+    }
+  ]
+}
