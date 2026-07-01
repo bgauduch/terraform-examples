@@ -1,0 +1,16 @@
+Voilà ce que j'ai mis, tu pourras d'ailleurs récupérer une des URL pour mettre un jour au bon endroit.
+🗳️ Votez pour le sujet du prochain live : 
+
+https://www.linkedin.com/posts/REDACTED
+
+
+
+🎥 Le replay du live terraform test :
+
+https://www.linkedin.com/events/7475556875669913602?viewAsMember=true
+
+
+
+💻 Le code de la démo (module S3 + terraform test) :
+
+https://github.com/bgauduch/terraform-examples/tree/main/examples/terraform-module-testing
