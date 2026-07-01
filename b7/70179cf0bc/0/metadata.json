@@ -1,0 +1,49 @@
+{
+  "cli_version": "0.7.5",
+  "checkpoint_id": "b770179cf0bc",
+  "session_id": "5089999f-1257-4bef-bca5-8725cb61d739",
+  "strategy": "manual-commit",
+  "created_at": "2026-07-01T09:39:21.219371Z",
+  "branch": "feat/aws-budget-cutoff",
+  "checkpoints_count": 0,
+  "files_touched": [
+    "examples/aws-budget-cutoff/remediation.tf",
+    "examples/aws-budget-cutoff/runaway.tf"
+  ],
+  "agent": "Claude Code",
+  "model": "",
+  "turn_id": "34507ff18380",
+  "checkpoint_transcript_start": 496,
+  "transcript_lines_at_start": 496,
+  "token_usage": {
+    "input_tokens": 761,
+    "cache_creation_tokens": 19894,
+    "cache_read_tokens": 3210476,
+    "output_tokens": 8438,
+    "api_call_count": 15
+  },
+  "session_metrics": {
+    "turn_count": 1
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-07-01T09:39:21.20547Z",
+    "agent_lines": 37,
+    "agent_removed": 3,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 37,
+    "total_lines_changed": 40,
+    "agent_percentage": 100,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0
+    }
+  ]
+}

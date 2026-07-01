@@ -1,0 +1,1 @@
+Alors vérifie sur le dépôt distant la pipeline parce que j'ai l'impression que c'est pété, vérifie que tout est ok, que tout est cohérent, ne marche pas l'APR évidemment. Et ensuite, go pour produire tout ce qui peut manquer, typiquement tout ce qui peut manquer.

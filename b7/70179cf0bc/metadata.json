@@ -1,0 +1,26 @@
+{
+  "cli_version": "0.7.5",
+  "checkpoint_id": "b770179cf0bc",
+  "strategy": "manual-commit",
+  "branch": "feat/aws-budget-cutoff",
+  "checkpoints_count": 0,
+  "files_touched": [
+    "examples/aws-budget-cutoff/remediation.tf",
+    "examples/aws-budget-cutoff/runaway.tf"
+  ],
+  "sessions": [
+    {
+      "metadata": "/b7/70179cf0bc/0/metadata.json",
+      "transcript": "/b7/70179cf0bc/0/full.jsonl",
+      "content_hash": "/b7/70179cf0bc/0/content_hash.txt",
+      "prompt": "/b7/70179cf0bc/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 761,
+    "cache_creation_tokens": 19894,
+    "cache_read_tokens": 3210476,
+    "output_tokens": 8438,
+    "api_call_count": 15
+  }
+}
