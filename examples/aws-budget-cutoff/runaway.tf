@@ -13,6 +13,15 @@ resource "aws_instance" "runaway" {
   ami           = data.aws_ssm_parameter.al2023.value
   instance_type = var.runaway_instance_type
 
+  # Baseline hardening (even a throwaway demo box passes the security gate).
+  metadata_options {
+    http_tokens = "required" # IMDSv2 only
+  }
+
+  root_block_device {
+    encrypted = true
+  }
+
   tags = {
     Name = "runaway-gpu-sim"
     demo = "runaway"

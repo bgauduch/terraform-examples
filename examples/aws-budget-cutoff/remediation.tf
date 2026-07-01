@@ -6,10 +6,27 @@
 # the Organizations AttachPolicy CloudTrail event (management account, us-east-1) -> invoke
 # this Lambda cross-account. See README "Full-auto wiring".
 
-# Notification channel + the human "retour".
+# Customer-managed key encrypting the notification topic at rest.
+resource "aws_kms_key" "notify" {
+  provider    = aws.sandbox
+  description = "CMK for the cut-off remediation SNS topic"
+  # AWS-0065: annual rotation of the key material (security baseline).
+  enable_key_rotation = true
+  # AWS minimum; short here so the demo tears down quickly.
+  deletion_window_in_days = 7
+}
+
+resource "aws_kms_alias" "notify" {
+  provider      = aws.sandbox
+  name          = "alias/cutoff-notify"
+  target_key_id = aws_kms_key.notify.key_id
+}
+
+# Notification channel + the human "retour". SSE with the CMK above.
 resource "aws_sns_topic" "notify" {
-  provider = aws.sandbox
-  name     = "cutoff-notify"
+  provider          = aws.sandbox
+  name              = "cutoff-notify"
+  kms_master_key_id = aws_kms_key.notify.key_id
 }
 
 resource "aws_sns_topic_subscription" "notify_email" {
@@ -65,6 +82,14 @@ data "aws_iam_policy_document" "remediation" {
     effect    = "Allow"
     actions   = ["sns:Publish"]
     resources = [aws_sns_topic.notify.arn]
+  }
+
+  # Publishing to the SSE-encrypted topic needs to use the CMK.
+  statement {
+    sid       = "UseNotifyKey"
+    effect    = "Allow"
+    actions   = ["kms:GenerateDataKey", "kms:Decrypt"]
+    resources = [aws_kms_key.notify.arn]
   }
 }
 
