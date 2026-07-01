@@ -1,0 +1,37 @@
+# Terraform pin for this example (tflint/trivy inherited from the repo-root mise.toml).
+# Apply/destroy tasks need two AWS profiles (management + sandbox) - pass them via a tfvars
+# file (see env/example.tfvars). Run with `mise run <task>`; list with `mise tasks`.
+[tools]
+terraform = "1.15.6"
+
+[tasks.init]
+description = "init (providers: aws + archive)"
+run = "terraform init"
+
+[tasks.fmt]
+description = "format check"
+run = "terraform fmt -recursive -check -diff"
+
+[tasks.validate]
+description = "validate the config"
+run = "terraform validate"
+
+[tasks.test-validate]
+description = "creds-free variable validations (expect_failures)"
+run = "terraform test -filter=tests/validations.tftest.hcl -verbose"
+
+[tasks.plan]
+description = "plan (needs a real tfvars with both profiles + account ids)"
+run = "terraform plan -var-file=terraform.tfvars"
+
+[tasks.apply]
+description = "apply the full demo - run the EVENING BEFORE so the action reaches PENDING"
+run = "terraform apply -var-file=terraform.tfvars"
+
+[tasks.destroy]
+description = "tear everything down"
+run = "terraform destroy -var-file=terraform.tfvars"
+
+[tasks.clean]
+description = "remove local terraform state + build artifacts"
+run = "find . -type d -name '.terraform' -prune -exec rm -rf {} + ; find . -name '*.tfstate*' -delete ; rm -rf .build"
