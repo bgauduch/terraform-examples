@@ -1,0 +1,40 @@
+732362
+
+---
+
+Dans la budget action qu'on utilise pour la démo, on utilise un trigger, un threshold sur le coût actuel, avec le sélecteur actuel. On pourrait aussi mettre Forecasted, ce que je suis en train de regarder un peu. Qu'est-ce qui est le plus malin quand on fait ce type de cut-off ? Est-ce qu'on veut cut-off des actions en mode hybride dès qu'on voit que, par exemple, la sandbox va dépasser, à un certain montant ? Ou alors, est-ce qu'on est beaucoup plus pratico-pratique et on dit voilà, on cut quand on arrive à un certain montant ? C'est quoi les bonnes pratiques ? Quels sont les avantages et inconvénients des deux ? Quels pourraient être les impacts sur le compte en question auxquels je ne pourrais ne pas avoir pensé ?
+
+---
+
+Il y a un truc que je ne comprends pas. J'ai essayé de jouer le dry run pour la démo, donc ça approve le cut-off, le budget action. J'ai essayé avec le script pour dérouler la démo de créer une nouvelle instance et j'ai bien le denied lié à la SCP. Par contre, dans mon interface, j'ai pu redémarrer une instance qui était arrêtée. Alors, est-ce que c'est lié au fait que je sois admin sur la Soundbox et du coup, je suis entre guillemets dans le mode Breaking Glass de la SCP ? Ou alors, est-ce qu'il y a un autre trou dans la raquette ?
+
+---
+
+C'est pas mal de pouvoir montrer ça en démo et puis de jouer effectivement avec les autorisations qui sont liées à la SCP, et ça permet d'illustrer effectivement une SCP complète, genre full full, qui bloque tout. Non, non, j'aime bien, on va garder ça comme ça.
+
+
+Autre question, je viens de jouer le script de démo, je viens d'aller jusqu'au bout, normalement il est censé avoir réarmé le budget action, est-ce que tu peux vérifier que tout est en état prêt pour la démo de tout à l'heure ?
+
+---
+
+On va faire quand même un test de reset, il est 11 heures, la démo est dans 2 heures, avec un peu de chance ça sera pris en compte, si ce n'est pas pris en compte, ce n'est pas grave. J'aimerais bien vraiment avoir le cas nominal, alors let's go !
+
+---
+
+Comment je peux cacher l'account ID quand je veux faire mon partage d'écran dans la console, la AWS, parce qu'il est affiché en haut à droite, il y a le nom et l'ID du compte, en particulier sur mon compte de management, je n'ai pas du tout envie de le montrer en live.
+
+---
+
+Ok, propose-moi la meilleure et la plus safe extension d'offuscation pour le navigateur, sachant que je suis dans Chrome.
+
+---
+
+De manière plus générale, comment je peux me sécuriser pendant ce live pour éviter de risquer d'exposer des données critiques ? Je pense que côté sandbox, c'est pas très grave parce que je peux assez facilement recréer, delete le compte, et puis il est assez limité. Mais côté management, c'est quoi le plus safe ? Peut-être juste de montrer le code Terraform, ça évite d'exposer ça.
+
+---
+
+Ce n'est pas con de faire une passe de vérification, vraiment de sécurité pour vérifier que tout ce que je fais peut être globalement partagé sans trop de risques, en sachant que j'aurais fait le Terraform Apply avant, donc les logs du Terraform Apply ne seront pas montrés ni partagés normalement. J'ai l'extension qui marche bien dans le navigateur, qui me bloure effectivement tout, donc ça c'est pas mal, j'aime bien. Et puis voilà, fais une passe globale en réfléchissant le plus large possible, qui n'est pas un truc qui traîne quelque part dans un script. Avant toute modification, fais-moi un petit tableau récap des actions que tu as en tête.
+
+---
+
+Ok, c'est top, bien vu. Il faut bien réfléchir au fait que quand on lance les commandes AWS, ils nous affichent la sortie JSON de la console. Donc le catcher et plutôt afficher les informations pertinentes, quitte à faire un GQ ou à écrire à la main dans le StepSH, ce serait parfait.
