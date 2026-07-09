@@ -38,3 +38,9 @@ Ce n'est pas con de faire une passe de vérification, vraiment de sécurité pou
 ---
 
 Ok, c'est top, bien vu. Il faut bien réfléchir au fait que quand on lance les commandes AWS, ils nous affichent la sortie JSON de la console. Donc le catcher et plutôt afficher les informations pertinentes, quitte à faire un GQ ou à écrire à la main dans le StepSH, ce serait parfait.
+
+---
+
+GO commit
+
+Et est-ce que dans VS Code, on pourrait cacher ou empêcher l'ouverture du state et des variables ? Je ne sais pas du tout si c'est possible de faire ça spécifiquement pour cette démo-là avec un override de config local peut-être ? Je ne sais pas, à creuser. Propose-moi des solutions si c'est possible.
