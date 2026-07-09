@@ -1,0 +1,39 @@
+<task-notification>
+<task-id>aa6ae8fbfa4aad6ee</task-id>
+<tool-use-id>REDACTED</tool-use-id>
+<output-file>/private/tmp/claude-501/-Users-bgauduch-Obsidian-Vault/dd6ccf5a-cc62-4331-8f11-c4a93bc1fd33/tasks/aa6ae8fbfa4aad6ee.output</output-file>
+<status>completed</status>
+<summary>Agent "Verify AWS Budget Actions facts" finished</summary>
+<note>A task-notification fires each time this agent stops with no live background children of its own. The user can send it another message and resume it, so the same task-id may notify more than once.</note>
+<result>Both facts verified. Here's the addendum.
+
+## Point 1 — REVERSE_BUDGET_ACTION (APPLY_SCP_POLICY)
+
+**Verdict: REVERSE undoes a previously executed action (detaches the SCP it attached), and it is always MANUAL/explicit. There is NO native under-threshold auto-reversal — Budgets only fires on breach; dropping back below the threshold does nothing.**
+
+- Reverse = manual undo of a completed action:
+  &gt; "Reversing a previous action … You can review and undo previously completed actions from the Action history table." — [Reviewing and approving your budget action](https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-action-review.html)
+  &gt; "Reversed - The action was undone, and AWS Budgets will no longer evaluate the action for the remaining budgeted period." — same page.
+- CLI/API surface (manual invocation), enum confirmed:
+  &gt; `--execution-type` allowed values: `APPROVE_BUDGET_ACTION | RETRY_BUDGET_ACTION | REVERSE_BUDGET_ACTION | RESET_BUDGET_ACTION` — [execute-budget-action CLI](https://docs.aws.amazon.com/cli/latest/reference/budgets/execute-budget-action.html). "Executes a budget action." (same page). You call it via console "Run action"/undo, `aws budgets execute-budget-action`, or the `ExecuteBudgetAction` API.
+- No auto-undo on spend dropping: the trigger model is breach-only (actual/forecast exceeding), and reversal is a separate explicit operation. There is no "GREATER_THAN crossing back down ⇒ auto-detach" mechanism — the only automatic re-evaluation is `Reset` (manual) or the natural reset at the **start of the next budget period** for IAM/SCP action types. Note also, once **Reversed**, Budgets "will no longer evaluate the action for the remaining budgeted period" (quote above) — i.e. it won't even re-apply on a subsequent breach in the same period unless you Reset.
+
+## Point 2 — RCP via Budget Actions
+
+**Verdict: FALSE — no native RCP support. Budget actions attach only SCP among Organizations policy types. Full action_type enum is exactly three: APPLY_IAM_POLICY, APPLY_SCP_POLICY, RUN_SSM_DOCUMENTS. No APPLY_RCP / RCP definition exists.**
+
+- Enum + definition types:
+  &gt; `--action-type` allowed values: `APPLY_IAM_POLICY | APPLY_SCP_POLICY | RUN_SSM_DOCUMENTS`; `--definition` supports `IamActionDefinition`, `ScpActionDefinition`, `SsmActionDefinition`. "No, there is no RCP/Resource Control Policy definition." — [create-budget-action CLI](https://docs.aws.amazon.com/cli/latest/reference/budgets/create-budget-action.html)
+- RCPs are a distinct Organizations authorization-policy type (resource-centric guardrail), separate from SCPs and not wired into Budgets:
+  &gt; "A resource control policy is a type of policy that offers central control over the maximum available permissions for resources in an organization." — [Organizations concepts / RCP](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html) (detail: [RCPs](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html))
+- To attach an RCP on a budget breach you'd need a custom path: Budgets/CloudWatch billing alarm or budget notification → SNS/EventBridge → Lambda calling Organizations `AttachPolicy` with an RCP `PolicyId` (RCPs must be enabled as a policy type first). That is not a native budget action.
+
+Both requested facts are date-stable as of today except the CLI enums, which track the current AWS Budgets API version (`budgets-2016-10-20`); a future action type (e.g. an RCP option) would appear there first.</result>
+<usage><subagent_tokens>67664</subagent_tokens><tool_uses>5</tool_uses><duration_ms>58694</duration_ms></usage>
+</task-notification>
+
+---
+
+Ok, donc je pense que ces deux ou trois workflows, il faut clairement les indiquer. Le premier sur c'est quoi le cycle de vie d'une budget action parce que là on va tout de suite montrer qu'on fait un approve de la budget action qui fait une action. Mais on ne parle pas du cycle de vie, je pense que ça peut être intéressant de l'ajouter, ce que tu mets dans le reverse budget action.Juste indique qu'il n'y a pas d'auto-reverse, mais vérifie bien la doc à ce sujet-là, c'est très important via le SCP, via tous les outils que tu as à disposition.
+
+Côté RCP, d'accord, merci d'avoir vérifié. Par contre, même chose, ça peut être intéressant d'indiquer la liste des actions types avant de parler tout de suite du Apply RCP Policy. Dans l'introduction, donner un peu les types d'actions que l'on peut faire, parce que c'est assez intéressant en termes de use case. Là, on a un focus FinOps, mais ça pourrait être un petit peu plus large, typiquement avec les AIN Policy et les SSM Documents. Au final, on peut faire un peu ce qu'on veut. Et peut-être évoquer qu'effectivement les RCP ne sont pas supportés nativement et qu'il faut passer par un modèle événementiel standard AWS un peu custom. Ça trouvera sans doute sa place, effectivement, slide set, dans les primitives adjacentes. C'est une bonne idée, ça permet d'éviter de saturer le message sur les slides d'avant, garder le focus, mais avoir en ouverture des éléments à donner. Ok pour la méthode uncrafted, pour que ça colle mieux à ce que l'on a vu ensemble ici. Ouais, let's go, ça sera le plus précis et garde bien dans l'historique de cette session le fait qu'il faut qu'on backporte ça d'une manière ou d'une autre dans le skills.
