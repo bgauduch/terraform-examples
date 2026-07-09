@@ -48,3 +48,7 @@ Et est-ce que dans VS Code, on pourrait cacher ou empêcher l'ouverture du state
 ---
 
 Tu l'as mis où le file excluded ? Parce que je ne vois pas ce VS Code Settings JSON et surtout ça ne marche pas du tout dans la fenêtre que j'ai ouverte dans directement le répertoire de la démo. Pas le dépôt guide, vraiment dans le répertoire de la démo.
+
+---
+
+Ok, parfait. Mets bien une note quelque part de doc sur l'offuscation qu'on a rajoutée et le fait que les fichiers sont cachés. Il faut bien l'indiquer, peut-être côté readme et puis faire un lien dans le agent.md, toujours avec cette règle d'anti-duplication, Single Source of Trust. Juste que ça soit bien documenté et visible pour la personne qui repasse dans le dépôt après et qui ne se pose pas de questions. Ce ne sont pas des bugs d'affichage.
