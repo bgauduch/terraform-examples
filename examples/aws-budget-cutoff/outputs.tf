@@ -23,6 +23,11 @@ output "runaway_instance_id" {
   value       = aws_instance.runaway.id
 }
 
+output "break_glass_role_arn" {
+  description = "Break-glass role spared by every cut-off SCP - assume it to prove the control room stays reachable."
+  value       = aws_iam_role.break_glass.arn
+}
+
 output "remediation_lambda" {
   description = "Remediation Lambda - invoke it to auto-terminate the runaway and notify."
   value       = aws_lambda_function.remediation.function_name
