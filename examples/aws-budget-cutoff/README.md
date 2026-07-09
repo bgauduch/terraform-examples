@@ -27,6 +27,49 @@ Two accounts, two providers (`aws` = management, `aws.sandbox` = the target memb
 | sandbox | `aws_iam_role.break_glass` | admin role spared by every cut-off SCP |
 | sandbox | SNS + Lambda `cutoff-remediation` | optional full-auto cleanup + notify (off critical path) |
 
+## How it works
+
+The Budget Action moves through a small state machine. Approving it (or `AUTOMATIC` approval) is
+what makes the exec role attach the SCP; there is **no automatic reversal** when spend drops back
+under the threshold, only a manual reverse (or a natural reset at the next budget period).
+
+```mermaid
+stateDiagram-v2
+    [*] --> Standby
+    Standby --> Pending: actual spend crosses threshold (evaluated ~3x/day)
+    Pending --> Completed: approve (execute-budget-action), AUTOMATIC skips this
+    Completed --> Reversed: reverse / detach-policy (manual)
+    Reversed --> Standby: Reset or next budget period
+    note right of Completed
+        Budgets assumes budgets-cutoff-exec
+        and attaches cutoff-surgical to the sandbox
+    end note
+```
+
+At runtime, each action maps to a specific resource across the two accounts. The critical path
+(budget -> action -> role -> SCP attach) is entirely in the management account; the SCP then
+constrains the sandbox, and the remediation layer (Lambda + SNS) sits off to the side.
+
+```mermaid
+flowchart LR
+    subgraph MGMT["Management account"]
+        direction TB
+        B["Budget<br/>sandbox-cutoff-demo"] --> ACT["Budget Action<br/>APPLY_SCP_POLICY (MANUAL)"]
+        ACT -->|assumes| ROLE["budgets-cutoff-exec"]
+        ROLE -->|AttachPolicy| SCP["SCP cutoff-surgical"]
+    end
+    subgraph SBX["Sandbox account (eu-west-1)"]
+        direction TB
+        RUN["runaway EC2<br/>tag demo=runaway"]
+        BG["break-glass role"]
+        LAM["Lambda<br/>cutoff-remediation"] -->|publish| SNSN["SNS notify"]
+    end
+    SCP ==>|"attached on breach"| RUN
+    SCP -.->|"deny RunInstances / Bedrock / SageMaker / RDS"| RUN
+    SCP -.->|"allow describe / terminate / governance / break-glass"| BG
+    LAM -->|"terminate tagged"| RUN
+```
+
 ## Why `MANUAL` approval
 
 AWS Budgets evaluates roughly three times a day (every 8–12 h) on top of the usual billing-data
@@ -57,6 +100,19 @@ MGMT_PROFILE=<mgmt> SANDBOX_PROFILE=<sandbox> ./scripts/steps.sh
 ```
 
 Tear down with `mise run destroy`.
+
+## Demo screen-share safety
+
+Two **local-only** guards keep account IDs, ARNs, and credentials off screen during a live share.
+Nothing here is committed, and a file hidden by these guards is **intentional, not a display bug**:
+
+- **`scripts/steps.sh`** silences every AWS CLI call and prints a hand-written status line instead
+  of raw JSON, so no account ID / ARN / credential ever reaches the terminal (a browser account-id
+  blur extension does not cover the terminal).
+- **`.vscode/settings.json`** (gitignored) hides `terraform.tfvars` and `*.tfstate*` from the
+  Explorer, Go-to-File, and search so they cannot be opened by accident. `env/example.tfvars`
+  (placeholders only) stays visible. Delete the file to restore normal visibility. Scoped to this
+  example on purpose - open this folder as the VS Code workspace root for it to apply.
 
 ## Full-auto wiring (documented, not built)
 
