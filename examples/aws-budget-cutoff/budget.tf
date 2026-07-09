@@ -62,7 +62,7 @@ resource "aws_budgets_budget" "cutoff" {
     comparison_operator        = "GREATER_THAN"
     threshold                  = 100
     threshold_type             = "PERCENTAGE"
-    notification_type          = "ACTUAL"
+    notification_type          = "FORECASTED" # Proactive warning
     subscriber_email_addresses = [var.notify_email]
   }
 }
@@ -72,8 +72,8 @@ resource "aws_budgets_budget" "cutoff" {
 resource "aws_budgets_budget_action" "cutoff" {
   budget_name        = aws_budgets_budget.cutoff.name
   action_type        = "APPLY_SCP_POLICY"
-  approval_model     = "MANUAL"
-  notification_type  = "ACTUAL"
+  approval_model     = "MANUAL" # Set to "AUTOMATIC" for real world use-case
+  notification_type  = "ACTUAL" # Reactive cut
   execution_role_arn = aws_iam_role.budgets_exec.arn
 
   action_threshold {
