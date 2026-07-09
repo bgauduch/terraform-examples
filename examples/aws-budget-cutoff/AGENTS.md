@@ -25,6 +25,9 @@ freeze → remediate → rollback.
 - SCPs stay **unattached** in code — the Budget Action attaches them. Never add an
   `aws_organizations_policy_attachment` for the cut-off SCPs.
 - Break-glass exemption (`aws:PrincipalArn` `ArnNotLike`) must survive any SCP edit — anti-lock-out.
+- Screen-share safety is a live-demo concern (curated `steps.sh` output + a gitignored
+  `.vscode/settings.json` that hides `terraform.tfvars`/`*.tfstate*` on purpose). See the README
+  "Demo screen-share safety" section - do not treat those hidden files as a bug or re-expose them.
 
 ## Tests
 
