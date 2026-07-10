@@ -26,6 +26,8 @@ output "runaway_instance_id" {
 output "break_glass_role_arn" {
   description = "Break-glass role spared by every cut-off SCP - assume it to prove the control room stays reachable."
   value       = aws_iam_role.break_glass.arn
+  # Embeds the account id + privileged role name; redact from CLI output. `terraform output` still reveals it.
+  sensitive = true
 }
 
 output "remediation_lambda" {
@@ -36,14 +38,20 @@ output "remediation_lambda" {
 output "notify_topic_arn" {
   description = "SNS topic that emails the remediation confirmation."
   value       = aws_sns_topic.notify.arn
+  # ARN embeds the account id; redact from CLI output.
+  sensitive = true
 }
 
 output "approve_action_cli" {
   description = "One-liner to fire the cut-off on stage (once the action is PENDING)."
   value       = "aws budgets execute-budget-action --account-id ${var.mgmt_account_id} --budget-name ${aws_budgets_budget.cutoff.name} --action-id ${aws_budgets_budget_action.cutoff.action_id} --execution-type APPROVE_BUDGET_ACTION --profile ${var.mgmt_profile}"
+  # Bakes in the mgmt account id + profile; redact from CLI output.
+  sensitive = true
 }
 
 output "manual_attach_cli" {
   description = "Fallback: attach the surgical SCP directly (the exact payload the action runs)."
   value       = "aws organizations attach-policy --policy-id ${aws_organizations_policy.cutoff_surgical.id} --target-id ${var.sandbox_account_id} --profile ${var.mgmt_profile}"
+  # Bakes in the sandbox account id + profile; redact from CLI output.
+  sensitive = true
 }
