@@ -6,8 +6,8 @@
 Terraform **1.14** actions can run **provider-native** side-effects (see `terraform-actions` for a
 CloudFront invalidation). But the provider only ships a handful of native actions. This lab shows
 the **escape hatch**: `action "aws_lambda_invoke"` lets a lifecycle event run **any logic you can
-put in a Lambda**. The illustration: take a **timestamped on-demand DynamoDB backup** whenever the
-table is created or updated.
+put in a Lambda**. The illustration: take a **timestamped on-demand DynamoDB backup** before
+Terraform ever mutates the table.
 
 ## The idea
 
@@ -24,7 +24,7 @@ resource "aws_dynamodb_table" "this" {
   # ...
   lifecycle {
     action_trigger {
-      events  = [after_create, after_update]
+      events  = [after_create, before_update]
       actions = [action.aws_lambda_invoke.backup]
     }
   }
@@ -33,6 +33,16 @@ resource "aws_dynamodb_table" "this" {
 
 The Lambda (`lambda/backup.py`) just calls `dynamodb.create_backup(...)` - but it could do
 *anything*: call a third-party API, post to Slack, run a data migration. That is the point.
+
+## Why `before_update` and not `after_update`
+
+The event you pick encodes the intent. `after_*` publishes a consequence of the change (the
+companion `terraform-actions` lab invalidates a CDN cache *after* new content is uploaded).
+`before_update` protects against the change: the snapshot is taken while the table is still in its
+previous state, so an unwanted schema or capacity change is recoverable. In the apply output the
+action completes **before** `Modifying...` on the table.
+
+`after_create` still fires once, on creation - there is nothing to back up before a table exists.
 
 > A native `aws_dynamodb_create_backup` action actually exists. We deliberately go through Lambda
 > here to demonstrate the generic mechanism - reach for a native action first when one fits.
@@ -66,12 +76,15 @@ terraform apply        # creates the table + Lambda; after_create fires the FIRS
 aws dynamodb list-backups --table-name "$(terraform output -raw table_name)" --region eu-west-1
 ```
 
-Then, live:
+Then, the day-2 change:
 
 ```bash
-# Change a table attribute (e.g. add/raise a tag) and re-apply:
-terraform apply        # after_update fires a NEW timestamped backup.
+# Uncomment the `ttl` block on aws_dynamodb_table.this in main.tf, then:
+terraform apply        # before_update fires a NEW timestamped backup, then the table is modified.
 ```
+
+Pick a **fast** mutation to demo this: enabling TTL or changing tags settles in ~5 s, while adding a
+global secondary index takes several minutes of `Still modifying...`.
 
 Invoke the action **stand-alone** (back up on demand, no infra change):
 
@@ -87,4 +100,12 @@ terraform destroy      # on-demand backups survive table deletion - remove them 
 
 ## Going further
 
-- `terraform-actions` - the same mechanism with a **native** provider action (CloudFront).
+- `terraform-actions` - the same mechanism with a **native** provider action (CloudFront), and the
+  `after_update` counterpart of the event choice discussed above.
+
+## Troubleshooting
+
+- `dial tcp 0.0.0.0:443: connect: connection refused` on `logs.<region>.amazonaws.com` - a local
+  DNS filter (Pi-hole, AdGuard, router-level ad blocking) is blackholing hostnames starting with
+  `logs.`. Allow-list the CloudWatch Logs endpoint; the AWS SDK does not fall back to the
+  `logs.<region>.api.aws` dual-stack name on its own.

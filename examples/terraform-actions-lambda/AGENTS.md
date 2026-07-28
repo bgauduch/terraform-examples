@@ -34,8 +34,8 @@ table name), never `aws_dynamodb_table.this.arn`. Keep it that way.
 ```bash
 terraform init
 terraform apply                 # after_create -> first backup
-# change a table attribute, then:
-terraform apply                 # after_update -> new timestamped backup
+# uncomment the `ttl` block on the table, then:
+terraform apply                 # before_update -> new timestamped backup, taken before the change
 terraform apply -invoke=action.aws_lambda_invoke.backup   # stand-alone, on-demand backup
 terraform destroy
 ```
@@ -51,6 +51,11 @@ Validation before committing: `terraform fmt -recursive` (root) and `terraform v
 ## Conventions in this example
 
 - `events` are bare identifiers (`after_create`, not `"after_create"`).
+- The trigger is `[after_create, before_update]` on purpose: the backup is a **safety net**, so it
+  must run before the table is mutated. Do not switch it to `after_update` - that would make the
+  snapshot describe the post-change state. `after_*` belongs to the companion `terraform-actions`
+  lab, where the invalidation follows the content upload.
+- Keep the demo mutation fast (TTL, tags): a GSI change takes minutes to settle.
 - IAM is least-privilege: `dynamodb:CreateBackup` on the table ARN, logs to the function's own group.
 - The Lambda zip lands in `build/` (git-ignored) via the `archive_file` data source.
 - Tags via `local.common_tags` (`Project` / `ManagedBy`); follow the same shape for new resources.

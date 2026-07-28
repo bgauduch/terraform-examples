@@ -92,7 +92,9 @@ action "aws_lambda_invoke" "backup" {
 }
 
 # ---------------------------------------------------------------------------
-# The table whose lifecycle triggers the backup on create and on update.
+# The table whose lifecycle triggers the backup: once on creation, then BEFORE
+# every update. `before_update` is what makes this a safety net - the snapshot
+# exists before Terraform touches the table, not after.
 # ---------------------------------------------------------------------------
 resource "aws_dynamodb_table" "this" {
   name         = local.table_name
@@ -112,11 +114,18 @@ resource "aws_dynamodb_table" "this" {
     enabled = true
   }
 
+  # A day-2 change to exercise the `before_update` trigger: uncomment, apply, and
+  # watch the backup run before the table is modified.
+  # ttl {
+  #   attribute_name = "expires_at"
+  #   enabled        = true
+  # }
+
   tags = local.common_tags
 
   lifecycle {
     action_trigger {
-      events  = [after_create, after_update]
+      events  = [after_create, before_update]
       actions = [action.aws_lambda_invoke.backup]
     }
   }
