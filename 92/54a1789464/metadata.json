@@ -1,0 +1,27 @@
+{
+  "cli_version": "0.9.0",
+  "checkpoint_id": "9254a1789464",
+  "strategy": "manual-commit",
+  "branch": "ci/commitlint-pr-scope",
+  "checkpoints_count": 1,
+  "files_touched": [
+    ".github/workflows/commitlint.yml",
+    "tasks/lessons.md"
+  ],
+  "sessions": [
+    {
+      "metadata": "/92/54a1789464/0/metadata.json",
+      "transcript": "/92/54a1789464/0/full.jsonl",
+      "compact_transcript": "/92/54a1789464/0/transcript.jsonl",
+      "content_hash": "/92/54a1789464/0/content_hash.txt",
+      "prompt": "/92/54a1789464/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 104,
+    "cache_creation_tokens": 118275,
+    "cache_read_tokens": 5412907,
+    "output_tokens": 41034,
+    "api_call_count": 56
+  }
+}
