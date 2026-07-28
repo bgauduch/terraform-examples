@@ -1,0 +1,29 @@
+{
+  "cli_version": "0.9.0",
+  "checkpoint_id": "902c2f3f6d58",
+  "strategy": "manual-commit",
+  "branch": "claude/terraform-actions-lambda",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "examples/terraform-actions-lambda/.terraform.lock.hcl",
+    "examples/terraform-actions-lambda/AGENTS.md",
+    "examples/terraform-actions-lambda/README.md",
+    "examples/terraform-actions-lambda/main.tf"
+  ],
+  "sessions": [
+    {
+      "metadata": "/90/2c2f3f6d58/0/metadata.json",
+      "transcript": "/90/2c2f3f6d58/0/full.jsonl",
+      "compact_transcript": "/90/2c2f3f6d58/0/transcript.jsonl",
+      "content_hash": "/90/2c2f3f6d58/0/content_hash.txt",
+      "prompt": ""
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 2,
+    "cache_creation_tokens": 1926,
+    "cache_read_tokens": 136364,
+    "output_tokens": 1799,
+    "api_call_count": 1
+  }
+}
