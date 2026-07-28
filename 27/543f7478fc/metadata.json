@@ -1,0 +1,27 @@
+{
+  "cli_version": "0.9.0",
+  "checkpoint_id": "27543f7478fc",
+  "strategy": "manual-commit",
+  "branch": "claude/terraform-actions-cloudfront",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "examples/terraform-actions/.terraform.lock.hcl",
+    "examples/terraform-actions/README.md"
+  ],
+  "sessions": [
+    {
+      "metadata": "/27/543f7478fc/0/metadata.json",
+      "transcript": "/27/543f7478fc/0/full.jsonl",
+      "compact_transcript": "/27/543f7478fc/0/transcript.jsonl",
+      "content_hash": "/27/543f7478fc/0/content_hash.txt",
+      "prompt": ""
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 0,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 0,
+    "output_tokens": 0,
+    "api_call_count": 0
+  }
+}
