@@ -1,8 +1,12 @@
 name: Commit messages
 
+# Scoped to `pull_request`, not `push`: on a push the action lints the `before..after`
+# range, which after a rebase or force-push spans commits already merged into `main`
+# (release-please bodies carry a >100-char bot trailer) and fails a PR whose own commits
+# all conform. On `pull_request` the range is `base..head` - exactly what the PR proposes.
 on:
-  push:
-    branches-ignore: [main]
+  pull_request:
+    types: [opened, synchronize, reopened]
 
 concurrency:
   group: commitlint-${{ github.ref }}
@@ -19,7 +23,7 @@ jobs:
     # Semantic PR title check instead. Skip per-commit linting to avoid noise on bot PRs.
     if: >-
       github.actor != 'dependabot[bot]' &&
-      !startsWith(github.ref_name, 'release-please--')
+      !startsWith(github.head_ref, 'release-please--')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
