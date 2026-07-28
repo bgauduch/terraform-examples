@@ -36,6 +36,11 @@ resource "aws_s3_object" "index" {
 
 Available lifecycle events: `before_create`, `after_create`, `before_update`, `after_update`.
 
+The event encodes the intent. Here the invalidation **publishes a consequence** of the change, so it
+runs `after_update` - the new object must be in the bucket before the cache is purged. The companion
+`terraform-actions-lambda` lab takes the mirror case: a backup that **protects against** the change,
+on `before_update`.
+
 ## Why not `local-exec`?
 
 A `null_resource` + `local-exec "aws cloudfront create-invalidation ..."` works, but: it is not in
@@ -104,4 +109,5 @@ terraform destroy
 ## Going further
 
 - `terraform-actions-lambda` - same mechanism, but with `aws_lambda_invoke` as a generic escape
-  hatch when no native provider action fits.
+  hatch when no native provider action fits, and the `before_update` counterpart of the event choice
+  discussed above.
