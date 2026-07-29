@@ -3,7 +3,7 @@
 Guidance for AI coding agents working inside this example. Repo-wide conventions live in the root
 `AGENTS.md`; this file covers what is specific to `terraform-actions`.
 
-Taxonomy: **type `lab`** - progressive, playable in a live session. Tags: `aws`, `actions`,
+Taxonomy: **type `lab`** (progressive, playable in a live session). Tags: `aws`, `actions`,
 `lifecycle`, `cloudfront`, `v1.14`.
 
 ## Purpose and scope
@@ -13,8 +13,8 @@ Terraform 1.14 **actions**: binding the native `aws_cloudfront_create_invalidati
 S3 object's lifecycle so the CDN cache is invalidated on every content change.
 
 Keep it minimal and focused on the action mechanism. Do not add production hardening (WAF, access
-logging, custom ACM domain) unless asked - those are documented as out-of-scope in the README and
-silenced with `#trivy:ignore` lines.
+logging, custom ACM domain) unless asked: the README documents them as out of scope and `main.tf`
+silences them with `#trivy:ignore` lines.
 
 ## Architecture
 
@@ -25,7 +25,7 @@ Single root module (this directory; `providers.tf` is auto-discovered by CI). Fl
 runs the action on `after_create` / `after_update`.
 
 The action references the distribution; the object's trigger references the action. Terraform
-orders the action after the distribution exists - do not add explicit `depends_on` for this.
+already orders the action after the distribution exists, so no explicit `depends_on` is needed.
 
 ## Common commands
 

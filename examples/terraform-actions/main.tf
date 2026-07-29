@@ -35,7 +35,7 @@ resource "aws_s3_bucket_versioning" "site" {
 
 # SSE-S3 (AES256) is appropriate for public web assets served through a CDN.
 # SSE-KMS with a customer-managed key would also require a KMS key policy granting
-# the CloudFront OAC kms:Decrypt - out of scope for an actions-focused demo.
+# the CloudFront OAC kms:Decrypt, out of scope for an actions-focused demo.
 #trivy:ignore:AVD-AWS-0132
 resource "aws_s3_bucket_server_side_encryption_configuration" "site" {
   bucket = aws_s3_bucket.site.id
@@ -57,13 +57,13 @@ resource "aws_cloudfront_origin_access_control" "site" {
   signing_protocol                  = "sigv4"
 }
 
-# Managed cache policy - avoids the deprecated inline forwarded_values block.
+# Managed cache policy: avoids the deprecated inline forwarded_values block.
 data "aws_cloudfront_cache_policy" "optimized" {
   name = "Managed-CachingOptimized"
 }
 
 # WAF, access logging and a custom TLS certificate are intentionally omitted to
-# keep this a focused teaching demo - see the README "Security baseline" section.
+# keep this a focused teaching demo. See the README "Security baseline" section.
 #trivy:ignore:AVD-AWS-0011
 #trivy:ignore:AVD-AWS-0010
 #trivy:ignore:AVD-AWS-0013

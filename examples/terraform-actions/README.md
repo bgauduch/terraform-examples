@@ -4,9 +4,9 @@
 > **Tags**: `aws` `actions` `lifecycle` `cloudfront` `v1.14`
 
 Terraform **1.14** introduced **actions**: declarative, *imperative* side-effects you bind to a
-resource's lifecycle. This lab shows a classic day-2 need - **invalidate a CloudFront cache
-automatically whenever the page it serves changes** - using the **native**
-`aws_cloudfront_create_invalidation` action, with no `null_resource` + `local-exec` hack.
+resource's lifecycle. This lab covers a classic day-2 need: invalidate a CloudFront cache
+automatically whenever the page it serves changes, using the native
+`aws_cloudfront_create_invalidation` action instead of a `null_resource` + `local-exec` hack.
 
 ## The idea
 
@@ -36,10 +36,10 @@ resource "aws_s3_object" "index" {
 
 Available lifecycle events: `before_create`, `after_create`, `before_update`, `after_update`.
 
-The event encodes the intent. Here the invalidation **publishes a consequence** of the change, so it
-runs `after_update` - the new object must be in the bucket before the cache is purged. The companion
-`terraform-actions-lambda` lab takes the mirror case: a backup that **protects against** the change,
-on `before_update`.
+The event encodes the intent. Here the invalidation publishes a consequence of the change, so it
+runs `after_update`: the new object must be in the bucket before the cache is purged. The companion
+`terraform-actions-lambda` lab takes the mirror case, a backup that protects against the change, on
+`before_update`.
 
 ## Why not `local-exec`?
 
@@ -56,16 +56,15 @@ the provider with the configured credentials, and bound to real lifecycle events
 
 ## Security baseline
 
-The config aims to pass `trivy config` on the gating findings. Three CloudFront findings are
-knowingly **out of scope** for a teaching demo and silenced with documented `#trivy:ignore` lines
-in `main.tf` (rather than hidden):
+The config aims to pass `trivy config` on the gating findings. Four findings are out of scope for a
+teaching demo and are silenced with documented `#trivy:ignore` lines in `main.tf`:
 
 - **WAF** in front of the distribution (`AVD-AWS-0011`).
 - **Access logging** to a dedicated log bucket (`AVD-AWS-0010`).
-- **Minimum TLS version** (`AVD-AWS-0013`) - not settable with the default CloudFront certificate;
-  enforcing it would require ACM + a custom domain, out of scope here.
-- **Customer-managed KMS key** for the bucket (`AVD-AWS-0132`) - SSE-S3 (AES256) is appropriate for
-  public web assets behind a CDN; SSE-KMS would also need a `kms:Decrypt` grant for the OAC.
+- **Minimum TLS version** (`AVD-AWS-0013`): not settable with the default CloudFront certificate.
+  Enforcing it would require ACM + a custom domain.
+- **Customer-managed KMS key** for the bucket (`AVD-AWS-0132`): SSE-S3 (AES256) fits public web
+  assets behind a CDN, and SSE-KMS would also need a `kms:Decrypt` grant for the OAC.
 
 ## Prerequisites
 
@@ -103,11 +102,11 @@ Teardown:
 terraform destroy
 ```
 
-> A CloudFront distribution takes a few minutes to deploy and to tear down - factor that into your
-> run. `terraform validate` (what CI runs) needs no credentials.
+> A CloudFront distribution takes a few minutes to deploy and to tear down, so factor that into
+> your run. `terraform validate` (what CI runs) needs no credentials.
 
 ## Going further
 
-- `terraform-actions-lambda` - same mechanism, but with `aws_lambda_invoke` as a generic escape
-  hatch when no native provider action fits, and the `before_update` counterpart of the event choice
+- `terraform-actions-lambda`: same mechanism with `aws_lambda_invoke` as a generic escape hatch
+  when no native provider action fits, and the `before_update` counterpart of the event choice
   discussed above.

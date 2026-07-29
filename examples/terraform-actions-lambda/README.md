@@ -31,8 +31,8 @@ resource "aws_dynamodb_table" "this" {
 }
 ```
 
-The Lambda (`lambda/backup.py`) just calls `dynamodb.create_backup(...)` - but it could do
-*anything*: call a third-party API, post to Slack, run a data migration. That is the point.
+The Lambda (`lambda/backup.py`) calls `dynamodb.create_backup(...)`, but it could run anything
+else: a third-party API call, a Slack post, a data migration. That is the point.
 
 ## Why `before_update` and not `after_update`
 
@@ -42,10 +42,10 @@ companion `terraform-actions` lab invalidates a CDN cache *after* new content is
 previous state, so an unwanted schema or capacity change is recoverable. In the apply output the
 action completes **before** `Modifying...` on the table.
 
-`after_create` still fires once, on creation - there is nothing to back up before a table exists.
+`after_create` still fires once, on creation: there is nothing to back up before a table exists.
 
-> A native `aws_dynamodb_create_backup` action actually exists. We deliberately go through Lambda
-> here to demonstrate the generic mechanism - reach for a native action first when one fits.
+> A native `aws_dynamodb_create_backup` action exists. Going through Lambda here demonstrates the
+> generic mechanism. Reach for a native action first when one fits.
 
 ## Avoiding the dependency cycle
 
@@ -83,8 +83,13 @@ Then, the day-2 change:
 terraform apply        # before_update fires a NEW timestamped backup, then the table is modified.
 ```
 
-Pick a **fast** mutation to demo this: enabling TTL or changing tags settles in ~5 s, while adding a
+Pick a fast mutation to demo this: enabling TTL or changing tags settles in ~5 s, while adding a
 global secondary index takes several minutes of `Still modifying...`.
+
+TTL is rate-limited. `UpdateTimeToLive` takes up to an hour to fully process, and any further call on
+the same table inside that window fails with a `ValidationException`
+([API reference](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_UpdateTimeToLive.html)).
+Running the gesture twice in a row means waiting out the hour, or switching to a tag change.
 
 Invoke the action **stand-alone** (back up on demand, no infra change):
 
@@ -95,17 +100,18 @@ terraform apply -invoke=action.aws_lambda_invoke.backup
 Teardown:
 
 ```bash
-terraform destroy      # on-demand backups survive table deletion - remove them manually if needed.
+terraform destroy      # on-demand backups survive table deletion; remove them manually if needed.
 ```
 
 ## Going further
 
-- `terraform-actions` - the same mechanism with a **native** provider action (CloudFront), and the
+- `terraform-actions`: the same mechanism with a native provider action (CloudFront), and the
   `after_update` counterpart of the event choice discussed above.
 
 ## Troubleshooting
 
-- `dial tcp 0.0.0.0:443: connect: connection refused` on `logs.<region>.amazonaws.com` - a local
+- `dial tcp 0.0.0.0:443: connect: connection refused` on `logs.<region>.amazonaws.com`: a local
   DNS filter (Pi-hole, AdGuard, router-level ad blocking) is blackholing hostnames starting with
-  `logs.`. Allow-list the CloudWatch Logs endpoint; the AWS SDK does not fall back to the
-  `logs.<region>.api.aws` dual-stack name on its own.
+  `logs.`. Allow-list the CloudWatch Logs endpoint, or point the SDK at the dual-stack name with
+  `AWS_ENDPOINT_URL_CLOUDWATCH_LOGS=https://logs.<region>.api.aws`. The SDK does not fall back to it
+  on its own.

@@ -4,7 +4,7 @@ output "cloudfront_url" {
 }
 
 output "distribution_id" {
-  description = "CloudFront distribution ID - the target of the invalidation action"
+  description = "CloudFront distribution ID, the target of the invalidation action"
   value       = aws_cloudfront_distribution.site.id
 }
 

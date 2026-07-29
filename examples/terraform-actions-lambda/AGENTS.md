@@ -3,7 +3,7 @@
 Guidance for AI coding agents working inside this example. Repo-wide conventions live in the root
 `AGENTS.md`; this file covers what is specific to `terraform-actions-lambda`.
 
-Taxonomy: **type `lab`** - progressive, playable in a live session. Tags: `aws`, `actions`,
+Taxonomy: **type `lab`** (progressive, playable in a live session). Tags: `aws`, `actions`,
 `lambda`, `dynamodb`, `v1.14`.
 
 ## Purpose and scope
@@ -52,10 +52,11 @@ Validation before committing: `terraform fmt -recursive` (root) and `terraform v
 
 - `events` are bare identifiers (`after_create`, not `"after_create"`).
 - The trigger is `[after_create, before_update]` on purpose: the backup is a **safety net**, so it
-  must run before the table is mutated. Do not switch it to `after_update` - that would make the
+  must run before the table is mutated. Do not switch it to `after_update`: that would make the
   snapshot describe the post-change state. `after_*` belongs to the companion `terraform-actions`
   lab, where the invalidation follows the content upload.
-- Keep the demo mutation fast (TTL, tags): a GSI change takes minutes to settle.
+- Keep the demo mutation fast (TTL, tags): a GSI change takes minutes to settle. TTL toggles are
+  rate-limited to one `UpdateTimeToLive` per table per hour, so repeated runs need a tag change.
 - IAM is least-privilege: `dynamodb:CreateBackup` on the table ARN, logs to the function's own group.
 - The Lambda zip lands in `build/` (git-ignored) via the `archive_file` data source.
 - Tags via `local.common_tags` (`Project` / `ManagedBy`); follow the same shape for new resources.
