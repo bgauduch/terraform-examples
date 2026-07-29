@@ -1,0 +1,2 @@
+arn:aws:dynamodb:eu-west-1:819926065482:table/demo-tf-actions-lambda/backup/01785334345969-00000000
+Invalid Request: User is not allowed to delete the system backup with arn arn:aws:dynamodb:eu-west-1:819926065482:table/demo-tf-actions-lambda/backup/01785334345969-00000000. It will automatically expire on 2026-09-02T14:12:25.969Z
