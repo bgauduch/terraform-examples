@@ -9,6 +9,10 @@ the **escape hatch**: `action "aws_lambda_invoke"` lets a lifecycle event run **
 put in a Lambda**. The illustration: take a **timestamped on-demand DynamoDB backup** before
 Terraform ever mutates the table.
 
+> **Day 0 / day 1 / day 2**, since the whole point hangs on it: day 0 is design, day 1 is build and
+> deploy, day 2 is everything after go-live (operate, evolve, repair). In Terraform terms, day 1
+> creates the resource and day 2 is the work that keeps happening to it afterwards.
+
 ## The idea
 
 ```hcl
@@ -46,6 +50,17 @@ action completes **before** `Modifying...` on the table.
 
 > A native `aws_dynamodb_create_backup` action exists. Going through Lambda here demonstrates the
 > generic mechanism. Reach for a native action first when one fits.
+
+The backup is the illustration because it reads in one screen and its effect is checkable with one
+CLI call. The escape hatch earns its keep on the day-2 work no provider action covers, the kind that
+used to sit in a `null_resource` + `local-exec` or in a pipeline step bolted next to Terraform:
+
+- purge a CDN or WAF you do not host (Cloudflare, Fastly, Akamai),
+- seed reference data, or backfill an attribute after a schema change,
+- register a release or a deployment marker in a third-party system,
+- call an internal API to drain a component before it gets replaced.
+
+Same wiring as below, only the Lambda body changes.
 
 ## Avoiding the dependency cycle
 

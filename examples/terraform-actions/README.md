@@ -8,6 +8,10 @@ resource's lifecycle. This lab covers a classic day-2 need: invalidate a CloudFr
 automatically whenever the page it serves changes, using the native
 `aws_cloudfront_create_invalidation` action instead of a `null_resource` + `local-exec` hack.
 
+> **Day 0 / day 1 / day 2**, since the whole point hangs on it: day 0 is design, day 1 is build and
+> deploy, day 2 is everything after go-live (operate, evolve, repair). In Terraform terms, day 1
+> creates the resource and day 2 is the work that keeps happening to it afterwards.
+
 ## The idea
 
 Two new language pieces work together:
