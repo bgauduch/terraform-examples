@@ -83,7 +83,7 @@ terraform apply        # creates the bucket + distribution + object;
 terraform output cloudfront_url   # open it -> shows "Content version: v1"
 ```
 
-Then, live:
+Then, the day-2 change:
 
 ```bash
 # Edit content/index.html: change "v1" to "v2".
@@ -103,8 +103,8 @@ Teardown:
 terraform destroy
 ```
 
-> A CloudFront distribution takes a few minutes to deploy and to tear down - factor that into the
-> live timing. `terraform validate` (what CI runs) needs no credentials.
+> A CloudFront distribution takes a few minutes to deploy and to tear down - factor that into your
+> run. `terraform validate` (what CI runs) needs no credentials.
 
 ## Going further
 
