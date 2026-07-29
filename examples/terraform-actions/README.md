@@ -51,7 +51,9 @@ the provider with the configured credentials, and bound to real lifecycle events
 ## What gets deployed
 
 - A **private** S3 bucket (origin), with public access blocked, versioning and SSE enabled.
-- A **CloudFront distribution** (Origin Access Control) serving `index.html` over HTTPS.
+- A **CloudFront distribution** (Origin Access Control) serving `index.html` over HTTPS, on the
+  managed `Managed-CachingOptimized` policy: default TTL 24 h, so an updated object stays hidden
+  behind the cache until it is invalidated.
 - The `index.html` object, whose lifecycle triggers the cache invalidation.
 
 ## Security baseline
@@ -94,6 +96,25 @@ Then, the day-2 change:
 terraform apply        # the after_update event fires a NEW invalidation;
                        # refresh the URL -> v2 is visible immediately.
 ```
+
+### Proving the cache was actually purged
+
+`index.html` ships without a `Cache-Control` header, so each edge holds it for the cache policy's
+default TTL. `Managed-CachingOptimized` sets that to 24 h (min 1 s, max 1 year, cache key without
+cookies, headers or query strings), which is what makes the invalidation necessary: without it, the
+updated page stays invisible for up to a day. The `x-cache` and `age` response headers show the
+whole cycle:
+
+```bash
+URL=$(terraform output -raw cloudfront_url)
+curl -sI "$URL" | grep -iE 'x-cache|^age'   # Hit from cloudfront, age climbing -> served from cache
+# bump the version in content/index.html, then:
+terraform apply
+curl -sI "$URL" | grep -iE 'x-cache|^age'   # Miss from cloudfront -> the edge had to refetch
+curl -sI "$URL" | grep -iE 'x-cache|^age'   # Hit again, age back to ~0
+```
+
+Without the `after_update` trigger, that middle request would still be a `Hit` on the old object.
 
 Invoke the action **stand-alone** (run only the action, no infra change):
 
