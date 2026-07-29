@@ -37,7 +37,8 @@ terraform apply                 # after_create -> first backup
 # uncomment the `ttl` block on the table, then:
 terraform apply                 # before_update -> new timestamped backup, taken before the change
 terraform apply -invoke=action.aws_lambda_invoke.backup   # stand-alone, on-demand backup
-terraform destroy
+mise run teardown               # destroy + delete the backups it leaves behind
+mise run sweep                  # list those backups without deleting (dry-run)
 ```
 
 Validation before committing: `terraform fmt -recursive` (root) and `terraform validate` here.
@@ -59,4 +60,7 @@ Validation before committing: `terraform fmt -recursive` (root) and `terraform v
   rate-limited to one `UpdateTimeToLive` per table per hour, so repeated runs need a tag change.
 - IAM is least-privilege: `dynamodb:CreateBackup` on the table ARN, logs to the function's own group.
 - The Lambda zip lands in `build/` (git-ignored) via the `archive_file` data source.
+- The action's side-effect outlives the lab: on-demand backups are created out of band, so they are
+  absent from the state and `terraform destroy` leaves them. `sweep.sh` is the cleanup path, mirroring
+  `terraform-module-testing/sweep.sh`. Keep any new out-of-band side-effect sweepable the same way.
 - Tags via `local.common_tags` (`Project` / `ManagedBy`); follow the same shape for new resources.

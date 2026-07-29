@@ -112,11 +112,29 @@ Invoke the action **stand-alone** (back up on demand, no infra change):
 terraform apply -invoke=action.aws_lambda_invoke.backup
 ```
 
-Teardown:
+Teardown, in one command:
 
 ```bash
-terraform destroy      # on-demand backups survive table deletion; remove them manually if needed.
+mise run teardown      # terraform destroy, then sweep.sh --force
 ```
+
+Or step by step, to see what is left behind:
+
+```bash
+terraform destroy      # removes the table, the Lambda, the role and the log group
+./sweep.sh             # lists the on-demand backups still there (dry-run)
+./sweep.sh --force     # deletes them
+```
+
+**`terraform destroy` does not delete the backups**, and that is not an oversight of this lab. An
+on-demand backup outlives its table by design, and Terraform never knew about these ones: the Lambda
+creates them out of band, so they are not in the state. Nothing in the current `action_trigger`
+events can clean them up either, since destroy-time events are still Terraform 1.16 (alpha). Until
+then the teardown of an action's side-effects belongs to a sweeper, which is exactly the kind of
+seam worth knowing before you wire an action that creates something.
+
+The backups are cheap (a few bytes on an empty table) but they are the residue this lab produces, so
+sweep them like you would any other.
 
 ## Going further
 
