@@ -6,6 +6,8 @@ Durable lessons learned while working in this repository. Append new entries; ke
 
 - **Trivy single-scan + convert** - run `trivy config . --format json --output trivy.json --exit-code 0` once, then drive both the report and the gate from that one JSON with `trivy convert`: `--severity MEDIUM,HIGH,CRITICAL --exit-code 0` for visibility and `--severity HIGH,CRITICAL --exit-code 1` to block. Scanning once and converting twice keeps a single source of truth and avoids re-scanning per severity. The `trivy` CLI is installed by `mise` (pinned in the repo-root `mise.toml`), so the raw `trivy` commands are available in the step - no separate `setup-trivy`/`trivy-action`.
 
+- **Lint commits on `pull_request`, never on `push`** - `wagoid/commitlint-github-action` lints `before..after` on a push event. After a rebase or force-push that range spans commits already on `main` (the release-please bodies carry a `Co-authored-by: github-actions[bot] <...>` trailer over the 100-char `footer-max-line-length`), turning a conforming PR red for history it does not own. The `pull_request` event lints `base..head` instead - the commits the PR actually proposes. Same job name, so branch protection is unaffected.
+
 ## Security hardening
 
 - **KMS rotation (`AWS-0065`)** - `trivy config` flags `aws_kms_key` without `enable_key_rotation = true`. Always enable rotation on customer-managed keys; pair it with a deliberately short `deletion_window_in_days` (AWS minimum is 7) only in throwaway demos, with a comment explaining why.
