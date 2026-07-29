@@ -111,7 +111,16 @@ terraform destroy      # on-demand backups survive table deletion; remove them m
 ## Troubleshooting
 
 - `dial tcp 0.0.0.0:443: connect: connection refused` on `logs.<region>.amazonaws.com`: a local
-  DNS filter (Pi-hole, AdGuard, router-level ad blocking) is blackholing hostnames starting with
-  `logs.`. Allow-list the CloudWatch Logs endpoint, or point the SDK at the dual-stack name with
-  `AWS_ENDPOINT_URL_CLOUDWATCH_LOGS=https://logs.<region>.api.aws`. The SDK does not fall back to it
-  on its own.
+  DNS filter (Pi-hole, AdGuard, router-level ad blocking) is blackholing hostnames that start with
+  `logs.`, so the log group resource fails on create and even on refresh. Point the SDK at the
+  dual-stack endpoint, which resolves normally, in the shell that runs Terraform:
+
+  ```bash
+  export AWS_ENDPOINT_URL_CLOUDWATCH_LOGS=https://logs.eu-west-1.api.aws
+  ```
+
+  `AWS_ENDPOINT_URL_<SERVICE>` is the standard per-service override, where `<SERVICE>` is the API
+  model `serviceId` uppercased with spaces turned into underscores
+  ([SDK reference](https://docs.aws.amazon.com/sdkref/latest/guide/feature-ss-endpoints.html)). It
+  keeps the fix inside the repo instead of depending on the network you happen to sit behind.
+  Allow-listing the endpoint on the resolver works too, when you own it.

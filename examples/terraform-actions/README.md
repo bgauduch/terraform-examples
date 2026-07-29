@@ -61,8 +61,13 @@ teaching demo and are silenced with documented `#trivy:ignore` lines in `main.tf
 
 - **WAF** in front of the distribution (`AVD-AWS-0011`).
 - **Access logging** to a dedicated log bucket (`AVD-AWS-0010`).
-- **Minimum TLS version** (`AVD-AWS-0013`): not settable with the default CloudFront certificate.
-  Enforcing it would require ACM + a custom domain.
+- **Minimum TLS version** (`AVD-AWS-0013`): not settable here, and not for lack of trying. With
+  `cloudfront_default_certificate = true`, *"CloudFront automatically sets the security policy to
+  `TLSv1` regardless of the value that you set here"*
+  ([ViewerCertificate API reference](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_ViewerCertificate.html)).
+  `minimum_protocol_version` only applies to a distribution that serves an alias with its own ACM
+  certificate (in `us-east-1`, whatever the distribution's region). `main.tf` carries that
+  production shape as a commented block next to `viewer_certificate`.
 - **Customer-managed KMS key** for the bucket (`AVD-AWS-0132`): SSE-S3 (AES256) fits public web
   assets behind a CDN, and SSE-KMS would also need a `kms:Decrypt` grant for the OAC.
 

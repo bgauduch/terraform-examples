@@ -64,6 +64,10 @@ data "aws_cloudfront_cache_policy" "optimized" {
 
 # WAF, access logging and a custom TLS certificate are intentionally omitted to
 # keep this a focused teaching demo. See the README "Security baseline" section.
+# AVD-AWS-0013 (minimum TLS version) cannot be satisfied here: with the default
+# *.cloudfront.net certificate, "CloudFront automatically sets the security policy
+# to TLSv1 regardless of the value that you set here" (ViewerCertificate API
+# reference). Enforcing TLSv1.2_2021 needs an alias + an ACM certificate, below.
 #trivy:ignore:AVD-AWS-0011
 #trivy:ignore:AVD-AWS-0010
 #trivy:ignore:AVD-AWS-0013
@@ -92,6 +96,15 @@ resource "aws_cloudfront_distribution" "site" {
     }
   }
 
+  # Production shape, once the distribution serves a custom domain (ACM certificate
+  # must live in us-east-1, whatever the distribution's region):
+  #
+  #   aliases = ["cdn.example.com"]
+  #   viewer_certificate {
+  #     acm_certificate_arn      = aws_acm_certificate.site.arn
+  #     ssl_support_method       = "sni-only"
+  #     minimum_protocol_version = "TLSv1.2_2021"
+  #   }
   viewer_certificate {
     cloudfront_default_certificate = true
   }
