@@ -1,0 +1,24 @@
+{
+  "cli_version": "0.9.0",
+  "checkpoint_id": "911da4c74179",
+  "strategy": "manual-commit",
+  "branch": "docs/terraform-actions-neutral-wording",
+  "checkpoints_count": 1,
+  "files_touched": null,
+  "sessions": [
+    {
+      "metadata": "/91/1da4c74179/0/metadata.json",
+      "transcript": "/91/1da4c74179/0/full.jsonl",
+      "compact_transcript": "/91/1da4c74179/0/transcript.jsonl",
+      "content_hash": "/91/1da4c74179/0/content_hash.txt",
+      "prompt": "/91/1da4c74179/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 154,
+    "cache_creation_tokens": 194333,
+    "cache_read_tokens": 9857049,
+    "output_tokens": 78871,
+    "api_call_count": 83
+  }
+}
