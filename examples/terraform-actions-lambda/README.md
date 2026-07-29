@@ -62,19 +62,12 @@ used to sit in a `null_resource` + `local-exec` or in a pipeline step bolted nex
 
 Same wiring as below, only the Lambda body changes.
 
-## Why the table keeps PITR on, next to the action's snapshots
+## Why PITR stays on next to the action's snapshots
 
-Fair objection: the table has point-in-time recovery, so why invoke a Lambda to back it up at all?
-The two answer different questions.
-
-- **PITR** is continuous and undirected. It restores to any second inside a rolling window, which
-  covers the incident nobody planned (a bad write at 14:32).
-- **The action's snapshot** is deliberate, named and anchored to a lifecycle moment. It is the one
-  you can point at six months later: `demo-tf-actions-lambda-20260728-174007`, taken right before a
-  schema change, addressable in a runbook or a rollback procedure.
-
-Dropping PITR here would also mean silencing `AVD-AWS-0024` with an ignore, in a lab that otherwise
-passes the scanners clean. It stays on, at the price of the system backup described in Teardown.
+They answer different questions. PITR restores to any second in a rolling window, for the incident
+nobody planned. The action's snapshot is deliberate and named, taken right before a schema change
+and addressable in a rollback procedure six months later. Dropping PITR would also trade a clean
+scanner run for an `AVD-AWS-0024` ignore.
 
 ## Avoiding the dependency cycle
 
@@ -140,24 +133,14 @@ terraform destroy      # removes the table, the Lambda, the role and the log gro
 ./sweep.sh --force     # deletes them
 ```
 
-**`terraform destroy` does not delete the backups**, and that is not an oversight of this lab. An
-on-demand backup outlives its table by design, and Terraform never knew about these ones: the Lambda
-creates them out of band, so they are not in the state. Nothing in the current `action_trigger`
-events can clean them up either, since destroy-time events are still Terraform 1.16 (alpha). Until
-then the teardown of an action's side-effects belongs to a sweeper, which is exactly the kind of
-seam worth knowing before you wire an action that creates something.
+**`terraform destroy` does not delete the backups.** They outlive the table by design and the Lambda
+creates them out of band, so they never reach the state. Destroy-time `action_trigger` events, which
+would let the lab clean up after itself, are Terraform 1.16 (alpha), hence the sweeper.
 
-The backups are cheap (a few bytes on an empty table) but they are the residue this lab produces, so
-sweep them like you would any other.
-
-One residue you cannot sweep, and should not try to: this table has PITR enabled, and *"when you
-delete a table that has point-in-time recovery enabled, DynamoDB automatically creates a backup
-snapshot called a system backup and retains it for 35 days (at no additional cost)"*
+PITR adds one residue you cannot sweep: deleting the table leaves a `<table>$DeletedTableBackup`
+system backup, kept 35 days at no cost and refused by `delete-backup`
 ([PITR reference](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/PointInTimeRecovery_Howitworks.html)).
-It is named `<table>$DeletedTableBackup`, deleting it returns `Invalid Request: User is not allowed
-to delete the system backup`, and it expires on its own. `sweep.sh` lists it with its expiry date
-rather than hiding it, because `aws dynamodb list-backups` filters on `USER` by default and would
-otherwise report an empty account while two snapshots sit there.
+`sweep.sh` lists it rather than hiding it, since `list-backups` filters on `USER` by default.
 
 ## Going further
 
