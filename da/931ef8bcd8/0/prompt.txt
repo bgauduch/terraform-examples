@@ -1,0 +1,17 @@
+Ok, plusieurs points, tu ne m'as toujours pas montré les coûts, ça veut dire que tu as laissé le code déployé après tes tests et ça c'est n'importe quoi, c'est une énorme erreur, c'est n'importe quoi pour des tests de démo. Ça veut dire que là, je vais payer une facture pour une distribution CloudFront que tu as laissé tourner. Donc ça, ce n'est pas ok du tout, du tout, du tout. Même pour un coût dérisoire. T'imagines si on avait déployé une base de données, est-ce que ça aurait fait là ?
+
+
+
+Second point, je vois encore de la prose, qui est clairement de la prose IA, typiquement des EM-Dash, des tirés, des trucs comme ça. Donc je vois que tu n'as pas du tout appliqué les conventions d'écriture et que tu n'as pas appliqué l'ensemble des règles que tu aurais dû charger via le Cloud.md. Donc fais une passe d'analyse globale, on va profiter de la Merge Request pour essayer d'aligner ça au maximum.
+
+
+Il faut que tu me remettes les actions que je dois faire pour que ça fonctionne avec le souci d'URL dont tu m'as parlé, et surtout comment je teste que ça fonctionne avant, après, et puis ensuite je ferai le destroy d'ici demain. Mais je veux m'assurer que la démo est opérationnelle de A à Z.
+
+---
+
+"- **Minimum TLS version** (`AVD-AWS-0013`): not settable with the default CloudFront certificate.
+  Enforcing it would require ACM + a custom domain." => really ? Bon écoute, là j'apprends un truc mais je veux bien la doc qui spécifie ça parce que ça aurait été pas mal quand même d'avoir un bel exemple avec la minimum TLS version 1.2 d'un point de vue CQ.
+
+" 2. Contournement validé aujourd'hui : export AWS_ENDPOINT_URL_CLOUDWATCH_LOGS=https://logs.eu-west-1.api.aws dans le terminal qui joue T2. À réexporter dans le terminal du live,
+  sinon l'apply de 13h25 échoue."
+=> on part là dessus, comme ça la démo esy portable ailleurs chez quelqu'un qui pourrait avoir le même problème, et on évite une modification / dépendances extene au routeur.
