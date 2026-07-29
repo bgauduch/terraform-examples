@@ -58,6 +58,11 @@ resource "aws_cloudfront_origin_access_control" "site" {
 }
 
 # Managed cache policy: avoids the deprecated inline forwarded_values block.
+# CachingOptimized (id 658327ea-f89d-4fab-a63d-7e88639e58f6) sets min TTL 1 s, default TTL 24 h,
+# max TTL 365 days, with no cookie, header or query string in the cache key. index.html carries no
+# Cache-Control, so each edge holds it for the default 24 h. That is the window the invalidation
+# cuts short, and the reason this demo needs one at all.
+# https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-cache-policies.html
 data "aws_cloudfront_cache_policy" "optimized" {
   name = "Managed-CachingOptimized"
 }
