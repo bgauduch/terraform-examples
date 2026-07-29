@@ -62,6 +62,20 @@ used to sit in a `null_resource` + `local-exec` or in a pipeline step bolted nex
 
 Same wiring as below, only the Lambda body changes.
 
+## Why the table keeps PITR on, next to the action's snapshots
+
+Fair objection: the table has point-in-time recovery, so why invoke a Lambda to back it up at all?
+The two answer different questions.
+
+- **PITR** is continuous and undirected. It restores to any second inside a rolling window, which
+  covers the incident nobody planned (a bad write at 14:32).
+- **The action's snapshot** is deliberate, named and anchored to a lifecycle moment. It is the one
+  you can point at six months later: `demo-tf-actions-lambda-20260728-174007`, taken right before a
+  schema change, addressable in a runbook or a rollback procedure.
+
+Dropping PITR here would also mean silencing `AVD-AWS-0024` with an ignore, in a lab that otherwise
+passes the scanners clean. It stays on, at the price of the system backup described in Teardown.
+
 ## Avoiding the dependency cycle
 
 The table's `after_create` action invokes the Lambda, so the Lambda must **not** depend on the
