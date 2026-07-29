@@ -1,0 +1,8 @@
+Ok, plusieurs points, tu ne m'as toujours pas montré les coûts, ça veut dire que tu as laissé le code déployé après tes tests et ça c'est n'importe quoi, c'est une énorme erreur, c'est n'importe quoi pour des tests de démo. Ça veut dire que là, je vais payer une facture pour une distribution CloudFront que tu as laissé tourner. Donc ça, ce n'est pas ok du tout, du tout, du tout. Même pour un coût dérisoire. T'imagines si on avait déployé une base de données, est-ce que ça aurait fait là ?
+
+
+
+Second point, je vois encore de la prose, qui est clairement de la prose IA, typiquement des EM-Dash, des tirés, des trucs comme ça. Donc je vois que tu n'as pas du tout appliqué les conventions d'écriture et que tu n'as pas appliqué l'ensemble des règles que tu aurais dû charger via le Cloud.md. Donc fais une passe d'analyse globale, on va profiter de la Merge Request pour essayer d'aligner ça au maximum.
+
+
+Il faut que tu me remettes les actions que je dois faire pour que ça fonctionne avec le souci d'URL dont tu m'as parlé, et surtout comment je teste que ça fonctionne avant, après, et puis ensuite je ferai le destroy d'ici demain. Mais je veux m'assurer que la démo est opérationnelle de A à Z.

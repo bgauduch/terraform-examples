@@ -1,0 +1,45 @@
+{
+  "cli_version": "0.9.0",
+  "checkpoint_id": "40acb40214d8",
+  "session_id": "9c09b7ec-6590-44a9-b1a9-b3562d32dcf3",
+  "strategy": "manual-commit",
+  "created_at": "2026-07-29T13:04:35.256992Z",
+  "branch": "docs/terraform-actions-neutral-wording",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "examples/terraform-actions/README.md",
+    "examples/terraform-actions/AGENTS.md"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-opus-5",
+  "turn_id": "c6f02b72c892",
+  "compact_transcript_start": 0,
+  "token_usage": {
+    "input_tokens": 134,
+    "cache_creation_tokens": 162859,
+    "cache_read_tokens": 7728658,
+    "output_tokens": 59848,
+    "api_call_count": 72
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-07-29T13:04:35.222719Z",
+    "agent_lines": 23,
+    "agent_removed": 24,
+    "human_added": 27,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 50,
+    "total_lines_changed": 94,
+    "agent_percentage": 50,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0
+    }
+  ]
+}
