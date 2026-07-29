@@ -136,6 +136,15 @@ seam worth knowing before you wire an action that creates something.
 The backups are cheap (a few bytes on an empty table) but they are the residue this lab produces, so
 sweep them like you would any other.
 
+One residue you cannot sweep, and should not try to: this table has PITR enabled, and *"when you
+delete a table that has point-in-time recovery enabled, DynamoDB automatically creates a backup
+snapshot called a system backup and retains it for 35 days (at no additional cost)"*
+([PITR reference](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/PointInTimeRecovery_Howitworks.html)).
+It is named `<table>$DeletedTableBackup`, deleting it returns `Invalid Request: User is not allowed
+to delete the system backup`, and it expires on its own. `sweep.sh` lists it with its expiry date
+rather than hiding it, because `aws dynamodb list-backups` filters on `USER` by default and would
+otherwise report an empty account while two snapshots sit there.
+
 ## Going further
 
 - `terraform-actions`: the same mechanism with a native provider action (CloudFront), and the
