@@ -1,5 +1,26 @@
 # Changelog
 
+## [2.3.0](https://github.com/bgauduch/terraform-examples/compare/v2.2.0...v2.3.0) (2026-07-30)
+
+
+### Features
+
+* **aws-budget-cutoff:** native budget cut-off lab (Budget Action -&gt; SCP) ([#35](https://github.com/bgauduch/terraform-examples/issues/35)) ([e4ca1a9](https://github.com/bgauduch/terraform-examples/commit/e4ca1a98b5ec75c437f1fffe610bf11ff2d5026b))
+* sweep leftover backups and harden both terraform-actions labs ([#39](https://github.com/bgauduch/terraform-examples/issues/39)) ([a5623bd](https://github.com/bgauduch/terraform-examples/commit/a5623bd8dabfcd79d8013ac70a5562e5c574737f))
+* **terraform-actions-lambda:** Lambda-invoke action lab for DynamoDB backup (v1.14) ([#28](https://github.com/bgauduch/terraform-examples/issues/28)) ([c943cf4](https://github.com/bgauduch/terraform-examples/commit/c943cf4108293bd828755cefe33f05ed0c90cd95))
+* **terraform-actions:** CloudFront invalidation action lab (v1.14) ([#27](https://github.com/bgauduch/terraform-examples/issues/27)) ([db4efcc](https://github.com/bgauduch/terraform-examples/commit/db4efcc2aeff226ff842d6ef7679d0d685c39f42))
+
+
+### Bug Fixes
+
+* **aws-budget-cutoff:** mark account-id/ARN outputs as sensitive ([#37](https://github.com/bgauduch/terraform-examples/issues/37)) ([0618fe3](https://github.com/bgauduch/terraform-examples/commit/0618fe3170244f5e77112ca1bc59d812471c1466))
+* teardown script with mise and doc update ([#41](https://github.com/bgauduch/terraform-examples/issues/41)) ([350b5fc](https://github.com/bgauduch/terraform-examples/commit/350b5fca579db32ee71c56680ea75877758e8caa))
+
+
+### CI
+
+* **commitlint:** lint PR commits, not the push range ([#38](https://github.com/bgauduch/terraform-examples/issues/38)) ([371fb5e](https://github.com/bgauduch/terraform-examples/commit/371fb5e46d0a1b0fe8683ae8ca20f5f71d124746))
+
 ## [2.2.0](https://github.com/bgauduch/terraform-examples/compare/v2.1.0...v2.2.0) (2026-06-25)
 
 
