@@ -15,7 +15,7 @@ locals {
 }
 
 # ---------------------------------------------------------------------------
-# Lambda that performs the backup - the generic "do anything" target.
+# Lambda that performs the backup: the generic "do anything" target.
 # ---------------------------------------------------------------------------
 data "archive_file" "backup" {
   type        = "zip"
@@ -93,7 +93,7 @@ action "aws_lambda_invoke" "backup" {
 
 # ---------------------------------------------------------------------------
 # The table whose lifecycle triggers the backup: once on creation, then BEFORE
-# every update. `before_update` is what makes this a safety net - the snapshot
+# every update. `before_update` is what makes this a safety net: the snapshot
 # exists before Terraform touches the table, not after.
 # ---------------------------------------------------------------------------
 resource "aws_dynamodb_table" "this" {

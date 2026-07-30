@@ -3,7 +3,7 @@
 Guidance for AI coding agents working inside this example. Repo-wide conventions live in the root
 `AGENTS.md`; this file covers what is specific to `terraform-actions-lambda`.
 
-Taxonomy: **type `lab`** - progressive, playable in a live session. Tags: `aws`, `actions`,
+Taxonomy: **type `lab`** (progressive, playable in a live session). Tags: `aws`, `actions`,
 `lambda`, `dynamodb`, `v1.14`.
 
 ## Purpose and scope
@@ -37,7 +37,8 @@ terraform apply                 # after_create -> first backup
 # uncomment the `ttl` block on the table, then:
 terraform apply                 # before_update -> new timestamped backup, taken before the change
 terraform apply -invoke=action.aws_lambda_invoke.backup   # stand-alone, on-demand backup
-terraform destroy
+mise run teardown               # destroy + delete the backups it leaves behind
+mise run sweep                  # list those backups without deleting (dry-run)
 ```
 
 Validation before committing: `terraform fmt -recursive` (root) and `terraform validate` here.
@@ -52,10 +53,14 @@ Validation before committing: `terraform fmt -recursive` (root) and `terraform v
 
 - `events` are bare identifiers (`after_create`, not `"after_create"`).
 - The trigger is `[after_create, before_update]` on purpose: the backup is a **safety net**, so it
-  must run before the table is mutated. Do not switch it to `after_update` - that would make the
+  must run before the table is mutated. Do not switch it to `after_update`: that would make the
   snapshot describe the post-change state. `after_*` belongs to the companion `terraform-actions`
   lab, where the invalidation follows the content upload.
-- Keep the demo mutation fast (TTL, tags): a GSI change takes minutes to settle.
+- Keep the demo mutation fast (TTL, tags): a GSI change takes minutes to settle. TTL toggles are
+  rate-limited to one `UpdateTimeToLive` per table per hour, so repeated runs need a tag change.
 - IAM is least-privilege: `dynamodb:CreateBackup` on the table ARN, logs to the function's own group.
 - The Lambda zip lands in `build/` (git-ignored) via the `archive_file` data source.
+- The action's side-effect outlives the lab: on-demand backups are created out of band, so they are
+  absent from the state and `terraform destroy` leaves them. `sweep.sh` is the cleanup path, mirroring
+  `terraform-module-testing/sweep.sh`. Keep any new out-of-band side-effect sweepable the same way.
 - Tags via `local.common_tags` (`Project` / `ManagedBy`); follow the same shape for new resources.
