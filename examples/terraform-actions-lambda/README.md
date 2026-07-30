@@ -122,16 +122,19 @@ terraform apply -invoke=action.aws_lambda_invoke.backup
 Teardown, in one command:
 
 ```bash
-mise run teardown      # terraform destroy, then sweep.sh --force
+mise run teardown      # sweep.sh --force, then terraform destroy
 ```
 
 Or step by step, to see what is left behind:
 
 ```bash
-terraform destroy      # removes the table, the Lambda, the role and the log group
-./sweep.sh             # lists the on-demand backups still there (dry-run)
+./sweep.sh             # lists the on-demand backups (dry-run)
 ./sweep.sh --force     # deletes them
+terraform destroy      # removes the table, the Lambda, the role and the log group
 ```
+
+Sweeping first is only a preference: the sweeper targets the table by name (`TABLE_NAME`, defaulting
+to the `project` value) rather than through the state, so either order works.
 
 **`terraform destroy` does not delete the backups.** They outlive the table by design and the Lambda
 creates them out of band, so they never reach the state. Destroy-time `action_trigger` events, which
