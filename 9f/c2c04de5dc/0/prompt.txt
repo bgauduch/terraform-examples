@@ -1,0 +1,81 @@
+"Rendez-vous à 13h, on échange autant qu'on démontre 💛" => Rendez-vous à 13h, on échange autant qu'on pratique !
+
+"Terraform 1.14 ouvre une autre voie avec le bloc action : l'impératif se déclare, il apparaît au plan, et c'est le provider qui l'exécute, avec ses
+  ▎ credentials." => impératif ? manque la notion d'intégration dans le cycle de vie terraform. credential = pas utile ici
+
+---
+
+pbcopy please
+
+---
+
+"Un null_resource + local-exec pour invalider un cache ou sauvegarder une table avant de la modifier : on l'a tous écrit, et on en a un peu honte" est ce vraiment l'usage des null resources terraform ?
+
+---
+
+texte final : 
+
+🎙️ ❯ live tech_ : RDV aujourd'hui à 13h ! On fait entrer le day-2 dans le lifecycle Terraform 🚀
+
+
+
+Invalider un cache après un déploiement, sauvegarder une table avant de la modifier : jusqu'ici ça vivait dans un null_resource (ou terraform_data) + local-exec, une étape de pipeline ou un runbook manuel.
+
+On l'a tous écrit, et on en a un peu honte 😅
+
+
+
+Terraform 1.14 ouvre une autre voie avec le bloc action : le geste day-2 se déclare dans le code, rejoint le cycle de vie de la ressource, apparaît au plan, et c'est le provider qui l'exécute.
+
+
+
+Au menu :
+
+
+
+⚡ Le bloc action : déclarer le « quoi », brancher le « quand » sur les événements du lifecycle
+
+
+
+🌐 Invalidation du cache CloudFront à chaque mise à jour du site
+
+
+
+🛟 Echappatoire Lambda : une action invoque la Lambda, et la Lambda exécute la logique qu'on veut (purger un CDN qu'on n'héberge pas, backfiller après un changement de schéma, appeler une API interne...).
+
+La démo prend un backup DynamoDB horodaté avant que la table bouge, mais le mécanisme couvre des cas d'usage bien plus large !
+
+
+
+🔭 On parle aussi des limites : 4 actions AWS natives à date, les events destroy attendus en v1.16, et quand la CI reste le bon endroit
+
+
+
+Et vous, où vit votre day-2 aujourd'hui : dans un local-exec, un job de pipeline, un runbook, un script maison ?
+
+Venez partager vos pratiques et habitudes en direct 🙌
+
+
+
+Rendez-vous à 13h : on échange autant qu'on pratique !
+
+
+
+Inscription sur l'event juste en dessous 👇
+
+
+
+Dépôt public bgauduch/terraform-examples (les 2 labs joués en direct) en commentaire 👇
+
+
+
+CC HashiCorp
+
+
+
+#Cloud #Terraform #DevOps #AWS
+
+
+
+
+lien : https://www.linkedin.com/posts/REDACTED/?utm_source=share&utm_medium=member_desktop&REDACTED
