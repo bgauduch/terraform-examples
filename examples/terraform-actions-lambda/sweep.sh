@@ -14,13 +14,13 @@
 #   ./sweep.sh           # list the backups (dry-run)
 #   ./sweep.sh --force   # delete them
 #
-# Requires AWS_PROFILE to be exported. Runs before or after `terraform destroy`:
-# the table name falls back to the `project` variable default once the state is gone.
+# Requires AWS_PROFILE to be exported. Runs before or after `terraform destroy`: the names below
+# are plain defaults, not state lookups, and the state is empty once the destroy ran.
 # Override with TABLE_NAME=... or AWS_REGION=... if you changed the defaults.
 set -euo pipefail
 
 REGION="${AWS_REGION:-eu-west-1}"
-TABLE="${TABLE_NAME:-$(terraform output -raw table_name 2>/dev/null || echo "demo-tf-actions-lambda")}"
+TABLE="${TABLE_NAME:-demo-tf-actions-lambda}" # var.project default
 FORCE="${1:-}"
 
 # System backups are reported, never deleted: DynamoDB creates one when a table with PITR

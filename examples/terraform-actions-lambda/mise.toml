@@ -10,4 +10,4 @@ run = "./sweep.sh"
 
 [tasks.teardown]
 description = "destroy the lab, then delete the backups destroy leaves behind"
-run = ["terraform destroy", "./sweep.sh --force"]
+run = ["./sweep.sh --force", "terraform destroy"]
