@@ -1,0 +1,26 @@
+{
+  "cli_version": "0.9.0",
+  "checkpoint_id": "ddad9469cfff",
+  "strategy": "manual-commit",
+  "branch": "claude/terraform-check-health",
+  "checkpoints_count": 2,
+  "files_touched": [
+    "examples/terraform-check-conditional-policy/checks.tf"
+  ],
+  "sessions": [
+    {
+      "metadata": "/dd/ad9469cfff/0/metadata.json",
+      "transcript": "/dd/ad9469cfff/0/full.jsonl",
+      "compact_transcript": "/dd/ad9469cfff/0/transcript.jsonl",
+      "content_hash": "/dd/ad9469cfff/0/content_hash.txt",
+      "prompt": "/dd/ad9469cfff/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 28,
+    "cache_creation_tokens": 28132,
+    "cache_read_tokens": 4338197,
+    "output_tokens": 13195,
+    "api_call_count": 15
+  }
+}

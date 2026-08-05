@@ -1,0 +1,23 @@
+"2. Le gotcha AROA." => bonne idée, ajoute
+"Une requête AWS peut être évaluée contre six types de policy. ✅" => why not, rappeler ordre identity, resource, SCP, RCP, permission boundary, session policy
+
+
+Je me pose une question d'outillage un peu transverse. Je sais que dans certaines démos, on utilise des target means ou des scripts pour orchestrer les différentes actions. Dans celle qu'on a rajouté, on a juste le redmi, qui est le fil directeur. Fait un petit tour d'horizon pour voir les variations de pratique. Ça pourrait être pas mal de se créer une issue, pas pour traiter dans cette merge request, se créer une issue pour homogénéiser un peu ça partout parce qu'il y a peut-être des démos pour lesquelles c'est justifié. Par exemple, celle du check KMS, il y a une phase de bootstrap. Donc cette phase de bootstrap, ça pourrait être pas mal de l'avoir dans une target mise. Et puis de manière transverse pour le dépôt, peut-être se mettre un ADR et des règles de config dans la doc pour se dire voilà, dès qu'il y a des scripts à faire, on utilise mise en priorité parce que c'est l'outil utilisé par le dépôt pour lever d'ordre les versions de dépendance et l'orchestration et l'interaction avec les différents éléments.
+
+---
+
+# Health of the deployed key itself, re-read from AWS rather than from state, so
+# a key disabled or scheduled for deletion out of band shows up on the next plan.
+check "key_operational" {
+  data "aws_kms_key" "deployed" {
+    key_id = aws_kms_key.app.key_id
+  }
+
+  assert {
+    condition     = data.aws_kms_key.deployed.key_state == "Enabled"
+    error_message = "Key ${aws_kms_key.app.key_id} reports state '${data.aws_kms_key.deployed.key_state}': any state other than Enabled leaves the bucket unable to encrypt or read its objects."
+  }
+}
+
+
+Tu es sûr de toi pour ce check ? Parce que je ne suis pas certain qu'on puisse supprimer la Clic AMS si elle est utilisée pour chiffrer un bucket S3, non ? J'ai un doute. Vérifie bien la doc et ce que dit l'API AWS à ce sujet ?
