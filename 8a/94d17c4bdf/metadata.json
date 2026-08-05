@@ -1,0 +1,26 @@
+{
+  "cli_version": "0.9.0",
+  "checkpoint_id": "8a94d17c4bdf",
+  "strategy": "manual-commit",
+  "branch": "claude/terraform-check-health",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "examples/terraform-check-health/AGENTS.md"
+  ],
+  "sessions": [
+    {
+      "metadata": "/8a/94d17c4bdf/0/metadata.json",
+      "transcript": "/8a/94d17c4bdf/0/full.jsonl",
+      "compact_transcript": "/8a/94d17c4bdf/0/transcript.jsonl",
+      "content_hash": "/8a/94d17c4bdf/0/content_hash.txt",
+      "prompt": "/8a/94d17c4bdf/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 61,
+    "cache_creation_tokens": 91585,
+    "cache_read_tokens": 2756237,
+    "output_tokens": 30598,
+    "api_call_count": 33
+  }
+}
