@@ -1,0 +1,35 @@
+{
+  "cli_version": "0.9.0",
+  "checkpoint_id": "0c9bcc76299f",
+  "strategy": "manual-commit",
+  "branch": "claude/terraform-check-health",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "README.md",
+    "examples/terraform-check-conditional-policy/.terraform.lock.hcl",
+    "examples/terraform-check-conditional-policy/.tflint.hcl",
+    "examples/terraform-check-conditional-policy/AGENTS.md",
+    "examples/terraform-check-conditional-policy/README.md",
+    "examples/terraform-check-conditional-policy/main.tf",
+    "examples/terraform-check-conditional-policy/mise.toml",
+    "examples/terraform-check-conditional-policy/outputs.tf",
+    "examples/terraform-check-conditional-policy/providers.tf",
+    "examples/terraform-check-conditional-policy/variables.tf"
+  ],
+  "sessions": [
+    {
+      "metadata": "/0c/9bcc76299f/0/metadata.json",
+      "transcript": "/0c/9bcc76299f/0/full.jsonl",
+      "compact_transcript": "/0c/9bcc76299f/0/transcript.jsonl",
+      "content_hash": "/0c/9bcc76299f/0/content_hash.txt",
+      "prompt": "/0c/9bcc76299f/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 61,
+    "cache_creation_tokens": 91585,
+    "cache_read_tokens": 2756237,
+    "output_tokens": 30598,
+    "api_call_count": 33
+  }
+}
