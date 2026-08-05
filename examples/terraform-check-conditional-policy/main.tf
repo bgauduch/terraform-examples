@@ -6,9 +6,6 @@ locals {
     Project   = var.project
     ManagedBy = "terraform"
   }
-
-  account_root    = "arn:${data.aws_partition.current.partition}:iam::${data.aws_caller_identity.current.account_id}:root"
-  permanent_admin = "arn:${data.aws_partition.current.partition}:iam::${data.aws_caller_identity.current.account_id}:role/${var.permanent_admin_role_name}"
 }
 
 data "aws_caller_identity" "current" {}

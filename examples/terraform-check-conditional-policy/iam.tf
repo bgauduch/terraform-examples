@@ -8,7 +8,7 @@ locals {
   break_glass_arns    = tolist(data.aws_iam_roles.break_glass.arns)
 
   key_admin_principals = concat(
-    [local.permanent_admin],
+    ["arn:${data.aws_partition.current.partition}:iam::${data.aws_caller_identity.current.account_id}:role/${var.permanent_admin_role_name}"],
     local.platform_admin_arns,
     local.break_glass_arns,
   )

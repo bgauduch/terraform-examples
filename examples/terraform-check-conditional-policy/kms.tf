@@ -1,33 +1,3 @@
-locals {
-  # The administration surface, spelled out. `kms:*` would also hand out Decrypt
-  # and GenerateDataKey, which administrators have no business holding.
-  key_admin_actions = [
-    "kms:CancelKeyDeletion",
-    "kms:Create*",
-    "kms:Delete*",
-    "kms:Describe*",
-    "kms:Disable*",
-    "kms:Enable*",
-    "kms:Get*",
-    "kms:List*",
-    "kms:Put*",
-    "kms:Revoke*",
-    "kms:RotateKeyOnDemand",
-    "kms:ScheduleKeyDeletion",
-    "kms:TagResource",
-    "kms:UntagResource",
-    "kms:Update*",
-  ]
-
-  key_usage_actions = [
-    "kms:Decrypt",
-    "kms:DescribeKey",
-    "kms:Encrypt",
-    "kms:GenerateDataKey*",
-    "kms:ReEncrypt*",
-  ]
-}
-
 # ---------------------------------------------------------------------------
 # Key policy. Five statements, following the AWS key-policy baseline.
 # ---------------------------------------------------------------------------
@@ -41,15 +11,33 @@ data "aws_iam_policy_document" "key" {
 
     principals {
       type        = "AWS"
-      identifiers = [local.account_root]
+      identifiers = ["arn:${data.aws_partition.current.partition}:iam::${data.aws_caller_identity.current.account_id}:root"]
     }
   }
 
   # 2. Administration, restricted to named principals. One is permanent, the two
   #    baseline roles join according to what this account turns out to have.
+  #    The action list is spelled out: `kms:*` would also hand administrators
+  #    Decrypt and GenerateDataKey, which they have no business holding.
   statement {
-    sid       = "KeyAdministration"
-    actions   = local.key_admin_actions
+    sid = "KeyAdministration"
+    actions = [
+      "kms:CancelKeyDeletion",
+      "kms:Create*",
+      "kms:Delete*",
+      "kms:Describe*",
+      "kms:Disable*",
+      "kms:Enable*",
+      "kms:Get*",
+      "kms:List*",
+      "kms:Put*",
+      "kms:Revoke*",
+      "kms:RotateKeyOnDemand",
+      "kms:ScheduleKeyDeletion",
+      "kms:TagResource",
+      "kms:UntagResource",
+      "kms:Update*",
+    ]
     resources = ["*"]
 
     principals {
@@ -61,8 +49,14 @@ data "aws_iam_policy_document" "key" {
   # 3. Usage, and only through S3. A leaked credential cannot call Decrypt
   #    directly - the request has to arrive via the service.
   statement {
-    sid       = "KeyUsageByApplicationViaS3"
-    actions   = local.key_usage_actions
+    sid = "KeyUsageByApplicationViaS3"
+    actions = [
+      "kms:Decrypt",
+      "kms:DescribeKey",
+      "kms:Encrypt",
+      "kms:GenerateDataKey*",
+      "kms:ReEncrypt*",
+    ]
     resources = ["*"]
 
     principals {
