@@ -21,3 +21,36 @@ Durable lessons learned while working in this repository. Append new entries; ke
 - **Renovate's native `mise` manager** bumps the tools in `mise.toml` automatically - no custom manager needed for them. Keep a regex `customManager` only for versions that still live in action inputs (e.g. the `# renovate: datasource=github-releases depName=jdx/mise` annotation pinning the mise CLI in `tf-setup`). Freeze intentional RC/alpha pins (the `experiment` examples) with a backend-agnostic `packageRule` on `matchCurrentValue: "/-(alpha|beta|rc)/"` (match the value, not the dep name, since the mise backend may report a different `depName`).
 - **mise + air-gapped/policy-restricted networks** - mise's `aqua` backend verifies tflint/trivy via cosign + GitHub artifact attestations, which reach `sigstore.dev`/`tuf-repo-cdn.sigstore.dev`; a `terraform` exact pin instead downloads straight from HashiCorp (no sigstore). If a sandbox blocks sigstore, exact-version installs of aqua tools fail there even though GitHub-hosted CI succeeds - it is an egress limitation, not a config defect.
 - **Validate before merge** - `npx --package renovate renovate-config-validator .github/renovate.json` catches schema errors locally; the Mend app uses the in-repo config (no onboarding PR) once present.
+
+## Custom conditions (precondition / postcondition / check)
+
+- **A `check` earns its place only on a fact Terraform does NOT manage** - asserting on a managed
+  attribute is dead weight: the drift already surfaces as a resource diff, and the pending change
+  makes Terraform defer the check to apply time (`Check block assertion known after apply`), by
+  which point the apply has reconciled the very thing the check was watching. Found the hard way on
+  a `key_state == "Enabled"` assertion over `aws_kms_key.is_enabled`; the check never fired once.
+- **A scoped data source is invisible outside its own check**, so anything a resource consumes needs
+  a second, top-level lookup. That duplication is a feature, not a smell: the top-level read feeds
+  the configuration, the scoped read observes reality on every run.
+- **Use the plural data source for optional lookups** - `aws_iam_roles` returns an empty set where
+  `aws_iam_role` errors and fails the plan. That difference is what lets one module deploy across
+  accounts at different baseline stages.
+- **Gate versus signal is a governance call, not a technical one.** Same assertion machinery, same
+  kind of fact; what changes is the verdict you are willing to hand down. State the policy reason in
+  the `error_message`, not just the condition.
+
+## AWS gotchas
+
+- **Deleting an IAM principal referenced in a resource policy freezes it as its unique ID** - AWS
+  rewrites the ARN to `AROA...` rather than dropping the entry, because the ARN only resolves while
+  the principal exists. Recreating the role mints a *new* unique ID, so the policy AWS holds and the
+  policy Terraform renders genuinely differ until the next apply. Expect one extra apply after any
+  role recreation.
+- **A KMS key in active use can still be disabled or scheduled for deletion** - AWS does not track
+  whether a key is in use and blocks nothing. Disabling a key that encrypts a live S3 bucket is
+  accepted immediately; the bucket then fails `PutObject` with `KMS.DisabledException`.
+- **An organization-perimeter `Deny` needs `BoolIfExists aws:PrincipalIsAWSService`** - AWS service
+  principals carry no `aws:PrincipalOrgID`, so `StringNotEquals` matches them and the deny takes out
+  the service that was supposed to use the key. And since a `Deny` in a key policy also governs who
+  may edit that policy, a miscalibrated condition leaves the key unrecoverable: validate on a
+  throwaway key, and keep the statement behind a variable.

@@ -129,3 +129,12 @@ account-local and readable — the critical path (the SCP attach) needs none of 
 - A cut-off is a **last-resort net**, not a hard billing cap — pair it with Identity Center, short
   credentials, MFA on root, and team guidance upstream.
 - Test on a non-prod OU first. An SCP's blast radius is proportional to its scope.
+
+## References
+
+- [Budget actions](https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-controls.html) -
+  the trigger side: thresholds, approval models, what a budget can attach.
+- [Service control policies](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps.html) -
+  the blast side: SCP evaluation, scope, and why an OU-level test comes first.
+- [Managing sensitive data](https://developer.hashicorp.com/terraform/language/manage-sensitive-data) -
+  the account IDs and ARNs this example marks `sensitive` before screen-sharing.

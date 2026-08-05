@@ -1,0 +1,22 @@
+# Counter-proof: the SAME assertion, expressed as a gate instead of a signal.
+#
+# Rename to `postcondition.tf` to activate it. The website is probed again, but
+# through a top-level data source carrying a `postcondition` - so a failure is an
+# ERROR that aborts the run, where the `check` block in main.tf only warns.
+#
+# Break the site out of band, then compare:
+#   terraform plan; echo $?   # check alone      -> Warning, exit 0
+#   mv postcondition.tf.disabled postcondition.tf
+#   terraform plan; echo $?   # + postcondition  -> Error,   exit 1
+#   mv postcondition.tf postcondition.tf.disabled
+
+data "http" "home_gate" {
+  url = "http://${aws_s3_bucket_website_configuration.site.website_endpoint}"
+
+  lifecycle {
+    postcondition {
+      condition     = strcontains(self.response_body, local.health_marker)
+      error_message = "Website body is missing the expected marker - refusing to proceed."
+    }
+  }
+}

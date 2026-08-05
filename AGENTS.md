@@ -21,7 +21,15 @@ Do **not** create top-level category directories (`patterns/`, `experiments/`...
 ## How to add an example (golden path)
 
 1. `mkdir examples/<name>/` - kebab-case, scope-first (`aws-multi-env`, `terraform-rc-variables`).
-2. Add `README.md` (state its `type` + tags, objective, run steps) and `AGENTS.md` (example-specific guidance).
+2. Add `README.md` (state its `type` + tags, objective, run steps, and a closing `## References`
+   section) and `AGENTS.md` (example-specific guidance).
+   - `## References` is **mandatory**: link the authoritative docs for every mechanism the example
+     demonstrates - HashiCorp for language/CLI features, the provider registry for data sources and
+     resources, AWS docs for the service behaviour a reader will hit. One line each, saying what
+     the link answers rather than repeating its title. Verify each URL resolves before committing:
+     these READMEs are read on screen and a 404 is noticed.
+   - Keep it distinct from `## Going further`, which cross-references sibling examples and adjacent
+     approaches rather than documentation.
 3. Add per-example tooling: `mise.toml` (pins `terraform`, may be an RC/prerelease for `experiment` types; inherits `tflint`/`trivy` from the repo-root `mise.toml`) and `.tflint.hcl`.
 4. Add the Terraform root module(s). Any directory containing a `providers.tf` is auto-discovered by CI - no CI edit needed to validate it.
 5. Register a row in the root `README.md` catalogue table.

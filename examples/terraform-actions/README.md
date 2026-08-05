@@ -140,3 +140,10 @@ terraform destroy
 - `terraform-actions-lambda`: same mechanism with `aws_lambda_invoke` as a generic escape hatch
   when no native provider action fits, and the `before_update` counterpart of the event choice
   discussed above.
+
+## References
+
+- [`action` block](https://developer.hashicorp.com/terraform/language/block/action) - `action` and
+  `action_trigger` syntax, and the lifecycle events they bind to.
+- [CloudFront invalidation](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Invalidation.html) -
+  what the action actually asks of the distribution, and the propagation delay to expect.

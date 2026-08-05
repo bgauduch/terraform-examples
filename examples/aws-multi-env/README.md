@@ -154,3 +154,12 @@ terraform destroy -var-file=env/prod.tfvars
 - `lookup()` with fallback (level 1)
 - Backend / env variables separation (level 3)
 - Provider-defined functions (v1.8+): `provider::aws::arn_parse()`, `provider::aws::arn_build()`
+
+## References
+
+- [Workspaces](https://developer.hashicorp.com/terraform/language/state/workspaces) - the level 1
+  mechanism and the state-isolation guarantees it does (and does not) give.
+- [S3 backend](https://developer.hashicorp.com/terraform/language/backend/s3) - key layout and
+  locking behind the level 2/3 root-module split.
+- [Resource syntax](https://developer.hashicorp.com/terraform/language/resources/syntax) - the
+  `count` / `for_each` specialization used at level 3.

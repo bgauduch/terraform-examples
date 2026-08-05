@@ -166,3 +166,12 @@ system backup, kept 35 days at no cost and refused by `delete-backup`
   ([SDK reference](https://docs.aws.amazon.com/sdkref/latest/guide/feature-ss-endpoints.html)). It
   keeps the fix inside the repo instead of depending on the network you happen to sit behind.
   Allow-listing the endpoint on the resolver works too, when you own it.
+
+## References
+
+- [`action` block](https://developer.hashicorp.com/terraform/language/block/action) - `action` and
+  `action_trigger` syntax, and the lifecycle events they bind to.
+- [Lambda invocation modes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-invocation.html) -
+  sync versus async, and why the choice changes what Terraform observes.
+- [DynamoDB on-demand backup](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/OnDemandBackup.html) -
+  the operation the function performs.

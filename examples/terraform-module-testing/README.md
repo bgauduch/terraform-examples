@@ -84,3 +84,12 @@ Native `skip_cleanup` + `terraform test cleanup` land as a preview in Terraform 
 ## Beyond native testing
 
 Layer the tools, lightest first: static (`tflint`/`trivy`, every commit) → `terraform test` (unit mock + integration apply, this lab) → Terratest when e2e/polling is required. `terraform test` returns an exit code, so stages 1+2 gate a merge in CI without any secret.
+
+## References
+
+- [Tests](https://developer.hashicorp.com/terraform/language/tests) - `run` blocks, assertions,
+  `expect_failures`, and `state_key` for the parallel stage.
+- [Mocking](https://developer.hashicorp.com/terraform/language/tests/mocking) - `mock_provider`,
+  which is what makes stages 1 and 2 credential-free.
+- [`terraform test`](https://developer.hashicorp.com/terraform/cli/commands/test) - CLI flags and
+  the exit codes the CI gate relies on.
