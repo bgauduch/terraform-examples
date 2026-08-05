@@ -1,6 +1,9 @@
 locals {
   index_html = "${path.module}/content/index.html"
 
+  # One expectation, asserted by all three blocks at three different moments.
+  health_marker = "Status: healthy"
+
   common_tags = {
     Project   = var.project
     ManagedBy = "terraform"
@@ -87,6 +90,16 @@ resource "aws_s3_object" "index" {
   source       = local.index_html
   etag         = filemd5(local.index_html)
   content_type = "text/html"
+
+  # A gate BEFORE publishing: the content we are about to ship has to carry the
+  # marker the check asserts on afterwards. Same expectation as the check below,
+  # enforced at a different moment - and this one blocks, by design.
+  lifecycle {
+    precondition {
+      condition     = strcontains(file(local.index_html), local.health_marker)
+      error_message = "content/index.html is missing the '${local.health_marker}' marker: publishing it would fail the health check on the next plan."
+    }
+  }
 }
 
 # ---------------------------------------------------------------------------
@@ -106,7 +119,7 @@ check "website_health" {
   }
 
   assert {
-    condition     = strcontains(data.http.home.response_body, "Status: healthy")
+    condition     = strcontains(data.http.home.response_body, local.health_marker)
     error_message = "Website body is missing the expected marker - content drift or a broken deploy."
   }
 }

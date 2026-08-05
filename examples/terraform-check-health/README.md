@@ -30,19 +30,35 @@ check "website_health" {
 }
 ```
 
-## `check` vs `precondition` / `postcondition`
+## One expectation, three blocks, three moments
 
-| | When it runs | On failure |
-|---|---|---|
-| `precondition` / `postcondition` | during a resource's plan/apply | **errors** - blocks the apply |
-| `check` | after resources, on every plan/apply | **warns** - never blocks |
+`local.health_marker` is asserted three times in this lab. Same string, same intent - what changes
+is *when* it is evaluated and *what happens* when it fails.
 
-Use `check` for continuous health and drift signals you do *not* want to halt a deployment.
+| Block | When it runs | On failure | Where it lives here |
+|---|---|---|---|
+| `precondition` | before the resource is created/updated | **errors** - blocks the apply | on `aws_s3_object.index`: refuses to publish content that lacks the marker |
+| `postcondition` | after the resource is created/read | **errors** - blocks the apply | `postcondition.tf.disabled`, the counter-proof below |
+| `check` | after all resources, on every plan/apply | **warns** - never blocks | `check "website_health"`: the deployed site, re-probed every run |
+
+The reading: **`precondition` guards what you are about to do, `postcondition` guards what you just
+did, `check` watches what is out there.** The first two are gates, the third is a signal - which is
+why only the third is safe to point at infrastructure that can legitimately be unhealthy for
+reasons outside this configuration.
 
 ## What gets deployed
 
 - A public S3 **static website** (instant, no CDN) serving `content/index.html`.
 - One `check` asserting the endpoint returns **200** and serves the expected content.
+- One `precondition` on the published object, so content that would fail that check never ships.
+
+Seeing the gate refuse:
+
+```bash
+sed -i '' 's/Status: healthy/Status: BROKEN/' content/index.html
+terraform apply; echo $?        # Error: Resource precondition failed, exit 1
+git checkout content/index.html
+```
 
 ## Security baseline
 

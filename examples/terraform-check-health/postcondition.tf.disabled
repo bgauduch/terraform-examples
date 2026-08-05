@@ -15,7 +15,7 @@ data "http" "home_gate" {
 
   lifecycle {
     postcondition {
-      condition     = strcontains(self.response_body, "Status: healthy")
+      condition     = strcontains(self.response_body, local.health_marker)
       error_message = "Website body is missing the expected marker - refusing to proceed."
     }
   }
