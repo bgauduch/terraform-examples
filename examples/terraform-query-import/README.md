@@ -123,3 +123,12 @@ terraform-query-import/
 - `terraform validate` (CI) parses the root module's `.tf` files; the `.tfquery.hcl` is only loaded
   by the `query` command, so CI validates the example without any credentials.
 - EC2 instances cost a few cents while running - run `terraform destroy` promptly after the demo.
+
+## References
+
+- [`terraform query`](https://developer.hashicorp.com/terraform/cli/commands/query) - the command
+  and the `.tfquery.hcl` files it loads, including `list` block syntax.
+- [`import` block](https://developer.hashicorp.com/terraform/language/block/import) - declarative
+  bulk import, the target of the generated configuration.
+- [Generating configuration](https://developer.hashicorp.com/terraform/language/import/generating-configuration) -
+  `plan -generate-config-out`, and the manual fixups it always leaves behind.

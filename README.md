@@ -30,7 +30,7 @@ Each example lives under [`examples/`](examples/) and is fully independent - its
 
 ## Adding an example
 
-See the golden path in [`AGENTS.md`](AGENTS.md). In short: create `examples/<name>/` with its own `README.md`, `mise.toml`, `.tflint.hcl` and Terraform root module(s), then add a row to the catalogue above. CI auto-discovers any directory containing `providers.tf` - no CI change needed.
+See the golden path in [`AGENTS.md`](AGENTS.md). In short: create `examples/<name>/` with its own `README.md` (closing on a `## References` section linking the authoritative docs), `mise.toml`, `.tflint.hcl` and Terraform root module(s), then add a row to the catalogue above. CI auto-discovers any directory containing `providers.tf` - no CI change needed.
 
 ## Repository standards
 

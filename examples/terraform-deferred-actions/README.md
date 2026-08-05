@@ -120,3 +120,12 @@ terraform apply -allow-deferral
 ```
 
 Deferral is a plan/apply-time behaviour; `terraform validate` (what CI runs) passes without credentials for both.
+
+## References
+
+- [Terraform CHANGELOG](https://github.com/hashicorp/terraform/blob/main/CHANGELOG.md) - the source
+  of truth for when deferred actions land and under which flag; this example tracks a moving target.
+- [`terraform plan`](https://developer.hashicorp.com/terraform/cli/commands/plan) - the command
+  reference for the deferral flag exercised here.
+- [Upgrade guides](https://developer.hashicorp.com/terraform/language/upgrade-guides) - version-by-
+  version behaviour changes, worth re-reading before trusting this example on a newer release.
