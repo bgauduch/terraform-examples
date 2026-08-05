@@ -108,13 +108,20 @@ The plan reports **two different things at once**, and they are worth separating
   lookup is re-read and the config genuinely renders differently;
 - a **check warning** - `Role 'demo-ops-admin' is absent from this account...` - and **`exit=0`**.
 
-Restore it and the plan goes quiet again:
+Roll the role back out and the warning goes away:
 
 ```bash
 aws iam create-role --role-name demo-ops-admin \
   --assume-role-policy-document '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"ec2.amazonaws.com"},"Action":"sts:AssumeRole"}]}'
-terraform plan   # no diff, no warning
+terraform plan    # no warning - but still one change to make
+terraform apply   # reconciles, and the next plan is clean
 ```
+
+> **Why the extra apply.** Deleting an IAM principal referenced in a resource policy makes AWS
+> freeze it as its **unique ID** (`AROA...`) rather than drop it - the ARN only resolves while the
+> principal exists. A recreated role gets a *new* unique ID, so the policy AWS holds and the policy
+> Terraform renders genuinely differ until you apply. The check is quiet by then: it asserts on the
+> role's existence, which is true again.
 
 No credentials to spare for IAM writes? Point the variable at a name that cannot exist and the
 same warning fires on `plan` alone:
@@ -133,3 +140,20 @@ aws iam delete-role --role-name demo-ops-admin
 > A KMS key is **scheduled** for deletion, not deleted: `deletion_window_in_days = 7` is the
 > minimum AWS allows. `destroy` returns immediately, the key lingers as `PendingDeletion` (and
 > free) until the window elapses. Cancel with `aws kms cancel-key-deletion --key-id <id>`.
+
+## References
+
+- [`check` block](https://developer.hashicorp.com/terraform/language/block/check) - syntax, and why
+  failures are warnings rather than errors.
+- [Custom conditions](https://developer.hashicorp.com/terraform/language/expressions/custom-conditions) -
+  `precondition` / `postcondition` / `check` side by side; the gate-versus-signal call this lab makes.
+- [Health assessments (HCP Terraform)](https://developer.hashicorp.com/terraform/cloud-docs/workspaces/health) -
+  continuous validation, for re-evaluating this assumption on a schedule instead of only on plan.
+- [`terraform validate`](https://developer.hashicorp.com/terraform/language/validate) - why the CI
+  gate needs no credentials: it never resolves the data sources.
+- [`aws_iam_roles` data source](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_roles) -
+  the plural lookup that returns an empty set instead of failing.
+- [KMS key policies](https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html) - why
+  `kms:*` scoped to the key plus a root delegation is the documented baseline.
+- [IAM unique identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html) -
+  the `AROA...` IDs behind the extra apply after a role is recreated.

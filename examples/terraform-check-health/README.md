@@ -85,3 +85,32 @@ terraform destroy
 > `check` failures are **warnings**: `plan`/`apply` still exit 0. That is what makes checks safe
 > for continuous drift detection in CI or on a schedule. `terraform validate` (CI) does not execute
 > the data source, so it needs no credentials.
+
+## Counter-proof: the same assertion as a gate
+
+`postcondition.tf.disabled` carries the body assertion again, this time as a `postcondition` on a
+top-level `data "http"`. Break the site out of band, then compare the two worlds:
+
+```bash
+terraform plan; echo $?                              # check alone     -> Warning, exit 0
+mv postcondition.tf.disabled postcondition.tf
+terraform plan; echo $?                              # + postcondition -> Error,   exit 1
+mv postcondition.tf postcondition.tf.disabled
+```
+
+Same condition, same data, same failure. One reports, the other refuses.
+
+## References
+
+- [`check` block](https://developer.hashicorp.com/terraform/language/block/check) - syntax, scoped
+  data sources, and why failures are warnings.
+- [Custom conditions](https://developer.hashicorp.com/terraform/language/expressions/custom-conditions) -
+  `precondition` / `postcondition` / `check` side by side, and when to pick which.
+- [`terraform validate`](https://developer.hashicorp.com/terraform/language/validate) - why the CI
+  gate needs no credentials: it never executes the data source.
+- [Health assessments (HCP Terraform)](https://developer.hashicorp.com/terraform/cloud-docs/workspaces/health) -
+  continuous validation, i.e. running these checks on a schedule instead of only on plan/apply.
+- [`http` data source](https://registry.terraform.io/providers/hashicorp/http/latest/docs/data-sources/http) -
+  the probe used here.
+- [Hosting a static website on S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/WebsiteHosting.html) -
+  the website endpoint the check asserts on.
