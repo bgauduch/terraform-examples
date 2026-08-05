@@ -1,5 +1,0 @@
-"  Le vrai argument, défendable celui-là : « la politique de la boîte veut qu'une clé de cette classe ait un chemin d'accès d'urgence documenté et nommé. L'absence de ce rôle
-  signifie que le compte n'est pas prêt à porter cette clé. » C'est une décision de gouvernance assumée, pas une fatalité technique. C'est plus solide, et c'est plus intéressant à
-  entendre." => ok pour le naratif.
-
-"fallback_admin" => Le souci narratif, c'est peut-être surtout le nommage que tu as mis, fallback, c'est pas vraiment du fallback, c'est du conditionnel. Donc tu peux peut-être adapter, mais pour moi il faut le garder et c'est le cœur de l'exemple avec le check, donc je vois pas très bien comment tu illustres le check si on enlève cette variable, ça n'a pas de sens.

@@ -5,15 +5,26 @@
   "branch": "claude/terraform-check-health",
   "checkpoints_count": 1,
   "files_touched": [
+    "README.md",
     "examples/terraform-check-conditional-policy/.terraform.lock.hcl",
+    "examples/terraform-check-conditional-policy/AGENTS.md",
+    "examples/terraform-check-conditional-policy/README.md",
     "examples/terraform-check-conditional-policy/bootstrap/.terraform.lock.hcl",
     "examples/terraform-check-conditional-policy/bootstrap/main.tf",
     "examples/terraform-check-conditional-policy/bootstrap/outputs.tf",
     "examples/terraform-check-conditional-policy/bootstrap/providers.tf",
     "examples/terraform-check-conditional-policy/bootstrap/variables.tf",
+    "examples/terraform-check-conditional-policy/checks.tf",
+    "examples/terraform-check-conditional-policy/iam.tf",
+    "examples/terraform-check-conditional-policy/kms.tf",
     "examples/terraform-check-conditional-policy/main.tf",
     "examples/terraform-check-conditional-policy/outputs.tf",
-    "examples/terraform-check-conditional-policy/variables.tf"
+    "examples/terraform-check-conditional-policy/providers.tf",
+    "examples/terraform-check-conditional-policy/s3.tf",
+    "examples/terraform-check-conditional-policy/variables.tf",
+    "examples/terraform-check-health/checks.tf",
+    "examples/terraform-check-health/main.tf",
+    "examples/terraform-check-health/s3.tf"
   ],
   "sessions": [
     {
@@ -21,14 +32,14 @@
       "transcript": "/ca/68801a2b03/0/full.jsonl",
       "compact_transcript": "/ca/68801a2b03/0/transcript.jsonl",
       "content_hash": "/ca/68801a2b03/0/content_hash.txt",
-      "prompt": "/ca/68801a2b03/0/prompt.txt"
+      "prompt": ""
     }
   ],
   "token_usage": {
-    "input_tokens": 74,
-    "cache_creation_tokens": 62685,
-    "cache_read_tokens": 9175542,
-    "output_tokens": 45673,
-    "api_call_count": 40
+    "input_tokens": 4,
+    "cache_creation_tokens": 1831,
+    "cache_read_tokens": 512283,
+    "output_tokens": 1157,
+    "api_call_count": 2
   }
 }
