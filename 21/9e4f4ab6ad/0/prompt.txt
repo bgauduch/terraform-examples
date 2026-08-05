@@ -1,0 +1,17 @@
+Ok Go, c'est bon pour moi. Passe aux autres modifications sur la pièce et puis ouvre-moi aussi en parallèle les slides pour que je fasse une petite passe dessus.
+
+---
+
+Pour la nav privée, ok pour amender la doctrine. Il faut éviter que ça revienne pour la suite et simplifier la formulation.
+
+Ouais, tu vas reprendre E0 pour le titre. Même chose avec des retours à la ligne après le point, mais c'est ce que tu proposes avec les balises BR.
+
+Pour S1, non, on laisse comme ça.
+
+S1, définition, OK pour la nouvelle tournure.
+
+Go pour ajouter effectivement la partie ClickOps.
+
+Pour l'APR, vérifie bien le titre et la description pour que ça soit à jour. N'oublie pas, il faut que ça reste synthétique, explicite et que ça suive bien les conventions.
+
+Une fois que tous les points seront terminés, tu pourras faire le end-off.
