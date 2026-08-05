@@ -75,7 +75,7 @@ main.tf        cross-cutting locals and data sources
 iam.tf         baseline role lookups + the application identity
 kms.tf         the five-statement key policy, the key, and the break-glass precondition
 s3.tf          a bucket encrypted with the key, so the policy governs real traffic
-checks.tf      the check blocks
+checks.tf      the check block
 bootstrap/     the platform baseline, as a separate root module
 ```
 

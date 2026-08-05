@@ -36,15 +36,15 @@ File split (per-service, following `aws-budget-cutoff`):
 | `iam.tf` | the two baseline role lookups, the application role and its bucket policy |
 | `kms.tf` | key-policy document (5 statements), the key, its alias, the break-glass `precondition` |
 | `s3.tf` | the bucket encrypted with the key |
-| `checks.tf` | the `check` blocks |
+| `checks.tf` | the `check` block |
 
 ## Invariants
 
 - `data "aws_iam_roles"` is **plural on purpose**: it returns an empty set when nothing matches,
   where the singular `aws_iam_role` errors and fails the plan. Never swap it for the singular form;
   the optionality of the lookup depends on it.
-- The policy-feeding lookups stay at **top level**; the checks re-read the same roles through their
-  own **scoped** data sources. The duplication is deliberate - a scoped data source is invisible
+- The policy-feeding lookups stay at **top level**; the check re-reads the same role through its
+  own **scoped** data source. The duplication is deliberate - a scoped data source is invisible
   outside its check, and the check is meant to observe reality rather than the config's locals.
 - Key administration uses an **explicit action list**, never `kms:*` - that wildcard would also
   grant `Decrypt` and `GenerateDataKey` to administrators.
