@@ -3,59 +3,72 @@
 Guidance for AI coding agents working inside this example. Repo-wide conventions live in the root
 `AGENTS.md`; this file covers what is specific to `terraform-check-conditional-policy`.
 
-Taxonomy: **type `lab`** - progressive, playable in a live session. Tags: `aws`, `check`, `kms`,
-`iam`, `multi-env`, `v1.5`.
+Taxonomy: **type `lab`** - progressive, playable in a live session. Tags: `aws`, `check`,
+`precondition`, `kms`, `iam`, `multi-env`, `v1.5`.
 
 ## Purpose and scope
 
-A **pedagogical demo** illustrating the *governance* face of Terraform 1.5 `check` blocks, as
-opposed to the health-probe face covered by `terraform-check-health`: an optional platform role is
-folded into a KMS key policy when it exists in the account, and the `check` reports its absence as
-a **warning** so accounts without the baseline still deploy.
+A **pedagogical demo** of the *governance* face of custom conditions, as opposed to the health-probe
+face covered by `terraform-check-health`. One module deployed across accounts at different baseline
+stages asks the same question about two roles and answers it two different ways:
 
-Keep the two labs distinct. This one is about an **environment assumption made observable**; the
-other is about **post-apply health and out-of-band drift**. Do not merge them, and do not add an
-HTTP probe here.
+- **break-glass absent** -> `precondition` on `aws_kms_key`, the apply stops.
+- **platform admin absent** -> `check`, the apply proceeds with a warning.
+
+That asymmetry IS the lesson. Keep both, and keep them opposite - collapsing them into one verdict
+removes the point of the example.
 
 ## Architecture
 
-Single root module (`providers.tf` is auto-discovered by CI):
+Two root modules, both auto-discovered by CI (each holds a `providers.tf`):
 
-- `data "aws_iam_roles" "ops"` - **plural on purpose**: it returns an empty set when nothing
-  matches, where the singular `aws_iam_role` errors and fails the plan. Never swap it for the
-  singular form; the optionality of the lookup depends on it.
-- The data source stays at **top level**, not scoped inside the `check`, because the key policy
-  consumes its result - a check-scoped data source is only visible inside its own `check`.
-- `aws_kms_key` + alias, admins = account root `concat` the resolved ops role ARNs.
-- `check "ops_role_present"` with a single `assert` on `length(local.ops_role_arns) > 0`.
+- **root** - the key, its policy, the bucket that uses it, and the conditions.
+- **`bootstrap/`** - the platform baseline (`demo-platform-admin`, `demo-break-glass`). Separate on
+  purpose: applying it means "this account received the baseline", destroying it means "not yet".
+  Never fold these roles into the root module - a role created in the same run is invisible to a
+  data source read earlier in the same plan, and the example would lose its subject.
+
+File split (per-service, following `aws-budget-cutoff`):
+
+| File | Holds |
+|---|---|
+| `main.tf` | cross-cutting locals, `aws_caller_identity` / `aws_partition` / `aws_organizations_organization`, `random_id` |
+| `iam.tf` | the two baseline role lookups, the application role and its bucket policy |
+| `kms.tf` | key-policy document (5 statements), the key, its alias, the break-glass `precondition` |
+| `s3.tf` | the bucket encrypted with the key |
+| `checks.tf` | the `check` blocks |
+
+## Invariants
+
+- `data "aws_iam_roles"` is **plural on purpose**: it returns an empty set when nothing matches,
+  where the singular `aws_iam_role` errors and fails the plan. Never swap it for the singular form;
+  the optionality of the lookup depends on it.
+- The policy-feeding lookups stay at **top level**; the checks re-read the same roles through their
+  own **scoped** data sources. The duplication is deliberate - a scoped data source is invisible
+  outside its check, and the check is meant to observe reality rather than the config's locals.
+- Key administration uses an **explicit action list**, never `kms:*` - that wildcard would also
+  grant `Decrypt` and `GenerateDataKey` to administrators.
+- Statement 5 (`DenyOutsideOrganization`) stays behind `var.enable_org_deny`, and its
+  `BoolIfExists aws:PrincipalIsAWSService` condition is **load-bearing**: AWS service principals
+  carry no `aws:PrincipalOrgID`, so removing it denies S3 and breaks the bucket. A `Deny` in a key
+  policy also governs edits to that policy, so a mistake here is unrecoverable.
+- `deletion_window_in_days = 7` is the AWS minimum - keep it so repeated demo runs stay cheap.
+- Tags via `local.common_tags` (`Project` / `ManagedBy`).
 
 ## Common commands
 
 ```bash
-aws iam create-role --role-name demo-ops-admin \
-  --assume-role-policy-document '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"ec2.amazonaws.com"},"Action":"sts:AssumeRole"}]}'
-terraform init && terraform apply    # role resolves, check passes
-aws iam delete-role --role-name demo-ops-admin
-terraform plan; echo "exit=$?"       # policy diff + check WARNING, exit 0
-terraform destroy
+cd bootstrap && terraform init && terraform apply && cd ..
+terraform init && terraform apply           # both roles present, no warning
+
+aws iam delete-role --role-name demo-platform-admin
+terraform plan; echo "exit=$?"              # check WARNING, exit 0
+
+aws iam delete-role --role-name demo-break-glass
+terraform plan; echo "exit=$?"              # precondition ERROR, exit 1
+
+cd bootstrap && terraform apply && cd .. && terraform apply   # reconcile
 ```
 
-Validation before committing: `terraform fmt -recursive` (root) and `terraform validate` here.
-`validate` does not resolve the data sources, so it needs no network/credentials.
-
-## Prerequisites
-
-- Terraform `>= 1.5.0` (pinned in `mise.toml`; `check` blocks land in 1.5).
-- AWS provider `~> 5.0`; AWS credentials for `apply`. Default region `eu-west-1`.
-
-## Conventions in this example
-
-- The ops role is **deliberately unmanaged** here: it models a baseline owned by another stack or
-  team. Do not add a resource that creates it - the lab would lose its subject, and a role created
-  in the same run is not visible to a data source read earlier in the same plan.
-- Do not turn the `check` into a `precondition`: the lesson is that the role's absence is a
-  legitimate state that warrants a warning, not a blocked apply.
-- `kms:*` on `resources = ["*"]` inside a key policy is the documented KMS pattern (the policy is
-  already scoped to its own key); keep the comment explaining it rather than narrowing it.
-- `deletion_window_in_days = 7` is the AWS minimum - keep it so repeated demo runs stay cheap.
-- Tags via `local.common_tags` (`Project` / `ManagedBy`).
+Validation before committing: `terraform fmt -recursive` (root) and `terraform validate` in both
+root modules. `validate` resolves no data sources, so it needs no network or credentials.
