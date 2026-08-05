@@ -1,0 +1,54 @@
+{
+  "cli_version": "0.9.0",
+  "checkpoint_id": "06df3538bf8c",
+  "session_id": "40e1a701-1bb6-4a54-a3f3-66c075917c0c",
+  "strategy": "manual-commit",
+  "created_at": "2026-08-05T13:52:30.18947Z",
+  "branch": "claude/terraform-check-health",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "examples/terraform-check-health/postcondition.tf.disabled",
+    "examples/terraform-check-conditional-policy/README.md",
+    "examples/terraform-check-health/README.md"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-opus-5",
+  "turn_id": "3b860478830d",
+  "checkpoint_transcript_start": 361,
+  "transcript_lines_at_start": 361,
+  "compact_transcript_start": 71,
+  "token_usage": {
+    "input_tokens": 59,
+    "cache_creation_tokens": 30148,
+    "cache_read_tokens": 4978279,
+    "output_tokens": 21235,
+    "api_call_count": 32
+  },
+  "session_metrics": {
+    "turn_count": 1
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-08-05T13:52:30.132082Z",
+    "agent_lines": 77,
+    "agent_removed": 2,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 77,
+    "total_lines_changed": 79,
+    "agent_percentage": 100,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 67,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        "examples/terraform-check-health/.terraform.lock.hcl": 67
+      }
+    }
+  ]
+}
