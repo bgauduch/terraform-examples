@@ -1,0 +1,26 @@
+{
+  "cli_version": "0.9.0",
+  "checkpoint_id": "f6193310f6ad",
+  "strategy": "manual-commit",
+  "branch": "fix/check-lab-force-destroy",
+  "checkpoints_count": 2,
+  "files_touched": [
+    "examples/terraform-check-conditional-policy/s3.tf"
+  ],
+  "sessions": [
+    {
+      "metadata": "/f6/193310f6ad/0/metadata.json",
+      "transcript": "/f6/193310f6ad/0/full.jsonl",
+      "compact_transcript": "/f6/193310f6ad/0/transcript.jsonl",
+      "content_hash": "/f6/193310f6ad/0/content_hash.txt",
+      "prompt": "/f6/193310f6ad/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 38,
+    "cache_creation_tokens": 36874,
+    "cache_read_tokens": 884462,
+    "output_tokens": 7120,
+    "api_call_count": 20
+  }
+}
