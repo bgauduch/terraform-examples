@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.4.0](https://github.com/bgauduch/terraform-examples/compare/v2.3.0...v2.4.0) (2026-08-09)
+
+
+### Features
+
+* **terraform-check:** gate vs signal labs (precondition, postcondition, check) ([#29](https://github.com/bgauduch/terraform-examples/issues/29)) ([1cb0dd0](https://github.com/bgauduch/terraform-examples/commit/1cb0dd0e7bbac3becabbab245bf6445e78e677a7))
+
+
+### Bug Fixes
+
+* **terraform-check:** force_destroy on the KMS lab bucket ([#44](https://github.com/bgauduch/terraform-examples/issues/44)) ([846c3fe](https://github.com/bgauduch/terraform-examples/commit/846c3fed82786120d66782a5037272117b87df22))
+
 ## [2.3.0](https://github.com/bgauduch/terraform-examples/compare/v2.2.0...v2.3.0) (2026-07-30)
 
 
