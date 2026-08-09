@@ -3,8 +3,9 @@
 # which is what makes the `kms:ViaService` condition and the service grant real.
 
 resource "aws_s3_bucket" "data" {
-  bucket = "${var.project}-${random_id.suffix.hex}"
-  tags   = local.common_tags
+  bucket        = "${var.project}-${random_id.suffix.hex}"
+  tags          = local.common_tags
+  force_destroy = true
 }
 
 resource "aws_s3_bucket_public_access_block" "data" {
