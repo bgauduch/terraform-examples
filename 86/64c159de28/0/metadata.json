@@ -56,6 +56,37 @@
         "label": "Skill: add-editorial-piece",
         "default_collapsed": true
       }
+    },
+    {
+      "id": "claude-skill-toolu_01979krdn9pTCA23BLoTHTqq",
+      "event_type": "tool_invocation",
+      "skill": {
+        "name": "add-editorial-visual"
+      },
+      "source": {
+        "agent": "claude-code",
+        "signal": "skill_tool_use",
+        "confidence": "explicit"
+      },
+      "turn_id": "fd365334ac9f",
+      "transcript_anchor": {
+        "unit": "line",
+        "start": 1002,
+        "end": 1003,
+        "entry_ids": [
+          "76845e50-2eed-41f2-a227-4d44378a3430"
+        ],
+        "tool_use_id": "toolu_01979krdn9pTCA23BLoTHTqq"
+      },
+      "native": {
+        "tool_name": "Skill",
+        "tool_use_id": "toolu_01979krdn9pTCA23BLoTHTqq"
+      },
+      "collapse": {
+        "target": "tool_pair",
+        "label": "Skill: add-editorial-visual",
+        "default_collapsed": true
+      }
     }
   ],
   "session_metrics": {
