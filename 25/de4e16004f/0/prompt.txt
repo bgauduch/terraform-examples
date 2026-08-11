@@ -1,0 +1,16 @@
+"« je ne peux pas jouer ça
+  avec mon vrai secret »" => sur ce point, j'aimera adapter les première étape de démo pour avoir un secret dummy, plus que dir "je peux pas c'est mon vrai secret", c'est plus pro non ? t'en pense quoi ?
+
+prépare moi un post de relance linkedin pour demain matin.
+
+sso sandbox fait
+
+done moi la procédure à dérouler pour créer l'app coté twitch, ou un pointeur de doc, et he fais ça en //
+
+---
+
+ah oui fuck je n'ai pas fait l'event => il faut le préparer pour demain en mode placeholder, en plus de tout le reste !
+
+on va faire simple : création de l'event demain matin (= fin des vote), rappel via partage jeudi matin
+
+fait un tableau ordnier de ce qu'il rest eà faire
