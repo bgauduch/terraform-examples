@@ -7,35 +7,63 @@ Backend remote, encrypted at rest, versioned, locked down, audited. Every box ti
 token is still sitting in the state file in clear text. This lab walks the four native mechanisms
 that fix that, **one at a time**, and each step ends on the defect the next one removes.
 
-## Two barriers, not one
+## Two questions, two maps
 
-Most confusion about Terraform and secrets comes from conflating two independent things: what
-Terraform **shows** you, and what Terraform **keeps**. `sensitive` only ever acts on the first one.
+Almost every argument about Terraform and secrets comes from mixing up two separate questions:
+**how exposed is the secret**, and **which flow am I actually building**. One map each.
+
+### How exposed is the secret?
+
+Three levels, and they are about **storage**, not about what your terminal shows you.
+
+```mermaid
+flowchart LR
+    L1["LEVEL 1 - Stored in clear<br/>plain argument<br/>readable by anyone who can read the state"]
+    L2["LEVEL 2 - Stored, hidden from output<br/>sensitive = true<br/>the state has not moved one byte"]
+    L3["LEVEL 3 - Not stored at all<br/>ephemeral value + write-only argument<br/>a flag and a version number remain"]
+
+    L1 -->|"sensitive = true"| L2
+    L2 -->|"ephemeral + write-only"| L3
+```
+
+The distinction matters because **level 1 already looks safe on screen**. The AWS provider marks
+`secret_string` as `Sensitive` in its own schema, so a plan prints `(sensitive value)` before you
+have configured anything. Nothing is hidden from the state, and everything is hidden from you.
+That is why `sensitive` feels sufficient and is not.
+
+### Which flow am I building?
+
+Three ways a secret moves through Terraform. They are not variants of one another, and the third
+is the one people forget.
 
 ```mermaid
 flowchart TB
-    ext["External secret<br/>CI, tfvars, TF_VAR_*"]
-    gen["Generated in place<br/>ephemeral random_password"]
-    cfg["Terraform configuration"]
+    subgraph M1["Mode 1 - Inject and write (secret issued elsewhere)"]
+        direction LR
+        ci["CI, tfvars, TF_VAR_*"] -->|"variable with ephemeral = true"| wo1["attr_wo + attr_wo_version"] --> v1[("Vault")]
+    end
 
-    ext -->|"variable with ephemeral = true"| cfg
-    gen -->|"ephemeral block"| cfg
+    subgraph M2["Mode 2 - Generate and write (secret nobody ever sees)"]
+        direction LR
+        gen["ephemeral random_password"] --> wo2["attr_wo + attr_wo_version"] --> v2[("Vault")]
+    end
 
-    cfg --> display["BARRIER 1 - DISPLAY<br/>plan, CLI output, CI logs"]
-    cfg --> persist["BARRIER 2 - PERSISTENCE<br/>state file, plan file"]
+    subgraph M3["Mode 3 - Read back and use"]
+        direction LR
+        v3[("Vault")] -->|"ephemeral block<br/>a data source would put it back in state"| dest["provider config,<br/>another write-only argument"]
+        v3 -.->|"ARN only, never the value"| app["Consumer, at runtime"]
+    end
 
-    display -->|"sensitive = true<br/>acts here, and only here"| redacted["(sensitive value)"]
-
-    persist -->|"plain argument"| leak["secret stored in clear<br/>forever, and in every past state version"]
-    persist -->|"write-only argument<br/>attr_wo + attr_wo_version"| clean["nothing stored<br/>only a flag and a version number"]
-
-    clean --> vault[("Secrets Manager")]
-    vault -.->|"ARN only, never the value"| app["Consumer<br/>reads at runtime"]
+    M1 ~~~ M2 ~~~ M3
 ```
 
-Read it as: **two sources, two barriers, one way out.** Neither an ephemeral block nor an ephemeral
-variable can *write* anything - they only bring a value in. Write-only arguments are the single
-exit toward a managed resource, which is why the two are always used together.
+Modes 1 and 2 differ only in **where the value comes from**; they share the same exit. Mode 3 is
+the read path, and it carries its own trap: a plain `data` source puts the value back into the
+state on what looks like a harmless read.
+
+The rule that ties all three together: **neither an ephemeral block nor an ephemeral variable can
+write anything.** They only bring a value in. Write-only arguments are the single exit toward a
+managed resource, which is why the two are always used as a pair.
 
 ## What gets deployed
 
