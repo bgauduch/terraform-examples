@@ -7,6 +7,27 @@ Backend remote, encrypted at rest, versioned, locked down, audited. Every box ti
 token is still sitting in the state file in clear text. This lab walks the four native mechanisms
 that fix that, **one at a time**, and each step ends on the defect the next one removes.
 
+## In a hurry? Take [`final/`](final/)
+
+The answer without the walkthrough, as a standalone root module:
+
+```hcl
+ephemeral "random_password" "app" {
+  length = 32
+}
+
+resource "aws_secretsmanager_secret_version" "app" {
+  secret_id                = aws_secretsmanager_secret.app.id
+  secret_string_wo         = ephemeral.random_password.app.result # sent, never stored
+  secret_string_wo_version = 1                                    # bump this to rotate
+}
+```
+
+Terraform `>= 1.11`, and a provider that implements the write-only argument you need. Consumers get
+the ARN and read the value at runtime.
+
+Everything below is *why* each piece is there, and what breaks when one is missing.
+
 ## Two questions, two maps
 
 Almost every argument about Terraform and secrets comes from mixing up two separate questions:
@@ -151,11 +172,6 @@ still open. Behaviour is per-resource - measure it on yours before trusting it.
 
 And the part no provider fix addresses: **earlier versions of your state still hold the old value.**
 Migrating cleans the present, not the history. Rotate the secret, then migrate.
-
-## The target state, on its own
-
-[`final/`](final/) is a separate root module holding step 6 alone, without the walkthrough. That is
-the one to copy.
 
 ## Prerequisites
 
