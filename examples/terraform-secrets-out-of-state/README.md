@@ -88,10 +88,17 @@ managed resource, which is why the two are always used as a pair.
 
 ## What gets deployed
 
-- One Secrets Manager secret holding a throwaway credential set (JSON, shaped like a chat-bot token).
+- One Secrets Manager secret, behind a customer-managed KMS key, holding a throwaway credential set
+  (JSON, shaped like a chat-bot token).
 - One Lambda **consumer that never changes across the six steps**: it receives the secret **ARN** in
   its environment, reads the value at runtime, and returns a SHA-256 fingerprint - never the value.
-- A scoped IAM policy: `secretsmanager:GetSecretValue` on that one ARN.
+- A scoped IAM policy: `secretsmanager:GetSecretValue` on that one ARN, plus `kms:Decrypt` on that
+  one key.
+
+The consumer has two sinks, set with `-var sink=...`. `stdout` (default) returns the fingerprint in
+the invoke response and needs nothing else. `twitch` also posts it to a chat, which exercises the
+realistic shape: what rests in the vault is the durable **refresh token**, and a short-lived access
+token is derived at each call and kept nowhere.
 
 `app.tf` is the invariant half and is shown once. `secret.tf` is the only file that moves.
 

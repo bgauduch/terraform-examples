@@ -117,7 +117,11 @@ resource "aws_lambda_function" "fingerprint" {
     variables = {
       # The ARN, never the value. This is the whole point of the lab.
       SECRET_ARN = aws_secretsmanager_secret.app.arn
-      SINK       = "stdout"
+
+      # `stdout` returns the fingerprint. `twitch` also posts it to a chat, which
+      # only proves the same thing out loud - the demo never depends on it.
+      SINK           = var.sink
+      TWITCH_USER_ID = var.twitch_user_id
     }
   }
 
