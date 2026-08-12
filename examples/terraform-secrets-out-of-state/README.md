@@ -211,6 +211,23 @@ Two things about the loop:
 seconds.** The role and its policy have just been created and IAM is eventually consistent - wait
 about ten seconds and invoke again. Nothing is wrong with the configuration.
 
+## Troubleshooting
+
+- `dial tcp 0.0.0.0:443: connect: connection refused` on `logs.<region>.amazonaws.com`, and the
+  apply stops after the KMS key, secret and role are created but before the log group and the
+  Lambda: a local DNS filter (Pi-hole, AdGuard, router-level ad blocking) is blackholing hostnames
+  that start with `logs.`. Point the SDK at the dual-stack endpoint, which resolves normally, in
+  the shell that runs Terraform:
+
+  ```bash
+  export AWS_ENDPOINT_URL_CLOUDWATCH_LOGS=https://logs.eu-west-1.api.aws
+  ```
+
+  `AWS_ENDPOINT_URL_<SERVICE>` is the standard per-service override
+  ([SDK reference](https://docs.aws.amazon.com/sdkref/latest/guide/feature-ss-endpoints.html)).
+  Re-run `terraform apply`: it resumes from the partial state and creates the three missing
+  resources.
+
 ## References
 
 - [Manage sensitive data](https://developer.hashicorp.com/terraform/language/state/sensitive-data) -
