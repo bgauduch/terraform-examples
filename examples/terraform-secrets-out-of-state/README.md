@@ -61,17 +61,21 @@ is the one people forget.
 flowchart TB
     subgraph M1["Mode 1 - Inject and write (secret issued elsewhere)"]
         direction LR
-        ci["CI, tfvars, TF_VAR_*"] -->|"variable with ephemeral = true"| wo1["attr_wo + attr_wo_version"] --> v1[("Vault")]
+        ci["CI, tfvars, TF_VAR_*"] -->|"variable with ephemeral = true"| wo1["attr_wo + attr_wo_version"] --> v1[("Secret store<br/>(here: Secrets Manager)")]
+        wo1 -.->|"flag + version only,<br/>never the value"| s1[("State")]
     end
 
     subgraph M2["Mode 2 - Generate and write (secret nobody ever sees)"]
         direction LR
-        gen["ephemeral random_password"] --> wo2["attr_wo + attr_wo_version"] --> v2[("Vault")]
+        gen["ephemeral random_password"] --> wo2["attr_wo + attr_wo_version"] --> v2[("Secret store<br/>(here: Secrets Manager)")]
+        wo2 -.->|"flag + version only,<br/>never the value"| s2[("State")]
     end
 
     subgraph M3["Mode 3 - Read back and use"]
         direction LR
-        v3[("Vault")] -->|"ephemeral block<br/>a data source would put it back in state"| dest["provider config,<br/>another write-only argument"]
+        v3[("Secret store<br/>(here: Secrets Manager)")] -->|"ephemeral block"| dest["provider config,<br/>another write-only argument"]
+        dest -.->|"nothing lands"| s3[("State")]
+        v3 -->|"data source: the value<br/>lands on a plain read"| s3
         v3 -.->|"ARN only, never the value"| app["Consumer, at runtime"]
     end
 
@@ -104,16 +108,16 @@ token is derived at each call and kept nowhere.
 
 ## The six steps
 
-Uncomment the next step in `secret.tf`, comment the previous one, run the proof. Steps 3 and 4
+Uncomment the next step in `secret.tf`, comment the previous one, run the proof. Steps 3 and 5
 fail on purpose.
 
 | # | Mechanism | Proof | What you see |
 |---|---|---|---|
 | 1 | plain variable | `terraform state pull` | the token, in clear |
 | 2 | `sensitive = true` | same command | **unchanged state**; a derived output now breaks the plan |
-| 3 | `ephemeral = true` on the variable | `terraform plan` | `Invalid use of ephemeral value` |
-| 4 | `ephemeral` block | `terraform plan` | `Ephemeral value not allowed` when referenced from an output |
-| 5 | `secret_string_wo` + version | `terraform state pull` | `has_secret_string_wo: true`, no value |
+| 3 | `ephemeral = true` on the variable | `terraform plan` | `Invalid use of ephemeral value` - and the error names the exit: a write-only attribute |
+| 4 | `secret_string_wo` + version | `terraform state pull` | `has_secret_string_wo: true`, no value |
+| 5 | `ephemeral` block | `terraform plan` | `Ephemeral value not allowed` when referenced from an output |
 | 6 | `ephemeral "random_password"` | bump the version | `1 -> 2 # forces replacement`, value never appears |
 
 Proof commands are emitted as outputs (`state_proof_command`, `fingerprint_command`) so they can be
@@ -126,7 +130,7 @@ The plan already prints `secret_string = (sensitive value)` before anything is c
 the AWS provider marks that attribute `Sensitive` in its own schema. The plan looks safe. The state
 is not. This is precisely why `sensitive` feels sufficient and is not.
 
-### Steps 3 and 4, verbatim
+### Steps 3 and 5, verbatim
 
 ```
 Error: Invalid use of ephemeral value
@@ -144,6 +148,12 @@ cannot be set to a result derived from an ephemeral value.
 
 The first message is the whole lesson, printed by the tool: the discipline is enforced by the
 language, not by the author's vigilance.
+
+The step-2 output does not cross step 3 either: a root output cannot return an ephemeral value
+(`Ephemeral output not allowed` - the `ephemeral` flag on outputs is child-module only). Where
+`sensitive` spread a flag through the interface, `ephemeral` evicts the output. The escape hatch,
+[`ephemeralasnull()`](https://developer.hashicorp.com/terraform/language/functions/ephemeralasnull),
+keeps it legal and hands the state exactly `null`.
 
 ## Rotation
 
@@ -183,8 +193,10 @@ Migrating cleans the present, not the history. Rotate the secret, then migrate.
 
 ## Prerequisites
 
-- **Terraform `>= 1.11.0`** (pinned via `mise.toml`): the floor for write-only arguments.
-  `ephemeral` blocks land earlier, in 1.10.
+- **Terraform `>= 1.11.1`** (pinned via `mise.toml`): 1.11 is the floor for write-only arguments
+  (`ephemeral` blocks land earlier, in 1.10), and 1.11.0 specifically fails step 4 - feeding a
+  sensitive+ephemeral value to a write-only argument breaks plan serialization
+  ([#36619](https://github.com/hashicorp/terraform/issues/36619), fixed in 1.11.1).
 - AWS provider `~> 6.0`, `random ~> 3.7`, `archive ~> 2.0`.
 - AWS credentials for `apply` (`validate` needs none). Default region: `eu-west-1`.
 

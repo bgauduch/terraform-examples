@@ -26,7 +26,7 @@ Two root modules (both auto-discovered by CI through their `providers.tf`):
 
 - **`secret.tf` is the only file that changes.** The whole point is that the consumer never moves
   while the write path changes six times. Never add a step that touches `app.tf`.
-- **Steps 3 and 4 must fail.** They are the lesson, not a defect. They can never be the active step,
+- **Steps 3 and 5 must fail.** They are the lesson, not a defect. They can never be the active step,
   because CI runs `validate` on whatever is uncommitted.
 - **Every value is throwaway.** No real credential ever lands here, not even briefly. The JSON blob
   is shaped like a chat-bot credential set so the example reads as realistic while staying inert.
@@ -51,8 +51,9 @@ this directory and `final/`.
 
 ## Prerequisites
 
-- Terraform `>= 1.11.0` (pinned in `mise.toml`) - the floor for write-only arguments; `ephemeral`
-  blocks land in 1.10, so write-only is what constrains.
+- Terraform `>= 1.11.1` (pinned in `mise.toml`) - 1.11 is the floor for write-only arguments
+  (`ephemeral` blocks land in 1.10), and 1.11.0 breaks step 4: sensitive+ephemeral into a
+  write-only argument fails plan serialization (hashicorp/terraform#36619).
 - AWS provider `~> 6.0`, `random ~> 3.7`, `archive ~> 2.0`. AWS credentials for `apply`.
   Default region `eu-west-1`.
 

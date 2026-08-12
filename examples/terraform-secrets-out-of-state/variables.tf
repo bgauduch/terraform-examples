@@ -31,3 +31,19 @@ variable "twitch_user_id" {
   type        = string
   default     = ""
 }
+
+# The two halves of the credential set that never rotate. Dummy by default so the
+# walkthrough stays inert; inject real values (TF_VAR_*) only from step 4 on -
+# at steps 1-3 the secret is persisted in state, and these land inside it.
+variable "twitch_client_id" {
+  description = "Twitch app client id, stored in the credential set. Real value only needed when sink = twitch."
+  type        = string
+  default     = "dummy-client-id"
+}
+
+variable "twitch_client_secret" {
+  description = "Twitch app client secret, stored in the credential set. Real value only needed when sink = twitch."
+  type        = string
+  default     = "dummy-client-secret"
+  sensitive   = true
+}
