@@ -1,6 +1,7 @@
-# Terraform pin for this example: 1.11 is the minimum version that ships
-# write-only arguments. `ephemeral` blocks land earlier (1.10), so write-only
-# is what sets the floor here.
+# Terraform pin for this example: 1.11 ships write-only arguments and sets the
+# floor (`ephemeral` blocks land earlier, in 1.10). Not 1.11.0: it fails to
+# serialize a sensitive+ephemeral value fed to a write-only argument
+# (hashicorp/terraform#36619, fixed in 1.11.1) - the exact path of step 4.
 # tflint/trivy are inherited from the repo-root mise.toml.
 [tools]
-terraform = "1.11.0"
+terraform = "1.11.4"
