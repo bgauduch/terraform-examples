@@ -1,0 +1,24 @@
+Stop, mais tu fais quoi là ? C'est pas ça la question. La question c'est pourquoi dans le fichier de sortie, j'ai pas la sortie set out. Est-ce que c'est normal ou pas ? Y'a pas à modifier 15 millions de trucs, j'ai pas dit l'output il fonctionne, pourquoi tu fais c'est modif, ça sert à rien.
+
+---
+
+" Donc le hash arrive bien, par le retour : {"sink": "stdout", "fingerprint": "24437ec9", "message": "..."} — collé devant le bloc StatusCode sans newline, ce qui le rend facile à rater à l'écra" => non, en CLI en eval l'output je n'ai QUE "{
+    "StatusCode": 200,
+    "ExecutedVersion": "$LATEST"
+}", pas le reste.
+
+---
+
+Ok, alors du coup il faut trouver un moyen plus simple d'afficher parce qu'effectivement si je suis obligé de faire un 4 à chaque fois que je fais le lambda invoc, ça va être long pendant le live.
+
+---
+
+Ok, pas mal, mais j'aimerais que l'on garde tout l'output avec le sync, le fingerprint, le message, etc.
+
+---
+
+Simplifiez les commentaires dans l'output, c'est beaucoup trop verbeux, ça n'apporte pas grand-chose. Explique juste ce que ça fait et pourquoi ils sont utiles pour frapper ces fameuses commandes dans le cadre de cet exemple et de la démo. Je ne sais pas si c'est bien indiqué, ces commandes-là, le pourquoi du comment dans le README, est-ce que ça vaut le coup d'ajouter ça ? Je pose la question.
+
+---
+
+Ok go, et tu pourras commuter ces corrections, sauf ce que je suis en train de faire côté secret, parce que je suis en train de dérouler le lab, donc le secret TF, lui, ne bouge pas, évidemment, parce qu'on veut le garder à l'état 1.
