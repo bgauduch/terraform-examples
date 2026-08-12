@@ -1,0 +1,28 @@
+{
+  "cli_version": "0.9.0",
+  "checkpoint_id": "b0ab1c087584",
+  "strategy": "manual-commit",
+  "branch": "feat/terraform-secrets-out-of-state",
+  "checkpoints_count": 4,
+  "files_touched": [
+    "examples/terraform-secrets-out-of-state/final/providers.tf",
+    "examples/terraform-secrets-out-of-state/mise.toml",
+    "examples/terraform-secrets-out-of-state/providers.tf"
+  ],
+  "sessions": [
+    {
+      "metadata": "/b0/ab1c087584/0/metadata.json",
+      "transcript": "/b0/ab1c087584/0/full.jsonl",
+      "compact_transcript": "/b0/ab1c087584/0/transcript.jsonl",
+      "content_hash": "/b0/ab1c087584/0/content_hash.txt",
+      "prompt": "/b0/ab1c087584/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 320,
+    "cache_creation_tokens": 437693,
+    "cache_read_tokens": 27114745,
+    "output_tokens": 172320,
+    "api_call_count": 173
+  }
+}
