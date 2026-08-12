@@ -1,0 +1,5 @@
+ok, ilest donc possible que tu as fait un fix temporaire dans un shell, sans le tracer.
+
+---
+
+ok, sur le sujet outillage => tout est tracé, je peux clôturer la session ?
