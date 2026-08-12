@@ -117,7 +117,8 @@ fail on purpose.
 | 6 | `ephemeral "random_password"` | bump the version | `1 -> 2 # forces replacement`, value never appears |
 
 Proof commands are emitted as outputs (`state_proof_command`, `fingerprint_command`) so they can be
-pasted rather than typed.
+pasted rather than typed. Read them with `-raw`: a plain `terraform output` reprints the value
+HCL-escaped, and the pasted jq will not compile.
 
 ### Step 1 hides a trap worth pausing on
 
