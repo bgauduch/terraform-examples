@@ -1,0 +1,65 @@
+Stop, mais tu fais quoi là ? C'est pas ça la question. La question c'est pourquoi dans le fichier de sortie, j'ai pas la sortie set out. Est-ce que c'est normal ou pas ? Y'a pas à modifier 15 millions de trucs, j'ai pas dit l'output il fonctionne, pourquoi tu fais c'est modif, ça sert à rien.
+
+---
+
+" Donc le hash arrive bien, par le retour : {"sink": "stdout", "fingerprint": "24437ec9", "message": "..."} — collé devant le bloc StatusCode sans newline, ce qui le rend facile à rater à l'écra" => non, en CLI en eval l'output je n'ai QUE "{
+    "StatusCode": 200,
+    "ExecutedVersion": "$LATEST"
+}", pas le reste.
+
+---
+
+Ok, alors du coup il faut trouver un moyen plus simple d'afficher parce qu'effectivement si je suis obligé de faire un 4 à chaque fois que je fais le lambda invoc, ça va être long pendant le live.
+
+---
+
+Ok, pas mal, mais j'aimerais que l'on garde tout l'output avec le sync, le fingerprint, le message, etc.
+
+---
+
+Simplifiez les commentaires dans l'output, c'est beaucoup trop verbeux, ça n'apporte pas grand-chose. Explique juste ce que ça fait et pourquoi ils sont utiles pour frapper ces fameuses commandes dans le cadre de cet exemple et de la démo. Je ne sais pas si c'est bien indiqué, ces commandes-là, le pourquoi du comment dans le README, est-ce que ça vaut le coup d'ajouter ça ? Je pose la question.
+
+---
+
+Ok go, et tu pourras commuter ces corrections, sauf ce que je suis en train de faire côté secret, parce que je suis en train de dérouler le lab, donc le secret TF, lui, ne bouge pas, évidemment, parce qu'on veut le garder à l'état 1.
+
+---
+
+D'ailleurs, dans la step 2, je pense qu'il faut d'abord ajouter l'output pour montrer qu'il est affiché, et ensuite ajouter les sensitive dans la variable, constater l'erreur, puis l'ajouter dans l'output. Voilà, mets à jour l'enchaînement de la step 2.
+
+---
+
+"# Referencing it outside an ephemeral context stops the plan:
+#
+#   Error: Ephemeral value not allowed
+#
+#   This output value is not declared as returning an ephemeral value, so it
+#   cannot be set to a result derived from an ephemeral value.
+#
+output "current_token" {
+  value = ephemeral.aws_secretsmanager_secret_version.current.secret_string
+}" => Quel est l'intérêt de ce passage en step 5 étant donné que globalement on l'a déjà montré avec l'output de la step 2, si je ne dis pas de bêtises ? Ça peut être intéressant de garder le lien sur un bloc éphéméral et pas effectivement juste un attribut write-only ou une variable éphémérale, mais bon, pourquoi pas, ça se dit à l'oral, en tout cas, c'est pas mal, ça me permet d'entrer un plan qui fail.
+
+
+
+Sinon, explique-moi bien le passage step 5 vers step 6 en termes de discours, d'éléments à montrer. Est-ce que je ne suis pas certain de bien le dérouler ?
+
+---
+
+note à implémenter coté slides : pour le rappel du tfsatet, rappeller que c'est une table d'association entre block tf <=> ressources provider
+
+"╷
+│ Error: Ephemeral output not allowed
+│ 
+│   on secret.tf line 127:
+│  127: output "current_token" {
+│ 
+│ Ephemeral outputs are not allowed in context of a root module" =>
+
+---
+
+Comment on peut amener ça dans le dialogue ? Parce que c'est clairement une erreur assez courante. Globalement, un root module ne peut pas transporter une value éphémère. Donc même si, à la step 5, on ajoute un ephemeral true à l'output, ça pète. Qu'il y ait d'ailleurs la fonction ephemeral as nulle ou pas.
+
+---
+
+OK, maintenant comment je peux tester la partie Twitch pour avoir un résultat un peu fun quand même, pour envoyer des messages sur le chat du live. Alors attention tout de même parce que je viens de me rappeler que ça finit en commentaire sur LinkedIn. Bon, je peux faire du ménage après la session. Faudra bien le noter si on fait ça dans les post clean-up, les actions de post live en mode clean-up. En tout cas, j'aimerais bien que ça fonctionne pour Twitch. Pour moi, la partie secret, elle est bonne. J'ai tout rejoué, l'ordre est bon, il est clair, le dialogue commence à être clair, mais je repasserai dessus demain. Et on peut reset le secret TF, et puis faire un commit déjà avec les correctifs là en cours.
