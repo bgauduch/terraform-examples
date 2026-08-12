@@ -175,7 +175,7 @@ rotation and Terraform stop fighting over it.
 ## Migrating an existing secret
 
 There is no migration section in the HashiCorp documentation. Here is what this lab measured on
-`aws_secretsmanager_secret_version` (Terraform 1.11.0, AWS provider 6.x):
+`aws_secretsmanager_secret_version` (Terraform 1.11.4, AWS provider 6.x):
 
 - Removing `secret_string` and adding `secret_string_wo` + `secret_string_wo_version` is an
   **in-place update**, not a replacement.
