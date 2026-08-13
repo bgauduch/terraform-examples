@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.5.0](https://github.com/bgauduch/terraform-examples/compare/v2.4.0...v2.5.0) (2026-08-13)
+
+
+### Features
+
+* **terraform-secrets-out-of-state:** progressive lab for keeping secrets out of the state ([#46](https://github.com/bgauduch/terraform-examples/issues/46)) ([37dd049](https://github.com/bgauduch/terraform-examples/commit/37dd0495737f72418c4980c1b0bb74ce876aad2c)), closes [#45](https://github.com/bgauduch/terraform-examples/issues/45)
+
 ## [2.4.0](https://github.com/bgauduch/terraform-examples/compare/v2.3.0...v2.4.0) (2026-08-09)
 
 
