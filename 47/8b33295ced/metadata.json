@@ -3,7 +3,7 @@
   "checkpoint_id": "478b33295ced",
   "strategy": "manual-commit",
   "branch": "feat/terraform-secrets-out-of-state",
-  "checkpoints_count": 3,
+  "checkpoints_count": 7,
   "files_touched": [
     "examples/terraform-secrets-out-of-state/README.md",
     "examples/terraform-secrets-out-of-state/secret.tf"
@@ -14,6 +14,13 @@
       "transcript": "/47/8b33295ced/0/full.jsonl",
       "compact_transcript": "/47/8b33295ced/0/transcript.jsonl",
       "content_hash": "/47/8b33295ced/0/content_hash.txt",
+      "prompt": ""
+    },
+    {
+      "metadata": "/47/8b33295ced/1/metadata.json",
+      "transcript": "/47/8b33295ced/1/full.jsonl",
+      "compact_transcript": "/47/8b33295ced/1/transcript.jsonl",
+      "content_hash": "/47/8b33295ced/1/content_hash.txt",
       "prompt": ""
     }
   ],
