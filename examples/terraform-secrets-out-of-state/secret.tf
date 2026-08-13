@@ -73,11 +73,19 @@ resource "aws_secretsmanager_secret_version" "app" {
 # The step-2 output does not survive this marche either: a root output cannot
 # return an ephemeral value (`Ephemeral output not allowed` - the `ephemeral`
 # output flag is child-module only). Where `sensitive` spread a flag through the
-# interface, `ephemeral` evicts the output. The escape hatch for mixed values,
-# `ephemeralasnull()`, keeps the output legal and hands the state exactly null:
+# interface, `ephemeral` evicts the output.
+#
+# The escape hatch, `ephemeralasnull()`, nullifies exactly what is ephemeral.
+# Handed a mixed object, the public fields survive and the secret leaf lands as
+# null - the reference lives, the value dies, which is the consumer contract of
+# this whole lab. (Handed a bare ephemeral scalar it returns null, and a null
+# root output is dropped from `terraform output` entirely.)
 #
 # output "token_preview" {
-#   value     = ephemeralasnull(var.api_token)
+#   value = ephemeralasnull({
+#     secret_arn    = aws_secretsmanager_secret.app.arn
+#     refresh_token = var.api_token
+#   })
 #   sensitive = true
 # }
 # ---------------------------------------------------------------------------

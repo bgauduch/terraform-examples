@@ -153,7 +153,10 @@ The step-2 output does not cross step 3 either: a root output cannot return an e
 (`Ephemeral output not allowed` - the `ephemeral` flag on outputs is child-module only). Where
 `sensitive` spread a flag through the interface, `ephemeral` evicts the output. The escape hatch,
 [`ephemeralasnull()`](https://developer.hashicorp.com/terraform/language/functions/ephemeralasnull),
-keeps it legal and hands the state exactly `null`.
+nullifies exactly what is ephemeral: handed a mixed object, the public fields survive and the
+secret leaf comes out `null` - the reference lives, the value dies, the consumer contract in one
+structure. Handed a bare ephemeral scalar it returns `null`, and a null root output is dropped
+from `terraform output` entirely.
 
 ## Rotation
 
