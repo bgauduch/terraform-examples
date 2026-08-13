@@ -21,6 +21,7 @@ Each example lives under [`examples/`](examples/) and is fully independent - its
 | [`terraform-actions-lambda`](examples/terraform-actions-lambda/) | `lab` | `aws` `actions` `lambda` `dynamodb` `v1.14` | Use `action "aws_lambda_invoke"` as a generic escape hatch: trigger a DynamoDB on-demand backup (or any logic) on a resource lifecycle event. |
 | [`terraform-check-health`](examples/terraform-check-health/) | `lab` | `aws` `check` `drift` `post-apply` `v1.5` | Post-apply assertions on real infrastructure with a `check` block, and non-blocking out-of-band drift detection. |
 | [`terraform-check-conditional-policy`](examples/terraform-check-conditional-policy/) | `lab` | `aws` `check` `precondition` `kms` `iam` `multi-env` `v1.5` | One module across accounts at different baseline stages: a missing break-glass role blocks the apply via `precondition`, a missing platform admin role only warns via `check`. |
+| [`terraform-secrets-out-of-state`](examples/terraform-secrets-out-of-state/) | `lab` | `aws` `secrets` `ephemeral` `write-only` `rotation` `v1.11` | Keep a secret out of the state, one mechanism at a time: `sensitive`, ephemeral variables, write-only arguments, ephemeral blocks, then rotation. Ships a copy-ready [`final/`](examples/terraform-secrets-out-of-state/final/) module for readers who want the answer only. |
 
 ### Taxonomy
 

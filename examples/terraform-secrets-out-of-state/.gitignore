@@ -1,0 +1,6 @@
+# archive_file output, rebuilt on every apply
+build/
+
+# Saved plan files carry the same values as the state - never commit one.
+tfplan
+*.tfplan

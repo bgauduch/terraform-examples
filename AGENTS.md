@@ -30,6 +30,9 @@ Do **not** create top-level category directories (`patterns/`, `experiments/`...
      these READMEs are read on screen and a 404 is noticed.
    - Keep it distinct from `## Going further`, which cross-references sibling examples and adjacent
      approaches rather than documentation.
+   - `## Troubleshooting` is optional in general, and **mandatory for any example creating an
+     `aws_cloudwatch_log_group`**: a resolver that blackholes `logs.*` stops the apply halfway with
+     a misleading network error. See `tasks/lessons.md` (Local environment) for the bullet to carry.
 3. Add per-example tooling: `mise.toml` (pins `terraform`, may be an RC/prerelease for `experiment` types; inherits `tflint`/`trivy` from the repo-root `mise.toml`) and `.tflint.hcl`.
 4. Add the Terraform root module(s). Any directory containing a `providers.tf` is auto-discovered by CI - no CI edit needed to validate it.
 5. Register a row in the root `README.md` catalogue table.

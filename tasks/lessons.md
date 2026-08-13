@@ -54,3 +54,20 @@ Durable lessons learned while working in this repository. Append new entries; ke
   the service that was supposed to use the key. And since a `Deny` in a key policy also governs who
   may edit that policy, a miscalibrated condition leaves the key unrecoverable: validate on a
   throwaway key, and keep the statement behind a variable.
+
+## Local environment
+
+- **A local DNS filter that blackholes `logs.*` stops any example creating a log group** - the
+  resolver answers `0.0.0.0` for `logs.<region>.amazonaws.com`, so the apply dies with
+  `dial tcp 0.0.0.0:443: connect: connection refused` on `aws_cloudwatch_log_group` and leaves a
+  partial state: everything up to the log group is created, the log group and whatever depends on
+  it are not. `dig @1.1.1.1` does not settle it - a filtering router intercepts port 53 to public
+  resolvers too. Compare the system resolver against DoH instead:
+  `curl -H 'accept: application/dns-json' 'https://cloudflare-dns.com/dns-query?name=logs.<region>.amazonaws.com&type=A'`.
+  Work around it with `AWS_ENDPOINT_URL_CLOUDWATCH_LOGS=https://logs.<region>.api.aws`, the
+  dual-stack name, which is not caught by the `logs.` prefix rule.
+- **An environment workaround belongs in the example README, not in the operator's shell** - the
+  one above was documented in `terraform-actions-lambda` only, so the next example creating a log
+  group (`terraform-secrets-out-of-state`) hit the exact same wall from scratch, on demo day. Any
+  example that creates an `aws_cloudwatch_log_group` carries the `## Troubleshooting` bullet.
+  Duplication across examples is the intended cost of self-contained examples.
