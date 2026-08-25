@@ -1,0 +1,5 @@
+# Terraform pin for this example: repo default. Feature floors demonstrated here:
+# `moved` blocks land in 1.1, `import` blocks in 1.5, `removed` + destroy=false in 1.7.
+# tflint/trivy are inherited from the repo-root mise.toml.
+[tools]
+terraform = "1.14.8"
