@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.6.0](https://github.com/bgauduch/terraform-examples/compare/v2.5.0...v2.6.0) (2026-08-26)
+
+
+### Features
+
+* state refactoring lab, and a single terraform version for the whole repo ([#48](https://github.com/bgauduch/terraform-examples/issues/48)) ([e8afb71](https://github.com/bgauduch/terraform-examples/commit/e8afb719d7403c0f82bff130384c11ab590f79cc))
+
 ## [2.5.0](https://github.com/bgauduch/terraform-examples/compare/v2.4.0...v2.5.0) (2026-08-13)
 
 
