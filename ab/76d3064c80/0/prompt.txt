@@ -33,3 +33,11 @@ Sinon, on ne s'emmerde pas, étant donné qu'on a les pins spécifiques dans le 
 
 
 oui, mais ton option 3, là, ça ne marche pas, parce qu'on fait comment avec le TF State ? Parce que là, aujourd'hui, le TF State, il reste dans le répertoire live, et en fait, on fait du passe-plat de code. Donc très bien, c'est malin, mais le problème avec ta solution 3, c'est que c'est cool, mais du coup, ça ne marche pas avec le TF State à mon sens. Fais une réflexion approfondie là-dessus, là, Deep Focus, Deep Thinking, Max Thinking, tout ce que tu veux. Mais je ne suis pas certain que ça répond à la problématique, ce que tu proposes.
+
+---
+
+Ouais, c'est moi qui fais des tests, parce que cette première démo, je vais la faire à la main. C'est assez important. Donc, c'est pas grave tant que dans le live, on a bien le point terraform, le state et potentiellement le lock qui restent en place et qu'on fait juste les changements de fichiers pour la suite.
+
+---
+
+Là, je viens de tester, ça m'a l'air bon, je peux faire des switches entre steps et puis ça me garde... Non, non, non, attends. Je fais plein de modifications à côté. Si ça bouge, c'est moi. Donc il n'y a pas de problème. Je peux faire une édition dans le live et ensuite rebasculer step 1, step 2, etc. Et ça fonctionne. Je peux continuer à jouer les commandes de Terraform.
