@@ -24,11 +24,29 @@ jobs:
       cells: ${{ steps.find.outputs.cells }}
     steps:
       - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        with:
+          fetch-depth: 0 # the change scope below diffs against main
       - id: find
-        # Any directory under examples/ containing providers.tf is a root module to validate.
-        # name = path minus examples/ ; example = examples/<name> (holds the per-example tooling).
+        # Any directory under examples/ containing providers.tf is a root module. Only the roots a
+        # change can reach are validated: a changed file selects every root it sits under, and a
+        # changed file that sits under NO root selects every root of its example - it may be a
+        # shared module those roots source, and that would otherwise go untested.
+        # A change outside examples/ (CI, toolchain, repo doc) selects every root, as does an
+        # empty diff. name = path minus examples/ ; example = examples/<name> (per-example tooling).
         run: |
-          cells=$(find examples -name providers.tf -printf '%h\n' | sort \
+          roots=$(find examples -name providers.tf -printf '%h\n' | sort)
+          changed=$(git diff --name-only origin/main...HEAD || true)
+          if [ -z "$changed" ] || printf '%s\n' "$changed" | grep -qvE '^examples/'; then
+            selected="$roots"
+          else
+            selected=$(printf '%s\n' "$changed" | while IFS= read -r f; do
+              printf '%s\n' "$roots" | grep -F -x "$(dirname "$f")" \
+                || printf '%s\n' "$roots" | grep -E "^$(printf '%s' "$f" | cut -d/ -f1,2)(/|$)"
+            done | sort -u)
+          fi
+          [ -n "$selected" ] || selected="$roots"
+          echo "Root modules to validate:"; printf '%s\n' "$selected" | sed 's/^/  /'
+          cells=$(printf '%s\n' "$selected" \
             | jq -R -s '
                 split("\n")
                 | map(select(length > 0))

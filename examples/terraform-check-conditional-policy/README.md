@@ -81,7 +81,7 @@ bootstrap/     the platform baseline, as a separate root module
 
 ## Prerequisites
 
-- **Terraform `>= 1.5.0`** (pinned via `mise.toml`; `check` blocks do not exist before 1.5).
+- **Terraform `>= 1.5.0`** (floor declared in `required_version`; `check` blocks do not exist before 1.5).
 - AWS provider `~> 5.0`. AWS credentials for `apply` (`validate` needs none). Default region:
   `eu-west-1`.
 - An account inside an AWS Organization (statement 5 reads the org ID).

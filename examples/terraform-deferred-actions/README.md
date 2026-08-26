@@ -67,7 +67,7 @@ You do, however, **opt into deferral at the CLI** by passing **`-allow-deferral`
 
 | Dir | Terraform | Module input | Encryption decision |
 |-----|-----------|--------------|---------------------|
-| [`01-before/`](01-before/) | `1.15.6` | `kms = object({ arn, provided })` | `count` keyed on the plan-known `provided` flag |
+| [`01-before/`](01-before/) | latest stable | `kms = object({ arn, provided })` | `count` keyed on the plan-known `provided` flag |
 | [`02-after/`](02-after/)  | `1.16.0-alpha20260603` | `kms_key_arn = string` | `count` derived from `arn != null`; unknown deferred via `-allow-deferral` |
 
 Each root creates `aws_kms_key.root` and feeds its (plan-unknown) ARN to a single bucket instance.
@@ -84,7 +84,7 @@ Knowingly out of scope (would bloat a teaching example): S3 access logging (`AWS
 
 ## Prerequisites
 
-- **Terraform version**: each dir pins it in its `mise.toml` (`01-before/` = 1.15.6, `02-after/` = 1.16.0-alpha...). With mise, `cd` selects it automatically (`mise install` once); otherwise switch manually and confirm with `terraform version`.
+- **Terraform version**: `02-after/` pins the alpha in its `mise.toml` (1.16.0-alpha...). With mise, `cd` selects it automatically (`mise install` once); otherwise switch manually and confirm with `terraform version`.
 - **Credentials**: `validate` and `plan` need none. `apply` creates a real KMS key + S3 bucket, so authenticate first (replace `<profile>` with your SSO profile):
 
 ```bash
@@ -99,7 +99,7 @@ With mise tasks (selects the version per dir, init included; `mise tasks` lists 
 ```bash
 mise run init           # init both dirs
 mise run versions       # prove the resolved version per dir
-mise run before-plan    # 1.15.6 - OK only thanks to the provided boolean
+mise run before-plan    # latest stable - OK only thanks to the provided boolean
 mise run before-apply   # 1.15.6 - apply (needs AWS creds)
 mise run before-destroy # teardown
 mise run after-plan     # 1.16   - deferred changes (-allow-deferral)

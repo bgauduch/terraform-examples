@@ -1,9 +1,5 @@
-# Terraform pin for this example: 1.14 is the minimum version that ships the `action` block.
 # tflint/trivy are inherited from the repo-root mise.toml.
 # Run tasks with `mise run <task>`, list them with `mise tasks`.
-[tools]
-terraform = "1.14.9"
-
 [tasks.sweep]
 description = "list (or --force delete) the on-demand backups the action created"
 run = "./sweep.sh"

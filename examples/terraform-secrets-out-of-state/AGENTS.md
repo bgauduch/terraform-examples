@@ -51,7 +51,7 @@ this directory and `final/`.
 
 ## Prerequisites
 
-- Terraform `>= 1.11.1` (pinned in `mise.toml`) - 1.11 is the floor for write-only arguments
+- Terraform `>= 1.11.1` (floor declared in `required_version`) - 1.11 is the floor for write-only arguments
   (`ephemeral` blocks land in 1.10), and 1.11.0 breaks step 4: sensitive+ephemeral into a
   write-only argument fails plan serialization (hashicorp/terraform#36619).
 - AWS provider `~> 6.0`, `random ~> 3.7`, `archive ~> 2.0`. AWS credentials for `apply`.

@@ -1,4 +1,0 @@
-# Terraform pin for this example: 1.5 is the minimum version that ships the `check` block.
-# tflint/trivy are inherited from the repo-root mise.toml.
-[tools]
-terraform = "1.5.0"

@@ -45,7 +45,9 @@ Do **not** create top-level category directories (`patterns/`, `experiments/`...
 
 [mise](https://mise.jdx.dev/) is the **single source of truth (SSOT)** for every CLI tool, locally and in CI - there is no separate version file or per-tool CI setup step.
 
-- **Root `mise.toml`** pins repo-wide tools (`tflint`, `trivy`) plus a default `terraform`. **Per-example `mise.toml`** overrides only `terraform` (versions legitimately differ per example) and inherits the rest, since mise merges every `mise.toml` from the cwd up to the repo root.
+- **Root `mise.toml`** pins the toolchain for the whole repo: `tflint`, `trivy`, and the single `terraform` version every example is tested against. mise merges every `mise.toml` from the cwd up to the repo root, so an example inherits it by default.
+- **The floor and the tested version are two different things - do not conflate them.** An example's minimum Terraform version is declared where a reader looks for it: `required_version` in its `.tf`, with a comment naming the feature that sets the floor. The `mise.toml` pin is the version CI and the author actually ran, and it moves forward (Renovate) so a regression in a newer Terraform is caught.
+- **A per-example `mise.toml` overrides `terraform` only when the example cannot run on the root version** - e.g. an `experiment` that needs an alpha/rc. Pinning a floor there is a bug: it freezes the example on the oldest supported version and it is never tested against anything else. An example whose `mise.toml` holds only a redundant pin has no reason to exist; keep the file when it carries `[tasks]`.
 - **Add a new tool once, in `mise.toml`** (root if repo-wide, example if local). Never re-pin a tool as a CI input - CI installs whatever `mise.toml` declares.
 - **Renovate** bumps these via its native `mise` manager; alpha/beta/rc pins (e.g. `experiment` examples) are frozen by a `packageRule` matching `currentValue`.
 - **Tasks replace Makefiles**: run with `mise run <task>`, list with `mise tasks`. Each task runs in a subshell, so a task's `cd` (or `dir`) never leaks into your interactive shell.
@@ -60,6 +62,9 @@ Do **not** create top-level category directories (`patterns/`, `experiments/`...
   - Common types: `feat`, `fix`, `docs`, `chore`, `refactor`, `test`, `ci`, `build`.
   - Breaking changes: append `!` after type/scope or add a `BREAKING CHANGE:` footer.
   - Keep subject imperative, lowercase, no trailing period, ~72 chars max.
+  - **Wrap the body at 100 characters.** `config-conventional` enforces `header-max-length`,
+    `body-max-line-length` and `footer-max-line-length`, all at 100 - a single long paragraph line
+    fails CI even when the subject is fine. Config: `.commitlintrc.yml`, gate: `commitlint.yml`.
   - Enforced in CI: `commitlint.yml` (commit messages, config-conventional) and `pr-title.yml` (semantic PR title, since squash-merge uses the PR title).
 - **Versioning**: [SemVer](https://semver.org/), repo-level single release line via release-please.
 - **Validation before commit**: `terraform fmt -recursive` (root) and `terraform validate` inside each touched root module. Optional local mirror of the CI gates lives in `.pre-commit-config.yaml` (fmt/validate/tflint + conventional commit-msg); enable with `pre-commit install --install-hooks && pre-commit install --hook-type commit-msg`.
