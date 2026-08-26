@@ -1,9 +1,5 @@
-# Terraform pin for this example (tflint/trivy inherited from the repo-root mise.toml).
 # Apply/destroy tasks need two AWS profiles (management + sandbox) - pass them via a tfvars
 # file (see env/example.tfvars). Run with `mise run <task>`; list with `mise tasks`.
-[tools]
-terraform = "1.15.6"
-
 [tasks.init]
 description = "init (providers: aws + archive)"
 run = "terraform init"

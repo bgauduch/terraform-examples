@@ -84,7 +84,7 @@ table (that would be `table → action → lambda → table`). The Lambda's IAM 
 
 ## Prerequisites
 
-- **Terraform `>= 1.14.0`** (pinned to `1.14.9` via `mise.toml`; actions do not exist before 1.14).
+- **Terraform `>= 1.14.0`** (floor declared in `required_version`; actions do not exist before 1.14).
 - **AWS provider `6.41.0`** (carries the `aws_lambda_invoke` action).
 - AWS credentials for `apply` (`validate`/`plan` need none). Default region: `eu-west-1`.
 

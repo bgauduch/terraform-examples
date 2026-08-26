@@ -42,7 +42,7 @@ Validation before committing: `terraform fmt -recursive` (root) and `terraform v
 
 ## Prerequisites
 
-- Terraform `>= 1.14.0` (pinned to `1.14.9` in `mise.toml`).
+- Terraform `>= 1.14.0` (floor declared in `required_version`).
 - AWS provider `6.41.0` (carries the CloudFront invalidation action).
 - AWS credentials for `apply`; default region `eu-west-1`.
 

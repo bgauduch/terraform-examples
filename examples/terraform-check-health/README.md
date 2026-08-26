@@ -68,7 +68,7 @@ lines (`AVD-AWS-0093`, `AVD-AWS-0087`), plus `AVD-AWS-0132` (SSE-S3 is fine for 
 
 ## Prerequisites
 
-- **Terraform `>= 1.5.0`** (pinned via `mise.toml`; `check` blocks do not exist before 1.5).
+- **Terraform `>= 1.5.0`** (floor declared in `required_version`; `check` blocks do not exist before 1.5).
 - AWS provider `~> 5.0` (contemporary with the 1.5 floor) + `http` provider.
 - AWS credentials for `apply` (`validate`/`plan` need none). Default region: `eu-west-1`.
 

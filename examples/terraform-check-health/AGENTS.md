@@ -41,7 +41,7 @@ Validation before committing: `terraform fmt -recursive` (root) and `terraform v
 
 ## Prerequisites
 
-- Terraform `>= 1.5.0` (pinned in `mise.toml`; `check` and `strcontains` both land in 1.5).
+- Terraform `>= 1.5.0` (floor declared in `required_version`; `check` and `strcontains` both land in 1.5).
 - AWS provider `~> 5.0` + `http` provider; AWS credentials for `apply`. Default region `eu-west-1`.
 
 ## Conventions in this example

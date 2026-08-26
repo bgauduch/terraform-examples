@@ -79,7 +79,7 @@ teaching demo and are silenced with documented `#trivy:ignore` lines in `main.tf
 
 ## Prerequisites
 
-- **Terraform `>= 1.14.0`** (pinned to `1.14.9` via `mise.toml`; actions do not exist before 1.14).
+- **Terraform `>= 1.14.0`** (floor declared in `required_version`; actions do not exist before 1.14).
 - **AWS provider `6.41.0`** (the `aws_cloudfront_create_invalidation` action ships in the 6.x line).
 - AWS credentials for `apply` (`validate`/`plan` need none). Default region: `eu-west-1`.
 

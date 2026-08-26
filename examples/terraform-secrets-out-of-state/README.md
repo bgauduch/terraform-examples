@@ -196,7 +196,7 @@ Migrating cleans the present, not the history. Rotate the secret, then migrate.
 
 ## Prerequisites
 
-- **Terraform `>= 1.11.1`** (pinned via `mise.toml`): 1.11 is the floor for write-only arguments
+- **Terraform `>= 1.11.1`** (floor declared in `required_version`): 1.11 is the floor for write-only arguments
   (`ephemeral` blocks land earlier, in 1.10), and 1.11.0 specifically fails step 4 - feeding a
   sensitive+ephemeral value to a write-only argument breaks plan serialization
   ([#36619](https://github.com/hashicorp/terraform/issues/36619), fixed in 1.11.1).
