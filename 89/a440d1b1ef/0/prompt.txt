@@ -41,3 +41,40 @@ Ouais, c'est moi qui fais des tests, parce que cette première démo, je vais la
 ---
 
 Là, je viens de tester, ça m'a l'air bon, je peux faire des switches entre steps et puis ça me garde... Non, non, non, attends. Je fais plein de modifications à côté. Si ça bouge, c'est moi. Donc il n'y a pas de problème. Je peux faire une édition dans le live et ensuite rebasculer step 1, step 2, etc. Et ça fonctionne. Je peux continuer à jouer les commandes de Terraform.
+
+---
+
+Ouais, tu peux extraire effectivement les changements. Bah non, en fait, non, on va tout embarquer, je m'en fous, je suis tout seul sur le dépôt, fuck off, à un moment donné, c'est mon dépôt, c'est moi qui gère. Déjà, on fait des MR proprement alors que je suis le seul à contribuer dessus. On ne va pas en plus faire chier à créer d'autres MR.
+
+Je finis de jouer avec la démo et ensuite on passe au slide.
+
+---
+
+Il s'est passé quoi avec le Terraform Lock ? Pourquoi j'ai de la merde qui apparaît dedans ? C'est une édition de fichiers ou c'est un script qui fait un truc ?
+
+"Il s'est passé quoi avec le Terraform Lock ? Pourquoi j'ai de la merde qui apparaît dedans ? C'est une édition de fichiers ou c'est un script qui fait un truc ?"
+
+---
+
+Il s'est passé quoi avec le Terraform Lock ? Pourquoi j'ai de la merde qui apparaît dedans ? C'est une édition de fichiers ou c'est un script qui fait un truc ? 
+
+"❯ tfi --upgrade
+╷
+│ Error: Argument or block definition required
+│ 
+│   on .terraform.lock.hcl line 1:
+│   (source code not available)
+│ 
+│ An argument or block definition is required here. To set an argument, use the equals sign "=" to introduce the argument value.
+╵
+╷
+│ Error: Argument or block definition required
+│ 
+│   on .terraform.lock.hcl line 1:
+│   (source code not available)
+│ 
+│ An argument or block definition is required here. To set an argument, use the equals sign "=" to introduce the argument value."
+
+---
+
+Ajoute-moi un alias dans ma liste d'alias HOMI ZSH, un TFAF pour le force apply, pour ne pas avoir à mettre la validation. Peut-être qu'il existe déjà, je n'en sais rien du tout, donc regarde bien où sont mis les alias, ils ne vont pas n'importe où, ils ne vont pas dans les DSHRC, clairement pas, et propose-moi un alias et une target d'écriture.
