@@ -62,6 +62,9 @@ Do **not** create top-level category directories (`patterns/`, `experiments/`...
   - Common types: `feat`, `fix`, `docs`, `chore`, `refactor`, `test`, `ci`, `build`.
   - Breaking changes: append `!` after type/scope or add a `BREAKING CHANGE:` footer.
   - Keep subject imperative, lowercase, no trailing period, ~72 chars max.
+  - **Wrap the body at 100 characters.** `config-conventional` enforces `header-max-length`,
+    `body-max-line-length` and `footer-max-line-length`, all at 100 - a single long paragraph line
+    fails CI even when the subject is fine. Config: `.commitlintrc.yml`, gate: `commitlint.yml`.
   - Enforced in CI: `commitlint.yml` (commit messages, config-conventional) and `pr-title.yml` (semantic PR title, since squash-merge uses the PR title).
 - **Versioning**: [SemVer](https://semver.org/), repo-level single release line via release-please.
 - **Validation before commit**: `terraform fmt -recursive` (root) and `terraform validate` inside each touched root module. Optional local mirror of the CI gates lives in `.pre-commit-config.yaml` (fmt/validate/tflint + conventional commit-msg); enable with `pre-commit install --install-hooks && pre-commit install --hook-type commit-msg`.

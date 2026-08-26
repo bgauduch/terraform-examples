@@ -43,19 +43,14 @@ mise install
 cd live
 terraform init
 terraform apply                 # step 1 - the starting point, 4 SSM parameters
+../scripts/switch.sh step-2     # read the diff it prints, then plan and apply
 ```
 
-Then, for each step: swap, read the diff, plan, apply.
+From there, every step is the same three moves: swap, read the diff, plan, apply.
+`terraform init` is needed again whenever the **module source changes** - steps 3,
+5 and 5b. Running it when it was not needed costs a second and changes nothing.
 
-```sh
-../scripts/switch.sh step-2
-terraform plan                  # read the "has moved to" lines
-terraform apply
-```
-
-`terraform init` is needed again whenever the **module source changes** - steps
-3, 5 and 5b. Running it when it was not needed costs a second and changes
-nothing, so when in doubt, run it.
+Every command, from an empty account to teardown: [Full walkthrough](#full-walkthrough).
 
 ## Steps
 
@@ -69,8 +64,13 @@ nothing, so when in doubt, run it.
 | 5b | Jump to v3 - even straight from v1 | chained `moved` blocks | the full lineage replays in one plan | **yes** |
 | 6 | Hand the billing parameter to its owner | `removed` + `destroy = false`, then `import` in `billing-team/` | forgotten here, adopted there, never destroyed | no |
 
-Step 5 and 5b are alternatives: 5 walks v1 -> v2 -> v3, 5b jumps v1 -> v3 in one
-plan. Play whichever tells the story you want.
+Steps 5 and 5b branch from the **same starting point, step 4**. They differ by the
+**module version** they upgrade to - `v1`, `v2`, `v3` are versions of
+`modules/app-config/`, never step numbers:
+
+- **step 5, then step 5b** - module v1 -> v2, then v2 -> v3. One hop at a time.
+- **step 5b straight from step 4** - module v1 -> v3. The chained `moved` blocks
+  replay both hops in a single plan, which is why a published module keeps them.
 
 Between steps, `terraform state pull | jq '.resources[].name'` shows what the
 refactor did to the state - and `git log` is the only history of the moves: an
@@ -137,6 +137,65 @@ If neither state manages the parameter and you want it gone:
 - `ParameterAlreadyExists` after step 6: see "Rewind and teardown" above.
 - The `billing-team/` import block hardcodes the default `name_prefix`; align it
   if you changed the variable.
+
+## Full walkthrough
+
+Every command, in order, from an empty account back to an empty account.
+
+```sh
+# --- setup ---------------------------------------------------------------
+mise install
+aws sso login --profile <your-profile>
+export AWS_PROFILE=<your-profile>
+
+# --- step 1 · the starting point ------------------------------------------
+cd live
+terraform init
+terraform apply                    # 4 SSM parameters created
+
+# --- step 2 · rename, in the root -----------------------------------------
+../scripts/switch.sh step-2        # diff: cfg_param_1 -> app_config, plus a moved block
+terraform plan                     # "has moved to" - Plan: 0 to add, 0 to change, 0 to destroy
+terraform apply
+terraform state pull | jq '.resources[].name'   # the applied move left no trace: git is the history
+
+# --- step 3 · split into the platform team's module ------------------------
+../scripts/switch.sh step-3
+terraform init                     # the module source changed
+terraform plan                     # moves into module.app_config - still 0 changes
+terraform apply
+
+# --- step 4 · the for_each set follows ------------------------------------
+../scripts/switch.sh step-4        # one moved block on the resource address
+terraform plan                     # one "has moved to" line PER instance
+terraform apply
+
+# --- step 5 · module upgrade v1 -> v2 (migration shipped by the module) ----
+../scripts/switch.sh step-5
+terraform init
+terraform plan                     # the move comes from the module's own moved.tf
+terraform apply
+
+# --- step 5b · jump to v3 (works from step 5, or straight from step 4) -----
+../scripts/switch.sh step-5b
+terraform init
+terraform plan                     # the chain replays every hop it needs
+terraform apply
+
+# --- step 6 · hand the billing parameter to its owner ----------------------
+../scripts/switch.sh step-6
+terraform plan                     # "will no longer be managed ... but will not be destroyed"
+terraform apply
+aws ssm get-parameter --name /tf-state-refactoring/billing/export-bucket   # still alive on AWS
+
+cd ../billing-team                 # another root, another state file
+terraform init
+terraform apply                    # Plan: 1 to import -> 1 imported
+
+# --- teardown -------------------------------------------------------------
+terraform destroy                  # the parameter billing-team now owns
+cd ../live && terraform destroy    # everything else
+```
 
 ## Going further
 
