@@ -21,9 +21,9 @@ resource "aws_ssm_parameter" "feature_flags" {
   value = each.value
 }
 
-# Owned by the billing team, landed here by mistake. Step 6 hands it over
-# without destroying it: `removed` + destroy=false here, `import` block in
-# ../adjacent (the billing team's root).
+# Owned by the billing team, landed in this root by mistake. Step 6 hands it
+# back without destroying it: `removed` + destroy=false here, `import` block in
+# ../billing-team/ - the team's own root module, with its own state file.
 resource "aws_ssm_parameter" "billing_export" {
   name  = "/${var.name_prefix}/billing/export-bucket"
   type  = "String"
