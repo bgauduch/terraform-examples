@@ -120,3 +120,11 @@ Effectivement, pour les sous-modules que l'on utilise dans les exemples, il faud
 ---
 
 Alors du coup, pourquoi on se fait chier et pourquoi tout simplement on ne regarde pas si c'est un module. S'il y a un change et que c'est un module, on le passe à la mounette, sinon on passe à autre chose. Et dans le pire des cas, s'il y a un changement et dans un sous-module et dans un root module, et bien ce n'est pas grave, sur cette pipeline pour ce commit, on lance deux fois le validate. Et alors ? Fais-moi un delta entre ta méthode et ce que je viens de dire là.
+
+---
+
+Ok, on avance comme ça, allez, go commit. Une fois que tu auras poussé ça, fais-moi un statut sur le minetf et l'output.tf qui traînent pour l'exemple du state. Je ne sais pas trop ce que c'est et pourquoi ça reste là.
+
+---
+
+Top, top, il y a eu une merde qui est partie, ne push pas.Top, top, il y a eu une merde qui est partie, ne push pas.
