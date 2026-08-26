@@ -1,0 +1,24 @@
+{
+  "cli_version": "0.10.2",
+  "checkpoint_id": "b8d39eb31e5f",
+  "strategy": "manual-commit",
+  "branch": "feat/terraform-state-refactoring",
+  "checkpoints_count": 6,
+  "files_touched": null,
+  "sessions": [
+    {
+      "metadata": "/b8/d39eb31e5f/0/metadata.json",
+      "transcript": "/b8/d39eb31e5f/0/full.jsonl",
+      "compact_transcript": "/b8/d39eb31e5f/0/transcript.jsonl",
+      "content_hash": "/b8/d39eb31e5f/0/content_hash.txt",
+      "prompt": "/b8/d39eb31e5f/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 38317,
+    "cache_creation_tokens": 1870924,
+    "cache_read_tokens": 64235254,
+    "output_tokens": 234206,
+    "api_call_count": 176
+  }
+}
