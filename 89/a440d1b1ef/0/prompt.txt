@@ -1,0 +1,43 @@
+dure, utilise le sso sandbox, tu fais quoi là ?
+
+---
+
+Alors attends, du coup on va passer à l'étape suivante, c'est qu'il faut que je la joue en local et on finira par les slides du coup.
+
+---
+
+Il y a un mouvement VSCOT, d'ailleurs, au bon endroit, que je n'ai pas cherché.
+
+---
+
+Oui.
+
+---
+
+Pourquoi la version de Terraform est en 1.14 ? Autant mettre la version minimum pour illustrer l'exemple, sinon on laisse la défaut sur le main mis-tommel. Je ne vois pas trop le move là, je ne comprends pas ce qui a été fait.
+
+---
+
+Mais attends, attends, attends, attends, attends, stop, stop, stop, stop. 
+Tu fais quoi là ? Il faut que tout soit aligné sur tous les exemples. Il y a des exemples où on a besoin d'une version minimum, parce que c'est la version minimum qui permet de garantir le fonctionnement des features qui sont démontrées. Normalement, tout ça est tracé dans chacun des répertoires, soit dans l'agent, soit dans l'ennemi. Il y a une justification, ou alors même un commentaire dans le miss.tml. Donc là, ça a du sens. Par contre, il y a effectivement une version qui est à la racine du dépôt, de donner une version par défaut lorsqu'il n'y a pas besoin de ces override. Donc je pense qu'il faut surtout prendre une décision. Soit on a un miss.tml à la racine avec les versions par défaut, et on a que quelques surcharges lorsque c'est utile, et on l'indique clairement par un commentaire dans le miss.tml, soit on a un miss.tml par répertoire, et puis tchao celui à la racine. Au final, à la base, il n'y a pas de code Terraform. Peut-être que c'est ça, en fait, la solution. c'est qu'on est juste un miss.tml par exemple, et c'est explicitement la version minimum requise qui correspond avec la contrainte de version qui est donnée dans le version .tf. Ou le provider .tf, peu importe où c'est stocké.
+
+---
+
+Reprends la tâche précédente qui est à faire d'abord.
+
+Ensuite, Est-ce que tu peux me détailler, une fois que tu m'auras proposé un plan, le fonctionnement du script de Switch aussi ? Je ne suis pas certain de bien comprendre. Et comment le script s'articule pour chacune des étapes ? Parce que là, typiquement, je viens de faire un switch step 2, et on reste... Qu'est-ce que ça fait ? Ça fait la modif dans le live, donc c'est quoi le mieux ? D'avoir deux terminales, un terminal de switch, un terminal pour faire le TF plan apply pour montrer les diffs ? Il manque un dernier accord, un coup de tournevis pour que ça soit vraiment nickel-chrome pour une démo, selon moi.
+
+---
+
+Sinon, on ne s'emmerde pas, étant donné qu'on a les pins spécifiques dans le code du provider, c'est suffisant pour indiquer la version au minimum. Dans ce cas, on peut se dire qu'on a juste une version Terraform qui couvre tous les cas d'usage à la racine. Qu'en penses-tu par rapport à l'état actuel des choses ? Est-ce que c'est cohérent de corriger en ce sens-là ? Est-ce qu'il n'y a pas une autre option qui est plus logique par rapport à la structure du dépôt actuel ? et l'objectif de centraliser tous ces exemples dans le même dépôt-git. Ok, j'ai l'impression en lisant ta sortie que ça correspond globalement à ta recos. Est-ce que tu peux me le confirmer ? Et si tu me le confirmes, on applique ça. Je n'ai pas compris l'interaction à trancher. On parle de quoi ? Des mises runs à la racine ou des mises runs dans les exemples ? Parce qu'à la racine, il n'y a rien à faire, que d'un à faire. Tous les exemples sont autoporteurs et autonomes, donc à la racine, on s'en fout. Donc je ne suis pas certain de comprendre ta remarque.
+
+
+oui, mais ton option 3, là, ça ne marche pas, parce qu'on fait comment avec le TF State ? Parce que là, aujourd'hui, le TF State, il reste dans le répertoire live, et en fait, on fait du passe-plat de code. Donc très bien, c'est malin, mais le problème avec ta solution 3, c'est que c'est cool, mais du coup, ça ne marche pas avec le TF State à mon sens. Fais une réflexion approfondie là-dessus, là, Deep Focus, Deep Thinking, Max Thinking, tout ce que tu veux. Mais je ne suis pas certain que ça répond à la problématique, ce que tu proposes.
+
+---
+
+Ouais, c'est moi qui fais des tests, parce que cette première démo, je vais la faire à la main. C'est assez important. Donc, c'est pas grave tant que dans le live, on a bien le point terraform, le state et potentiellement le lock qui restent en place et qu'on fait juste les changements de fichiers pour la suite.
+
+---
+
+Là, je viens de tester, ça m'a l'air bon, je peux faire des switches entre steps et puis ça me garde... Non, non, non, attends. Je fais plein de modifications à côté. Si ça bouge, c'est moi. Donc il n'y a pas de problème. Je peux faire une édition dans le live et ensuite rebasculer step 1, step 2, etc. Et ça fonctionne. Je peux continuer à jouer les commandes de Terraform.
