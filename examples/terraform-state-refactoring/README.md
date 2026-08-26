@@ -82,12 +82,14 @@ applied `moved` block leaves **no trace** in the state.
 is therefore a **pair** of blocks, one on each side:
 
 ```sh
-# in live/ - step-6 declares `removed` with destroy = false
-terraform apply      # the parameter leaves this state, AWS keeps it
+# from the example root
+cd live
+../scripts/switch.sh step-6   # step 6 declares `removed` with destroy = false
+terraform apply               # the parameter leaves this state, AWS keeps it
 
-cd ../billing-team   # a separate root, a separate state file
+cd ../billing-team            # a separate root, a separate state file
 terraform init
-terraform apply      # "Plan: 1 to import" -> "1 imported"
+terraform apply               # "Plan: 1 to import" -> "1 imported"
 ```
 
 The resource is never destroyed and never recreated: only its owner changes. The
