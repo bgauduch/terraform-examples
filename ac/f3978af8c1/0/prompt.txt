@@ -1,0 +1,122 @@
+dure, utilise le sso sandbox, tu fais quoi là ?
+
+---
+
+Alors attends, du coup on va passer à l'étape suivante, c'est qu'il faut que je la joue en local et on finira par les slides du coup.
+
+---
+
+Il y a un mouvement VSCOT, d'ailleurs, au bon endroit, que je n'ai pas cherché.
+
+---
+
+Oui.
+
+---
+
+Pourquoi la version de Terraform est en 1.14 ? Autant mettre la version minimum pour illustrer l'exemple, sinon on laisse la défaut sur le main mis-tommel. Je ne vois pas trop le move là, je ne comprends pas ce qui a été fait.
+
+---
+
+Mais attends, attends, attends, attends, attends, stop, stop, stop, stop. 
+Tu fais quoi là ? Il faut que tout soit aligné sur tous les exemples. Il y a des exemples où on a besoin d'une version minimum, parce que c'est la version minimum qui permet de garantir le fonctionnement des features qui sont démontrées. Normalement, tout ça est tracé dans chacun des répertoires, soit dans l'agent, soit dans l'ennemi. Il y a une justification, ou alors même un commentaire dans le miss.tml. Donc là, ça a du sens. Par contre, il y a effectivement une version qui est à la racine du dépôt, de donner une version par défaut lorsqu'il n'y a pas besoin de ces override. Donc je pense qu'il faut surtout prendre une décision. Soit on a un miss.tml à la racine avec les versions par défaut, et on a que quelques surcharges lorsque c'est utile, et on l'indique clairement par un commentaire dans le miss.tml, soit on a un miss.tml par répertoire, et puis tchao celui à la racine. Au final, à la base, il n'y a pas de code Terraform. Peut-être que c'est ça, en fait, la solution. c'est qu'on est juste un miss.tml par exemple, et c'est explicitement la version minimum requise qui correspond avec la contrainte de version qui est donnée dans le version .tf. Ou le provider .tf, peu importe où c'est stocké.
+
+---
+
+Reprends la tâche précédente qui est à faire d'abord.
+
+Ensuite, Est-ce que tu peux me détailler, une fois que tu m'auras proposé un plan, le fonctionnement du script de Switch aussi ? Je ne suis pas certain de bien comprendre. Et comment le script s'articule pour chacune des étapes ? Parce que là, typiquement, je viens de faire un switch step 2, et on reste... Qu'est-ce que ça fait ? Ça fait la modif dans le live, donc c'est quoi le mieux ? D'avoir deux terminales, un terminal de switch, un terminal pour faire le TF plan apply pour montrer les diffs ? Il manque un dernier accord, un coup de tournevis pour que ça soit vraiment nickel-chrome pour une démo, selon moi.
+
+---
+
+Sinon, on ne s'emmerde pas, étant donné qu'on a les pins spécifiques dans le code du provider, c'est suffisant pour indiquer la version au minimum. Dans ce cas, on peut se dire qu'on a juste une version Terraform qui couvre tous les cas d'usage à la racine. Qu'en penses-tu par rapport à l'état actuel des choses ? Est-ce que c'est cohérent de corriger en ce sens-là ? Est-ce qu'il n'y a pas une autre option qui est plus logique par rapport à la structure du dépôt actuel ? et l'objectif de centraliser tous ces exemples dans le même dépôt-git. Ok, j'ai l'impression en lisant ta sortie que ça correspond globalement à ta recos. Est-ce que tu peux me le confirmer ? Et si tu me le confirmes, on applique ça. Je n'ai pas compris l'interaction à trancher. On parle de quoi ? Des mises runs à la racine ou des mises runs dans les exemples ? Parce qu'à la racine, il n'y a rien à faire, que d'un à faire. Tous les exemples sont autoporteurs et autonomes, donc à la racine, on s'en fout. Donc je ne suis pas certain de comprendre ta remarque.
+
+
+oui, mais ton option 3, là, ça ne marche pas, parce qu'on fait comment avec le TF State ? Parce que là, aujourd'hui, le TF State, il reste dans le répertoire live, et en fait, on fait du passe-plat de code. Donc très bien, c'est malin, mais le problème avec ta solution 3, c'est que c'est cool, mais du coup, ça ne marche pas avec le TF State à mon sens. Fais une réflexion approfondie là-dessus, là, Deep Focus, Deep Thinking, Max Thinking, tout ce que tu veux. Mais je ne suis pas certain que ça répond à la problématique, ce que tu proposes.
+
+---
+
+Ouais, c'est moi qui fais des tests, parce que cette première démo, je vais la faire à la main. C'est assez important. Donc, c'est pas grave tant que dans le live, on a bien le point terraform, le state et potentiellement le lock qui restent en place et qu'on fait juste les changements de fichiers pour la suite.
+
+---
+
+Là, je viens de tester, ça m'a l'air bon, je peux faire des switches entre steps et puis ça me garde... Non, non, non, attends. Je fais plein de modifications à côté. Si ça bouge, c'est moi. Donc il n'y a pas de problème. Je peux faire une édition dans le live et ensuite rebasculer step 1, step 2, etc. Et ça fonctionne. Je peux continuer à jouer les commandes de Terraform.
+
+---
+
+Ouais, tu peux extraire effectivement les changements. Bah non, en fait, non, on va tout embarquer, je m'en fous, je suis tout seul sur le dépôt, fuck off, à un moment donné, c'est mon dépôt, c'est moi qui gère. Déjà, on fait des MR proprement alors que je suis le seul à contribuer dessus. On ne va pas en plus faire chier à créer d'autres MR.
+
+Je finis de jouer avec la démo et ensuite on passe au slide.
+
+---
+
+Il s'est passé quoi avec le Terraform Lock ? Pourquoi j'ai de la merde qui apparaît dedans ? C'est une édition de fichiers ou c'est un script qui fait un truc ?
+
+"Il s'est passé quoi avec le Terraform Lock ? Pourquoi j'ai de la merde qui apparaît dedans ? C'est une édition de fichiers ou c'est un script qui fait un truc ?"
+
+---
+
+Il s'est passé quoi avec le Terraform Lock ? Pourquoi j'ai de la merde qui apparaît dedans ? C'est une édition de fichiers ou c'est un script qui fait un truc ? 
+
+"❯ tfi --upgrade
+╷
+│ Error: Argument or block definition required
+│ 
+│   on .terraform.lock.hcl line 1:
+│   (source code not available)
+│ 
+│ An argument or block definition is required here. To set an argument, use the equals sign "=" to introduce the argument value.
+╵
+╷
+│ Error: Argument or block definition required
+│ 
+│   on .terraform.lock.hcl line 1:
+│   (source code not available)
+│ 
+│ An argument or block definition is required here. To set an argument, use the equals sign "=" to introduce the argument value."
+
+---
+
+Ajoute-moi un alias dans ma liste d'alias HOMI ZSH, un TFAF pour le force apply, pour ne pas avoir à mettre la validation. Peut-être qu'il existe déjà, je n'en sais rien du tout, donc regarde bien où sont mis les alias, ils ne vont pas n'importe où, ils ne vont pas dans les DSHRC, clairement pas, et propose-moi un alias et une target d'écriture.
+
+---
+
+Ok, fais une dernière passe globale de vérification, prends du recul, est-ce que tout est cohérent ? Est-ce que tout est OK ? Est-ce que la doc est à jour ? Est-ce qu'on a tout tracé ? Est-ce qu'on suit les conventions du dépôt ? Est-ce que tout est nickel-chrome pour venir merger cette première EMR ?  Ce que je veux voir, c'est un tableau récap avec des findings uniquement. Que ce qui est pertinent, ce qui pourrait être amélioré. Tout ce qui est bien, je m'en bats les couilles, c'est déjà dans le dépôt.
+
+---
+
+Ouais, pour le point, est-ce que c'est vraiment cohérent d'avoir un finals ? Puisqu'au final, là, on a plein de steps progressifs. Le final, c'est quoi ? Passer de step 1 à step 6 ? Passer de step 1 à step 6 plus Bidding Team ? Ça n'a pas vraiment de sens, en fait. Ça apporte quoi, la lecture du dépôt ? C'est pas grave. On a promis. Entre-temps, on a réfléchi différemment. On a un truc multi-step. C'est largement suffisant, non ? En tout cas, moi, je ne vois pas comment tu veux créer un final et quel intérêt ça apporte. À la lecture, l'état final, on s'en bat les couilles, ici. C'est la promotion, le changement et les moves entre les steps qui sont importants.
+
+Je ne comprends pas la partie logfile. Pourquoi on n'en a pas dans le live ? Ben si, on en a un dans le live. Là, il a un logfile et il faut qu'on le comite d'ailleurs. Il faut que ça soit cohérent à la partie provider. Qu'est-ce que tu me racontes ? Et dans les autres steps aussi, il faut un logfile. Même si on ne le copie pas, il faut que chacun des steps, unitairement, en dehors de notre mécanique de switch, soit autoportant. Donc je ne comprends pas ton point 2.
+
+Pour les findings de CI, ils ne sont pas les couilles, c'est du Validate, c'est très bien, c'est découvert comme il faut, on laisse comme ça. Je ne suis pas d'accord, ce n'est pas un job pour un seul exemple, puisque dans les jumps, il y a autant de routes modules que de steps, et c'est normal, c'est juste normal.
+
+Ok, pas de soucis pour resynchroniser effectivement la pièce du vault avec tous les travaux que l'on a fait ici sur le code, c'est logique.
+
+Eh ben oui, propose-moi un titre d'EPR qui va bien. Pourquoi tu me poses la question, si tu détectes le change, pourquoi tu m'as pas tout de suite proposé un titre d'EPR en fait ? C'est quoi le délire là ?
+
+Et avant de comiter le redommage Bidding Team, est-ce que tu me confirmes que l'on peut se déplacer vers ce Bidding Team avec le script de Switch ou est-ce qu'il faut que je le fasse à la mano dans les étapes ?
+
+---
+
+Non, non, non, non, ta gueule. "Prove it", c'est OK en anglais. On passe à la suite.
+
+---
+
+Rejoue intégralement toutes les steps de 1 à 6 en passant par la 5B, peu importe, la 5B peut-être, c'est celle qui couvre tout, et le billing team en apply et en destroy. Voilà, juste pour vérifier avant de merger que tout est complètement opérationnel.
+
+---
+
+Ce qui serait malin, c'est que les Validate ne soient joués que dans les répertoires qui changent. Est-ce qu'on a un moyen simple de faire ça ? Genre très très simple au niveau de la CI et peut-être au niveau du script ?
+
+---
+
+Ce n'est pas un peu compliqué pour ce qu'on veut faire ? Je ne suis pas sûr de comprendre la notion de contamination, de sens, etc. Nous, au final, c'est très simple. On veut détecter l'ensemble des routes modules, peu importe où ils sont, on s'en bat les couilles. Et s'ils ont changé dans le commit qui est concerné, on les valide. Et c'est tout. Je ne suis pas certain de comprendre pourquoi il y a cette ségrégation, contamination. Tu n'es pas allé un peu trop loin, là ? À mon sens, on peut faire plus simple, non ? Ou alors, il y a une très bonne raison. Par contre, je veux l'avoir.
+
+---
+
+Effectivement, pour les sous-modules que l'on utilise dans les exemples, il faudrait quand même les tester, mais je réfléchis. Si ces sous-modules sont instanciés dans des exemples typiquement les steps 4, 5 et 5B de ce que l'on a fait, il n'y a pas de problème, ils seront quand même passés à la moulinette du validate vu qu'ils sont intégrés. Donc il n'y a pas de sujet, on n'a juste à détecter que les routes-modules, et tous les routes-modules avec des changes sont validés.
+
+---
+
+Alors du coup, pourquoi on se fait chier et pourquoi tout simplement on ne regarde pas si c'est un module. S'il y a un change et que c'est un module, on le passe à la mounette, sinon on passe à autre chose. Et dans le pire des cas, s'il y a un changement et dans un sous-module et dans un root module, et bien ce n'est pas grave, sur cette pipeline pour ce commit, on lance deux fois le validate. Et alors ? Fais-moi un delta entre ta méthode et ce que je viens de dire là.
